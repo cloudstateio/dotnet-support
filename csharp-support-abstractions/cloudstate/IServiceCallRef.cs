@@ -9,7 +9,7 @@ namespace io.cloudstate.csharpsupport
         MethodDescriptor Method { get; }
     }
 
-    public interface IServiceCallRef<TInput> : IResolvedServiceMethod
+    public interface IServiceCallRef<in TInput> : IResolvedServiceMethod
         where TInput : IMessage
     {
         IServiceCall CreateCall(TInput message);

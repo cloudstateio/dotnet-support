@@ -6,7 +6,7 @@ using Type = System.Type;
 
 namespace io.cloudstate.csharpsupport.impl
 {
-    public sealed class ResolvedServiceMethod<TInput, TOutput> : IResolvedServiceMethod, IServiceCallRef<TInput>
+    public sealed class ResolvedServiceMethod<TInput, TOutput> : IServiceCallRef<TInput>
         where TOutput : IMessage
         where TInput : IMessage
     {
@@ -42,7 +42,7 @@ namespace io.cloudstate.csharpsupport.impl
                 new Any()
                 {
                     TypeUrl = InputType.TypeUrl,
-                    Value = InputType.ToByteString((TInput)message)
+                    Value = InputType.ToByteString(message)
                 }
             );
         }

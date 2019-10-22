@@ -1,6 +1,6 @@
 ﻿namespace io.cloudstate.csharpsupport.eventsourced
 {
-    public interface IEventSourcedEntityCreationContext : IEventSourcedContext, IBehaviorContext
+    public interface IEventSourcedEntityCreationContext : IBehaviorContext
     {
 
     }

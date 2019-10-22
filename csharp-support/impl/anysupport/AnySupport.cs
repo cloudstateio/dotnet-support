@@ -246,7 +246,7 @@ namespace io.cloudstate.csharpsupport.impl
             {
                 return TypeUrlToPrimitives.FirstOrDefault(x => x.Key == typeUrl).Some().Match(
                     some: primitive => this.GetType().GetMethod("BytesToPrimitive")
-                            ?.MakeGenericMethod(primitive.Value.ClassType) // TODO:
+                            ?.MakeGenericMethod(primitive.Value.ClassType)
                             .Invoke(this, new object[] { primitive.Value, bytes })
                                 ?? throw new Exception("Couldn't cast to primitive type"),
                     none: () => throw new Exception($"Unknown primitive type url: {typeUrl}")

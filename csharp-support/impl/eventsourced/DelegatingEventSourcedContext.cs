@@ -18,7 +18,6 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
             Delegate = @delegate;
         }
 
-        // TODO: active, changing state linked to outside class..
         public void Become(params object[] behaviors)
         {
             throw new NotImplementedException();

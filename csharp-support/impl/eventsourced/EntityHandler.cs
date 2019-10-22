@@ -19,10 +19,12 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
             private AnySupport AnySupport => Outer.AnySupport;
             private Func<IEventSourcedContext, TClass> Factory => Outer.Factory;
             private Dictionary<string, IResolvedServiceMethod> ResolvedMethods => Outer.ResolvedMethods;
-
-            private IEventSourcedContext Context { get; }
             private Object[] CurrentBehaviors { get; }
             private string BehaviorsString => CurrentBehaviors?.Aggregate("", (agg, cur) => agg + ", " + cur.GetType()) ?? "";
+
+            public IEventSourcedContext Context { get; }
+
+            public IServiceCallFactory ServiceCallFactory => Context.ServiceCallFactory;
 
             public EntityHandler(
                 AnnotationBasedEventSourcedSupport<TClass> outer,
@@ -60,15 +62,15 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
 
             }
 
-            public void HandleEvent(Any anyEvent, IEventContext context)
+            public void HandleEvent(Any @event, IEventContext context)
             {
 
                 var behavior = CurrentBehaviors.Take(1).FirstOrDefault();
                 if (behavior == null)
                 {
-                    throw new Exception($"No event handler [{anyEvent.GetType().FullName}] found for any of the current behaviors.");
+                    throw new Exception($"No event handler [{@event.GetType().FullName}] found for any of the current behaviors.");
                 }
-                var obj = AnySupport.Decode(anyEvent);
+                var obj = AnySupport.Decode(@event);
                 var someHandler = GetCachedBehaviorReflection(behavior)
                     .GetCachedEventHandlerForClass(obj.GetType());
                 var handler = someHandler.Match(
@@ -105,14 +107,14 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
                         )
                     );
 
-            public void HandleSnapshot(Any anySnapshot, ISnapshotContext context)
+            public void HandleSnapshot(Any snapshot, ISnapshotContext context)
                 => Unwrap(() =>
                 {
-                    var snapshot = AnySupport.Decode(anySnapshot);
+                    var anySnapshot = AnySupport.Decode(snapshot);
                     if (!CurrentBehaviors.Any(behavior =>
                     {
                         var handler = GetCachedBehaviorReflection(behavior)
-                            .GetCachedSnapshotHandlerForClass(snapshot.GetType());
+                            .GetCachedSnapshotHandlerForClass(anySnapshot.GetType());
                         if (!handler.HasValue) return false;
                         // TODO: Figure out how to handle this trait based context...
                         //                 var active = true
@@ -130,7 +132,7 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
                     }))
                     {
                         throw new Exception(
-                            $"No snapshot handler found for snapshot {snapshot.GetType()} on any of the current behaviors {BehaviorsString}"
+                            $"No snapshot handler found for snapshot {anySnapshot.GetType()} on any of the current behaviors {BehaviorsString}"
                         );
                     }
                 });

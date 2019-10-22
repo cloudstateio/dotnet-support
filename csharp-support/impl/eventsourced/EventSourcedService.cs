@@ -93,7 +93,7 @@ namespace io.cloudstate.csharpsupport.impl
                 switch (message.MessageCase)
                 {
                     case MessageOneofCase.Event:
-                        var eventContext = new EventContext(entityId, message.Event.Sequence);
+                        var eventContext = new EventContext(entityId, message.Event.Sequence, RootContext.ServiceCallFactory);
                         var eventPayload = message.Event.Payload;
                         handler.HandleEvent(message.Event.Payload, eventContext);
                         await responseStream.WriteAsync(

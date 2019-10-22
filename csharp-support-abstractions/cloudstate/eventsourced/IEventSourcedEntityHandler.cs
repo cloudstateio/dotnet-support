@@ -6,6 +6,8 @@ namespace io.cloudstate.csharpsupport.eventsourced
 {
     public interface IEventSourcedEntityHandler
     {
+        IServiceCallFactory ServiceCallFactory { get; }
+
         void HandleEvent(Any @event, IEventContext context);
 
         Option<Any> HandleCommand(Any command, ICommandContext context);

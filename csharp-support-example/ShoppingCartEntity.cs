@@ -43,9 +43,8 @@ namespace io.cloudstate.samples.shoppingCart
         }
 
         [EventHandler(typeof(ItemAdded))]
-        public void ItemAdded(Com.Example.Shoppingcart.Persistence.ItemAdded itemAdded, ICommandContext ctx)
+        public void ItemAdded(Com.Example.Shoppingcart.Persistence.ItemAdded itemAdded)
         {
-
             Cart.TryGetValue(itemAdded.Item.ProductId, out var item);
             if (item == null)
             {

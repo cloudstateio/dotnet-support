@@ -15,9 +15,9 @@ namespace csharp_support_tests
         [Fact]
         public void NoArgEventHandlerTest()
         {
-            var eventContext = new EventContext("", 0);
             var entity = new NoArgEventHandlerEntity();
             var entityHandler = Create<NoArgEventHandlerEntity>(x => entity);
+            var eventContext = new EventContext("", 0, entityHandler.ServiceCallFactory);
             entityHandler.HandleEvent(Event(""), eventContext);
             Assert.True(entity.Invoked);
         }
@@ -27,9 +27,10 @@ namespace csharp_support_tests
         [InlineData("event-data")]
         public void SingleArgEventHandlerTest(string eventData)
         {
-            var eventContext = new EventContext("", 0);
             var entity = new SingleArgEventHandlerEntity();
             var entityHandler = Create<SingleArgEventHandlerEntity>(x => entity);
+            var eventContext = new EventContext("", 0, entityHandler.ServiceCallFactory);
+
             entityHandler.HandleEvent(Event(eventData), eventContext);
             Assert.True(entity.Invoked);
             Assert.Equal(eventData, entity.Event);
@@ -48,9 +49,9 @@ namespace csharp_support_tests
         [InlineData("eid", "entity-data", 10L)]
         public void MultiArgEventHandlerTest(string entityId, string eventData, long sequenceNumber)
         {
-            var eventContext = new EventContext(entityId, sequenceNumber);
             var entity = new MultiArgEventHandlerEntity();
             var entityHandler = Create<MultiArgEventHandlerEntity>(x => entity);
+            var eventContext = new EventContext(entityId, sequenceNumber, entityHandler.ServiceCallFactory);
 
             entityHandler.HandleEvent(Event(eventData), eventContext);
 
@@ -64,9 +65,9 @@ namespace csharp_support_tests
         [InlineData("event-data")]
         public void SubclassedArgEventHandlerEntityTest(string eventData)
         {
-            var eventContext = new EventContext("", 0);
             var entity = new SubclassedArgEventHandlerEntity();
             var entityHandler = Create<SubclassedArgEventHandlerEntity>(x => entity);
+            var eventContext = new EventContext("", 0, entityHandler.ServiceCallFactory);
             entityHandler.HandleEvent(Event(eventData), eventContext);
             Assert.True(entity.Invoked);
             Assert.Equal(eventData, entity.Event);
@@ -77,9 +78,9 @@ namespace csharp_support_tests
         [InlineData("event-data")]
         public void SubinterfacedArgEventHandlerEntityTest(string eventData)
         {
-            var eventContext = new EventContext("", 0);
             var entity = new SubinterfacedArgEventHandlerEntity();
             var entityHandler = Create<SubinterfacedArgEventHandlerEntity>(x => entity);
+            var eventContext = new EventContext("", 0, entityHandler.ServiceCallFactory);
             entityHandler.HandleEvent(Event(eventData), eventContext);
             Assert.True(entity.Invoked);
             Assert.Equal(eventData, entity.Event);

@@ -14,12 +14,12 @@ namespace io.cloudstate.csharpsupport.impl
 
         public EventContext(
                 string entityId,
-                long sequenceNumber
-            )
+                long sequenceNumber,
+                IServiceCallFactory serviceCallFactory)
         {
             EntityId = entityId;
             SequenceNumber = sequenceNumber;
-            ServiceCallFactory = ServiceCallFactory;
+            ServiceCallFactory = serviceCallFactory;
         }
     }
 

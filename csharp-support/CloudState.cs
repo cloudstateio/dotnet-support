@@ -72,7 +72,7 @@ namespace io.cloudstate.csharpsupport
             {
                 throw new InvalidOperationException(
                     $"{typeof(TEntity)} does not declare a(n) {typeof(EventSourcedEntityAttribute).Name} attribute!");
-            };
+            }
 
             String persistenceId;
             int snapshotEvery;

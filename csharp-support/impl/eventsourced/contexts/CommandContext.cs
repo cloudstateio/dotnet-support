@@ -70,7 +70,7 @@ namespace io.cloudstate.csharpsupport.impl
             var nextSequenceNumber = SequenceNumber + Events.Count + 1;
             Handler.HandleEvent(
                 anyEvent,
-                new EventContext(EntityId, nextSequenceNumber)
+                new EventContext(EntityId, nextSequenceNumber, ServiceCallFactory)
             );
             EventList.Add(anyEvent);
             PerformSnapshot = (SnapshotEvery > 0) && (PerformSnapshot || (nextSequenceNumber % SnapshotEvery == 0));
