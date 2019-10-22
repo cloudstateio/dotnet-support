@@ -1,0 +1,8 @@
+{
+    "files.exclude": {
+        "cloudstate/**": true,
+        "protobuf/**": true,
+        "**/bin": true,
+        "**/obj": true
+    }
+}

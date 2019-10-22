@@ -1,0 +1,12 @@
+.DS_Store
+
+**/bin
+**/obj
+
+cloudstate/
+!**/csharp-support-abstractions/cloudstate/
+
+**/BuildReports/
+
+tools/
+protobuf/

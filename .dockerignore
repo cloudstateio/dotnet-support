@@ -1,0 +1,7 @@
+**/.git
+**/bin
+**/obj
+dist/**
+grpc/**
+java_source/**
+cloudstate/**

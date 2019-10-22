@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <Import Project="..\build\Directory.Build.props" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <RootNamespace>csharp_support_example</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="application.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>  
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\csharp-support-abstractions\csharp-support-abstractions.csproj" />
+    <ProjectReference Include="..\csharp-support-protocols\csharp-support-protocols.csproj" />
+    <ProjectReference Include="..\csharp-support\csharp-support.csproj" />
+  </ItemGroup>
+
+</Project>
