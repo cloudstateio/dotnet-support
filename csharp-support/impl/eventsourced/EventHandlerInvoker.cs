@@ -23,7 +23,7 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
 
             var attr = method.GetCustomAttribute(typeof(EventHandlerAttribute)) as EventHandlerAttribute;
             if (attr == null)
-                throw new NullReferenceException(
+                throw new ArgumentNullException(
                     $"Target event handler method [{method.Name}] is not decorated with [{nameof(EventHandlerAttribute)}]"
                 );
             Attribute = attr;

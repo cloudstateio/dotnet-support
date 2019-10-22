@@ -37,7 +37,7 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
 
                 var entity = Factory(context);
                 if (entity == null)
-                    throw new NullReferenceException($"Entity factory could not instantiate a new instance of [{typeof(TClass)}].");
+                    throw new ArgumentNullException($"Entity factory could not instantiate a new instance of [{typeof(TClass)}].");
 
                 CurrentBehaviors = new object[] { entity };
 
@@ -67,14 +67,14 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
                 var behavior = CurrentBehaviors.Take(1).FirstOrDefault();
                 if (behavior == null)
                 {
-                    throw new Exception($"No event handler [{@event.GetType().FullName}] found for any of the current behaviors.");
+                    throw new CloudStateException($"No event handler [{@event.GetType().FullName}] found for any of the current behaviors.");
                 }
                 var obj = AnySupport.Decode(@event);
                 var someHandler = GetCachedBehaviorReflection(behavior)
                     .GetCachedEventHandlerForClass(obj.GetType());
                 var handler = someHandler.Match(
                     some: x => x,
-                    none: () => throw new NullReferenceException()
+                    none: () => throw new ArgumentNullException()
                 );
 
                 var ctx = new DelegatingEventSourcedContext(context);
@@ -100,7 +100,7 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
                             return handler.Invoke(behavior, command, context);
                         })
                         .FirstOrDefault()
-                        .Or(() => throw new Exception(
+                        .Or(() => throw new CloudStateException(
                                 $"No command handler found for command [{context.CommandName}] on any of the current behaviors: {BehaviorsString}"
                             )
                         )
@@ -129,7 +129,7 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
                         return false;
                     }))
                     {
-                        throw new Exception(
+                        throw new CloudStateException(
                             $"No snapshot handler found for snapshot {anySnapshot.GetType()} on any of the current behaviors {BehaviorsString}"
                         );
                     }

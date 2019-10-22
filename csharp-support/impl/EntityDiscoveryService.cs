@@ -78,7 +78,7 @@ namespace io.cloudstate.csharpsupport.impl
             if (false)
             {
                 // TODO: verify compatibility with in.protocolMajorVersion & in.protocolMinorVersion 
-                // await Task.FromException(new Exception("Proxy version not compatible with library protocol support version"));
+                // await Task.FromException(new CloudStateException("Proxy version not compatible with library protocol support version"));
             }
             else
             {

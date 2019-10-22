@@ -5,6 +5,7 @@ using Com.Example.Shoppingcart.Persistence;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
+using io.cloudstate.csharpsupport;
 using io.cloudstate.csharpsupport.eventsourced;
 using io.cloudstate.csharpsupport.impl;
 using Moq;
@@ -58,7 +59,7 @@ namespace csharp_support_tests
 
             result.Match(
                 some: x => Assert.Equal(x.Value, new Empty().ToByteString()),
-                none: () => throw new Exception("Failed")
+                none: () => throw new CloudStateException("Failed")
             );
 
             Assert.True(entity.Invoked);
@@ -81,7 +82,7 @@ namespace csharp_support_tests
 
             result.Match(
                 some: x => Assert.Equal(x.Value, new Empty().ToByteString()),
-                none: () => throw new Exception("Failed")
+                none: () => throw new CloudStateException("Failed")
             );
 
             Assert.True(entity.Invoked);
@@ -103,7 +104,7 @@ namespace csharp_support_tests
 
             result.Match(
                 some: x => Assert.Equal(x.Value, new Empty().ToByteString()),
-                none: () => throw new Exception("Failed")
+                none: () => throw new CloudStateException("Failed")
             );
 
             Assert.True(entity.Invoked);
@@ -132,7 +133,7 @@ namespace csharp_support_tests
 
             result.Match(
                 some: x => Assert.Equal(x.Value, new Empty().ToByteString()),
-                none: () => throw new Exception("Failed")
+                none: () => throw new CloudStateException("Failed")
             );
 
             Assert.True(entity.Invoked);

@@ -17,10 +17,10 @@ namespace io.cloudstate.csharpsupport.impl
         public static object Unpack(this Any any, System.Type type)
         {
             var unpackMethod = typeof(Any).GetMethod("Unpack")?.MakeGenericMethod(type)
-                ?? throw new NullReferenceException("Reflection for Unpack method on Any returned null reference.");
+                ?? throw new CloudStateException("Reflection for Unpack method on Any returned null reference.");
             var cmd = unpackMethod.Invoke(any, new object[] { });
             if (null == cmd)
-                throw new NullReferenceException(
+                throw new CloudStateException(
                     $"Unpacking the command to type {type.Name} resulted in a null reference"
                 );
             return cmd;

@@ -63,7 +63,7 @@ namespace io.cloudstate.csharpsupport.impl
                 }
                 else if (typeof(IContext).IsAssignableFrom(parameter.ParameterType))
                 {
-                    throw new Exception(
+                    throw new CloudStateException(
                         $"Unsupported context parameter on ${method.Name}, " +
                         $"{parameter.ParameterType} must be the same or a super type of {contextClass.GetType()}"
                     );
@@ -76,7 +76,7 @@ namespace io.cloudstate.csharpsupport.impl
                 {
                     if (parameter.ParameterType != typeof(String))
                     {
-                        throw new Exception(
+                        throw new CloudStateException(
                             $"[EntityIdAttribute] annotated parameter on method {method.Name} " +
                             $"has type {parameter.ParameterType}, but must be String."
                         );

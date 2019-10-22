@@ -152,7 +152,7 @@ namespace io.cloudstate.csharpsupport.impl
                 name => TryResolveCSharpPbType<TInput>(typeDescriptor)
                     .Match(
                         some: x => x,
-                        none: () => throw new Exception(
+                        none: () => throw new CloudStateException(
                             $"Could not resolve instance of type {typeDescriptor.FullName}"
                         )
                     )
@@ -218,7 +218,7 @@ namespace io.cloudstate.csharpsupport.impl
                     var bytestring = this.GetType().GetMethod("PrimitiveToBytes")
                         ?.MakeGenericMethod(value.GetType())
                         .Invoke(this, new[] { primitive, value }) as ByteString
-                            ?? throw new Exception("Couldn't cast to typed primitive");
+                            ?? throw new CloudStateException("Couldn't cast to typed primitive");
                     return new Any()
                     {
                         Value = bytestring,
@@ -230,7 +230,7 @@ namespace io.cloudstate.csharpsupport.impl
                 //     ScalaPbAny(CloudStateJson + value.getClass.getName, primitiveToBytes(BytesPrimitive, json))
 
                 default:
-                    throw new Exception($"Don't know how to serialize object of type {value.GetType()}. Try passing a protobuf, using a primitive type, or using a type annotated with @Jsonable.");
+                    throw new CloudStateException($"Don't know how to serialize object of type {value.GetType()}. Try passing a protobuf, using a primitive type, or using a type annotated with @Jsonable.");
 
             }
         }
@@ -247,8 +247,8 @@ namespace io.cloudstate.csharpsupport.impl
                     some: primitive => this.GetType().GetMethod("BytesToPrimitive")
                             ?.MakeGenericMethod(primitive.Value.ClassType)
                             .Invoke(this, new object[] { primitive.Value, bytes })
-                                ?? throw new Exception("Couldn't cast to primitive type"),
-                    none: () => throw new Exception($"Unknown primitive type url: {typeUrl}")
+                                ?? throw new CloudStateException("Couldn't cast to primitive type"),
+                    none: () => throw new CloudStateException($"Unknown primitive type url: {typeUrl}")
                 );
             }
             else if (typeUrl.StartsWith(AnySupport.CloudStateJson))
@@ -289,7 +289,7 @@ namespace io.cloudstate.csharpsupport.impl
                 .GetMethod("ResolveTypeDescriptor")
                 ?.MakeGenericMethod(messageDescriptor.ClrType)
                 .Invoke(this, new object[] { messageDescriptor }) as IResolvedType
-                    ?? throw new Exception("Reflection failed");
+                    ?? throw new CloudStateException("Reflection failed");
         }
 
         /// <summary>

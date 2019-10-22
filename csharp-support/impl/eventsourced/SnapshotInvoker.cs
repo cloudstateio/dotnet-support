@@ -30,7 +30,7 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
         public Object Invoke(Object obj, ISnapshotContext context)
         {
             var ctx = new InvocationContext(obj, context);
-            return Method.Invoke(obj, new object[] { }) ?? throw new Exception("Invoke returned null");
+            return Method.Invoke(obj, new object[] { }) ?? throw new CloudStateException("Invoke returned null");
         }
 
     }

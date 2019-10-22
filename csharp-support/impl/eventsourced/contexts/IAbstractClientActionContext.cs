@@ -99,7 +99,7 @@ namespace io.cloudstate.csharpsupport
                                 {
                                     Payload = reply.Match(
                                         some: x => x,
-                                        none: () => throw new NullReferenceException(nameof(reply))
+                                        none: () => throw new ArgumentNullException(nameof(reply))
                                     )
                                 }
                             }
@@ -112,7 +112,7 @@ namespace io.cloudstate.csharpsupport
                             {
                                 Forward = ForwardMessage.Match(
                                     some: x => x,
-                                    none: () => throw new NullReferenceException(nameof(ForwardMessage))
+                                    none: () => throw new ArgumentNullException(nameof(ForwardMessage))
                                 )
                             }
                         );

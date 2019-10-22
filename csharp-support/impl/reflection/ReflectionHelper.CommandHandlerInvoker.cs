@@ -29,7 +29,7 @@ namespace io.cloudstate.csharpsupport.impl
                 Parameters = ReflectionHelper.GetParameterHandlers<ICommandContext>(method); // TODO: Extra parameters
                 if (Parameters.Where(x => x.GetType().IsInstanceOfType(typeof(MainArgumentParameterHandler))).Count() > 1)
                 {
-                    throw new Exception("Method has too many main arg parameters");
+                    throw new CloudStateException("Method has too many main arg parameters");
                 }
 
                 foreach (var parameter in Parameters)
@@ -38,7 +38,7 @@ namespace io.cloudstate.csharpsupport.impl
                     {
                         case MainArgumentParameterHandler inClass:
                             if (!inClass.Type.IsAssignableFrom(serviceMethod.InputType.TypeClass))
-                                throw new Exception(
+                                throw new CloudStateException(
                                     $"Incompatible command class {inClass} for command {Name}, expected {serviceMethod.InputType.TypeClass}"
                                 );
                             break;
@@ -124,7 +124,7 @@ namespace io.cloudstate.csharpsupport.impl
             {
                 if (!ServiceMethod.OutputType.TypeClass.IsAssignableFrom(GetRawType(type)))
                 {
-                    throw new Exception(
+                    throw new CloudStateException(
                         $"Incompatible return class {type} for command {Name}, expected {ServiceMethod.OutputType.TypeClass}"
                     );
                 }

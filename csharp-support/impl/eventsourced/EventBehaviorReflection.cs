@@ -30,7 +30,7 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
                 {
                     if (x.Count() > 1)
                     {
-                        throw new Exception("Multiple event handlers for the same type not allowed.");
+                        throw new CloudStateException("Multiple event handlers for the same type not allowed.");
                     }
                     return new { x.Key, e = x.First() };
                 })
@@ -46,7 +46,7 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
                         annotation.Name;
                     if (!serviceMethods.TryGetValue(name, out var serviceMethod))
                     {
-                        throw new Exception(
+                        throw new CloudStateException(
                             $"Command handler method ${method.Name} for command {name} " +
                             "found, but the service has no command by that name."
                         );
@@ -62,7 +62,7 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
                 {
                     if (x.Count() > 1)
                     {
-                        throw new Exception("Multiple methods for handling the same command type not allowed.");
+                        throw new CloudStateException("Multiple methods for handling the same command type not allowed.");
                     }
                     return new { x.Key, e = x.First() };
                 })
@@ -80,7 +80,7 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
                 .map {
                     case (snapshotClass, Seq(invoker)) => (snapshotClass: Any) -> invoker
                     case (clazz, many) =>
-                    throw new Exception(
+                    throw new CloudStateException(
                         s"Multiple methods found for handling snapshot of type $clazz: ${many.map(_.method.getName)}"
                     )
                 }
@@ -95,7 +95,7 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
                 case Seq(single) =>
                     Some(single)
                 case _ =>
-                    throw new Exception(s"Multiple snapshoting methods found on behavior $behaviorClass")
+                    throw new CloudStateException(s"Multiple snapshoting methods found on behavior $behaviorClass")
                 }
 
                 ReflectionHelper.validateNoBadMethods(

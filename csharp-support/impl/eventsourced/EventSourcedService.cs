@@ -55,15 +55,15 @@ namespace io.cloudstate.csharpsupport.impl
             Logger.LogInformation("Received call: " + requestStream);
 
             if (!await requestStream.MoveNext())
-                throw new Exception("Failed read first of sequence on stream");
+                throw new CloudStateException("Failed read first of sequence on stream");
             var current = requestStream.Current;
 
             if (!current.MessageCase.Equals(MessageOneofCase.Init))
-                throw new Exception("Expected Init message");
+                throw new CloudStateException("Expected Init message");
             var init = requestStream.Current.Init;
 
             if (!Services.TryGetValue(init.ServiceName, out var service))
-                throw new Exception($"Service not found: {init.ServiceName}");
+                throw new CloudStateException($"Service not found: {init.ServiceName}");
             var handler = service.Factory.Create(
                 new EventSourcedContext(init.EntityId, RootContext.ServiceCallFactory)
             );
@@ -143,7 +143,7 @@ namespace io.cloudstate.csharpsupport.impl
 
                         var anyResult = reply.Match(
                             some: result => result,
-                            none: () => throw new NullReferenceException("Command result was null")
+                            none: () => throw new ArgumentNullException("Command result was null")
                         );
 
                         var clientAction = ((IAbstractClientActionContext)commandContext).CreateClientAction(reply, false);
@@ -172,7 +172,7 @@ namespace io.cloudstate.csharpsupport.impl
                                 CommandId = message.Command.Id,
                                 ClientAction = clientAction.Match(
                                     some: x => x,
-                                    none: () => throw new NullReferenceException(nameof(clientAction))
+                                    none: () => throw new ArgumentNullException(nameof(clientAction))
                                 )
                             };
                             outReply.SideEffects.Add(((IAbstractEffectContext)commandContext).Effects);
@@ -207,10 +207,10 @@ namespace io.cloudstate.csharpsupport.impl
                         break;
 
                     case MessageOneofCase.None:
-                        throw new Exception("Empty message received");
+                        throw new CloudStateException("Empty message received");
 
                     case MessageOneofCase.Init:
-                        throw new Exception("Entity already inited");
+                        throw new CloudStateException("Entity already inited");
 
                     default:
                         throw new NotImplementedException("Unknown message type");
