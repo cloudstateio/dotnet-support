@@ -95,54 +95,53 @@ namespace io.cloudstate.csharpsupport.impl
             where TInput : IMessage
         {
             var fileDescriptor = typeDescriptor.File;
-            return new CSharpResolvedType<TInput>(
-                typeDescriptor.FullName,
-                typeDescriptor.Parser
-            ).Some<IResolvedType<TInput>>();
 
-            //     val options = fileDescriptor.getOptions
-            //     // Firstly, determine the java package
-            //     val packageName =
-            //       if (options.hasJavaPackage) options.getJavaPackage + "."
-            //       else if (fileDescriptor.getPackage.nonEmpty) fileDescriptor.getPackage + "."
-            //       else ""
+            string packageName, outerClassName = "", className;
+            var options = fileDescriptor.Proto.Options;
+            if (options?.HasCsharpNamespace == true) {
+                packageName = options.CsharpNamespace + ".";
+            } else if (!String.IsNullOrEmpty(fileDescriptor.Package)) {
+                packageName = fileDescriptor.Package + ".";
+            } else {
+                packageName = "";
+            }
 
+            // Note: not applicable to csharp
             //     val outerClassName =
             //       if (options.hasJavaMultipleFiles && options.getJavaMultipleFiles) ""
             //       else if (options.hasJavaOuterClassname) options.getJavaOuterClassname + "$"
             //       else if (fileDescriptor.getName.nonEmpty)
             //         CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, strippedFileName(fileDescriptor.getName)) + "$"
             //       else ""
-
-            //     val className = packageName + outerClassName + typeDescriptor.getName
-            //     try {
-            //       log.debug("Attempting to load com.google.protobuf.Message class {}", className)
-            //       val clazz = classLoader.loadClass(className)
-            //       if (classOf[com.google.protobuf.Message].isAssignableFrom(clazz)) {
-            //         val parser = clazz.getMethod("parser").invoke(null).asInstanceOf[Parser[com.google.protobuf.Message]]
-            //         Some(
-            //           new JavaPbResolvedType(clazz.asInstanceOf[Class[com.google.protobuf.Message]],
-            //                                  typeUrlPrefix + "/" + typeDescriptor.getFullName,
-            //                                  parser)
-            //         )
-            //       } else {
-            //         None
-            //       }
-            //     } catch {
-            //       case cnfe: ClassNotFoundException =>
-            //         log.debug("Failed to load class", cnfe)
-            //         None
-            //       case nsme: NoSuchElementException =>
-            //         throw SerializationException(
-            //           s"Found com.google.protobuf.Message class $className to deserialize protobuf ${typeDescriptor.getFullName} but it didn't have a static parser() method on it.",
-            //           nsme
-            //         )
-            //       case iae @ (_: IllegalAccessException | _: IllegalArgumentException) =>
-            //         throw SerializationException(s"Could not invoke $className.parser()", iae)
-            //       case cce: ClassCastException =>
-            //         throw SerializationException(s"$className.parser() did not return a ${classOf[Parser[_]]}", cce)
-            //     }
-            //   }
+            
+            className = packageName + outerClassName + typeDescriptor.Name;
+            try {
+                var instance = (object)Activator.CreateInstance(typeDescriptor.ClrType);
+                if (typeof(IMessage).IsAssignableFrom(instance.GetType())) {
+                    var parser = (MessageParser)typeDescriptor.ClrType.GetProperty("Parser").GetValue(instance);
+                    return new CSharpResolvedType<TInput>(
+                        AnySupport.DefaultTypeUrlPrefix + "/" + typeDescriptor.FullName,
+                        parser
+                    ).Some<IResolvedType<TInput>>();
+                } else {
+                    return Optional.Option.None<IResolvedType<TInput>>();
+                }
+            } catch (Exception ex) {
+                return Optional.Option.None<IResolvedType<TInput>>();
+                //       case cnfe: ClassNotFoundException =>
+                //         log.debug("Failed to load class", cnfe)
+                //         None
+                //       case nsme: NoSuchElementException =>
+                //         throw SerializationException(
+                //           s"Found com.google.protobuf.Message class $className to deserialize protobuf ${typeDescriptor.getFullName} but it didn't have a static parser() method on it.",
+                //           nsme
+                //         )
+                //       case iae @ (_: IllegalAccessException | _: IllegalArgumentException) =>
+                //         throw SerializationException(s"Could not invoke $className.parser()", iae)
+                //       case cce: ClassCastException =>
+                //         throw SerializationException(s"$className.parser() did not return a ${classOf[Parser[_]]}", cce)
+            }
+            
         }
 
         public IResolvedType<TInput> ResolveTypeDescriptor<TInput>(MessageDescriptor typeDescriptor)

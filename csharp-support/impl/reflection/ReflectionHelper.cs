@@ -56,7 +56,7 @@ namespace io.cloudstate.csharpsupport.impl
             for (var i = 0; i < methodParameters.Length; i++)
             {
                 var parameter = new MethodParameter(method, i);
-                var contextClass = typeof(T); // TODO: This might be the wrong class im referencing.
+                var contextClass = typeof(T);
                 if (IsWithinBounds(parameter.ParameterType, typeof(IContext), contextClass))
                 {
                     handlers[i] = new ContextParameterHandler();

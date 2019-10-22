@@ -44,7 +44,6 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
                 // TODO: Need to think about this a bit more so I get the context / active flags right..
                 // var currentBehaviors = () => {
                 //     explicitlySetBehaviors Optional.Option.None<Object[]>();
-                //     // TODO: Not sure how to implement the activateable trait with the correct scope here.
                 //     var active = true;
                 //     var isActive = () => active;
                 //     var setBehaviors = (behaviors) => {
@@ -116,7 +115,6 @@ namespace io.cloudstate.csharpsupport.impl.eventsourced
                         var handler = GetCachedBehaviorReflection(behavior)
                             .GetCachedSnapshotHandlerForClass(anySnapshot.GetType());
                         if (!handler.HasValue) return false;
-                        // TODO: Figure out how to handle this trait based context...
                         //                 var active = true
                         //                 val ctx = new DelegatingEventSourcedContext(context) with SnapshotBehaviorContext {
                         //                   override def become(behavior: AnyRef*): Unit = {
