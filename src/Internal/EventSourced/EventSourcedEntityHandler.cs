@@ -6,6 +6,7 @@ using CloudState.CSharpSupport.Exceptions;
 using CloudState.CSharpSupport.Interfaces.EventSourced;
 using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
 using CloudState.CSharpSupport.Reflection;
+using CloudState.CSharpSupport.Reflection.Interfaces;
 using Google.Protobuf.WellKnownTypes;
 using Optional;
 

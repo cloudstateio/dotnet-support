@@ -3,8 +3,6 @@ using CloudState.CSharpSupport.Attributes;
 using CloudState.CSharpSupport.Attributes.EventSourced;
 using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
 using CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHandler.Messages;
-using Com.Example.Shoppingcart;
-using Google.Protobuf.WellKnownTypes;
 using Xunit;
 
 namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHandler.Entities

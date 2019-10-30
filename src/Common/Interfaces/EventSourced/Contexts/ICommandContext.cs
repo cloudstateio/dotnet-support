@@ -1,5 +1,3 @@
-using System;
-
 namespace CloudState.CSharpSupport.Interfaces.EventSourced.Contexts
 {
     public interface ICommandContext : IEventSourcedContext, IClientActionContext, IEffectContext

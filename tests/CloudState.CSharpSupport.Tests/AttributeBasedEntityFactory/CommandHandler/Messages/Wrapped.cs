@@ -1,5 +1,3 @@
-using System;
-
 namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHandler.Messages
 {
 
@@ -29,7 +27,7 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHand
 
         public override int GetHashCode()
         {
-            return (Value != null ? Value.GetHashCode() : 0);
+            return Value != null ? Value.GetHashCode() : 0;
         }
     }
 

@@ -13,6 +13,7 @@
     <!-- Waiting for 3.11.x -->
     <!-- <PackageReference Include="Google.Protobuf" Version="3.10.0" /> -->
     <ProjectReference Include="$(SolutionDir)/protobuf/csharp/src/Google.Protobuf/Google.Protobuf.csproj" />
+    <ProjectReference Include="..\Protos\CloudState.CSharpSupport.Protos.csproj" />
   </ItemGroup>
 
 </Project>

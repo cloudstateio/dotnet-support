@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using CloudState.CSharpSupport.EventSourced;
 using CloudState.CSharpSupport.Exceptions;
 using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
 using CloudState.CSharpSupport.Reflection.Interfaces;
@@ -44,8 +43,6 @@ namespace CloudState.CSharpSupport.Reflection.ReflectionHelper
                                 throw new CloudStateException(
                                     $"Incompatible command class {inClass} for command {Name}, expected {serviceMethod.InputType.TypeClass}"
                                 );
-                            break;
-                        default:
                             break;
                     }
                 }

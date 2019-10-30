@@ -10,12 +10,7 @@ namespace CloudState.CSharpSupport.Reflection
     {
         private ConcurrentDictionary<Type, EventBehaviorReflection> BehaviorReflectionCache { get; }
             = new ConcurrentDictionary<Type, EventBehaviorReflection>();
-
-        public ReflectionCacheBehaviorResolver()
-        {
-
-        }
-
+        
         public EventBehaviorReflection GetOrAdd(Type type, IReadOnlyDictionary<string, IResolvedServiceMethod> methods)
         {
             return BehaviorReflectionCache.GetOrAdd(

@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using CloudState.CSharpSupport.Attributes.EventSourced;
-using CloudState.CSharpSupport.EventSourced;
 using CloudState.CSharpSupport.Exceptions;
 using CloudState.CSharpSupport.Reflection.Interfaces;
 using static CloudState.CSharpSupport.Reflection.ReflectionHelper.ReflectionHelper;
@@ -13,7 +11,7 @@ namespace CloudState.CSharpSupport.Reflection
 {
     public class EventBehaviorReflection
     {
-        private EventBehaviorReflection(Dictionary<string, CommandHandlerInvoker> commandHandlers)
+        private EventBehaviorReflection(IReadOnlyDictionary<string, CommandHandlerInvoker> commandHandlers)
         {
             CommandHandlers = commandHandlers;
         }

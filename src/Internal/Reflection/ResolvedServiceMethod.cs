@@ -1,4 +1,3 @@
-using System;
 using CloudState.CSharpSupport.Interfaces.Services;
 using CloudState.CSharpSupport.Reflection.Interfaces;
 using Google.Protobuf.Reflection;

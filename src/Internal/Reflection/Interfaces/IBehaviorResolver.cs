@@ -1,4 +1,4 @@
-namespace CloudState.CSharpSupport.Reflection
+namespace CloudState.CSharpSupport.Reflection.Interfaces
 {
     internal interface IBehaviorResolver
     {

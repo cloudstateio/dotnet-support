@@ -43,7 +43,7 @@ namespace CloudState.CSharpSupport.Services
             ServiceInfo = new ServiceInfo
             {
                 ServiceRuntime = runtimeName + " " + runtimeVersion,
-                SupportLibraryName = "cloudstate-csharp-support",
+                SupportLibraryName = "CloudState.CSharpSupport",
                 SupportLibraryVersion = Assembly.GetEntryAssembly()?.GetName()?.Version?.ToString() ?? ""
             };
         }

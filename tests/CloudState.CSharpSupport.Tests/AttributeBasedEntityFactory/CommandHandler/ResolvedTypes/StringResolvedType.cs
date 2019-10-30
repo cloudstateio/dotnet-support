@@ -1,4 +1,3 @@
-using System;
 using CloudState.CSharpSupport.Reflection;
 using CloudState.CSharpSupport.Serialization;
 using Google.Protobuf;

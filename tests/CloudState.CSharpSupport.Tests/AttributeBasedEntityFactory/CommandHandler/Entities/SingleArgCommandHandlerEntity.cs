@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using CloudState.CSharpSupport.Attributes.EventSourced;
 using CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHandler.Messages;
-using Xunit;
 
 namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHandler.Entities
 {

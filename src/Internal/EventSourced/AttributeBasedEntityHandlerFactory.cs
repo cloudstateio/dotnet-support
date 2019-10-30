@@ -62,9 +62,7 @@ namespace CloudState.CSharpSupport.EventSourced
             return new EventSourcedEntityHandler(
                 ctx,
                 BehaviorResolver,
-                new Func<IEventSourcedEntityCreationContext, object>(
-                    x => Factory.Invoke(x)
-                )
+                x => Factory.Invoke(x)
             );
         }
 

@@ -8,8 +8,8 @@ namespace CloudState.CSharpSupport.Reflection
 {
     public class EntityConstructorInvoker
     {
-        public ConstructorInfo Constructor { get; }
-        internal ParameterHandler[] Parameters { get; }
+        private ConstructorInfo Constructor { get; }
+        private ParameterHandler[] Parameters { get; }
 
         public EntityConstructorInvoker(ConstructorInfo constructor)
         {
@@ -20,15 +20,13 @@ namespace CloudState.CSharpSupport.Reflection
                 {
                     case MainArgumentParameterHandler mainArg:
                         throw new InvalidEntityConstructorParameterException(mainArg.Type);
-                    default:
-                        break;
                 }
         }
 
         public object Apply(IEventSourcedEntityCreationContext context)
         {
             var ctx = new InvocationContext("", context);
-            return Constructor.Invoke(Parameters.Select(x => x.Apply(ctx) as object).ToArray());
+            return Constructor.Invoke(Parameters.Select(x => x.Apply(ctx)).ToArray());
         }
     }
 }

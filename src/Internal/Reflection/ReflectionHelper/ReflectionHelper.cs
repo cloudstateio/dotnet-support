@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using CloudState.CSharpSupport.Attributes;
-using CloudState.CSharpSupport.EventSourced;
 using CloudState.CSharpSupport.Exceptions;
 using CloudState.CSharpSupport.Interfaces.Contexts;
 using CloudState.CSharpSupport.Interfaces.Services;

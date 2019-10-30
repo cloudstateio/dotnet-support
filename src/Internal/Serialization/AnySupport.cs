@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using CloudState.CSharpSupport.EventSourced;
 using CloudState.CSharpSupport.Exceptions;
 using CloudState.CSharpSupport.Reflection;
 using CloudState.CSharpSupport.Reflection.Interfaces;
@@ -20,11 +19,10 @@ namespace CloudState.CSharpSupport.Serialization
 {
     internal class AnySupport
     {
-
-        public static readonly uint CloudStatePrimitiveFieldNumber = 1;
-        public static readonly string CloudStatePrimitive = "p.cloudstate.io/";
-        public static readonly string CloudStateJson = "json.cloudstate.io/";
-        public static readonly string DefaultTypeUrlPrefix = "type.googleapis.com";
+        public const uint CloudStatePrimitiveFieldNumber = 1;
+        public const string CloudStatePrimitive = "p.cloudstate.io/";
+        public const string CloudStateJson = "json.cloudstate.io/";
+        public const string DefaultTypeUrlPrefix = "type.googleapis.com";
 
         private FileDescriptor[] AdditionalDescriptors { get; }
         private string TypeUrlPrefix { get; }
@@ -33,12 +31,12 @@ namespace CloudState.CSharpSupport.Serialization
         private Dictionary<string, MessageDescriptor> AllTypes { get; }
         private ConcurrentDictionary<string, IResolvedType> ReflectionCache { get; }
 
-        public IDictionary<System.Type, IPrimitive> ClassToPrimitives { get; }
-        public IDictionary<string, IPrimitive> TypeUrlToPrimitives { get; }
+        private IDictionary<System.Type, IPrimitive> ClassToPrimitives { get; }
+        private IDictionary<string, IPrimitive> TypeUrlToPrimitives { get; }
 
-        public AnySupport(IEnumerable<FileDescriptor> additionalDescriptors,
-            string typeUrlPrefix = null)
+        public AnySupport(IEnumerable<FileDescriptor> additionalDescriptors, string typeUrlPrefix = null)
         {
+            TypeUrlPrefix = typeUrlPrefix ?? DefaultTypeUrlPrefix;
             ClassToPrimitives = new Dictionary<System.Type, IPrimitive>
             {
                 { typeof(string), new StringPrimitive() },
@@ -103,7 +101,7 @@ namespace CloudState.CSharpSupport.Serialization
             }).ToDictionary(x => x.Name, x => x);
         }
 
-        public Option<IResolvedType<TInput>> TryResolveCSharpPbType<TInput>(MessageDescriptor typeDescriptor)
+        private static Option<IResolvedType<TInput>> TryResolveCSharpPbType<TInput>(MessageDescriptor typeDescriptor)
             where TInput : IMessage
         {
             var fileDescriptor = typeDescriptor.File;
@@ -132,22 +130,18 @@ namespace CloudState.CSharpSupport.Serialization
             //       else ""
 
             className = packageName + outerClassName + typeDescriptor.Name;
+            
             try
             {
-                object instance = Activator.CreateInstance(typeDescriptor.ClrType)
-                    ?? throw new ArgumentNullException("instance");
-                if (typeof(IMessage).IsAssignableFrom(instance.GetType()))
+                var instance = Activator.CreateInstance(typeDescriptor.ClrType);
+                if (instance is IMessage)
                 {
-                    var parser = (MessageParser)typeDescriptor.ClrType.GetProperty("Parser").GetValue(instance);
                     return new CSharpResolvedType<TInput>(
                         DefaultTypeUrlPrefix + "/" + typeDescriptor.FullName,
-                        parser
+                        typeDescriptor.Parser
                     ).Some<IResolvedType<TInput>>();
                 }
-                else
-                {
-                    return Optional.Option.None<IResolvedType<TInput>>();
-                }
+                return Optional.Option.None<IResolvedType<TInput>>();
             }
             catch (Exception)
             {
@@ -183,15 +177,15 @@ namespace CloudState.CSharpSupport.Serialization
                 );
         }
 
-        public ByteString PrimitiveToBytes<T>(IPrimitive primitive, T value)
+        private static ByteString PrimitiveToBytes<T>(IPrimitive primitive, T value)
         {
 
             var typedPrimitive = (Primitive<T>)primitive;
             if (!Equals(typedPrimitive.DefaultValue, value))
             {
-                using (MemoryStream stream = new MemoryStream())
+                using (var stream = new MemoryStream())
                 {
-                    CodedOutputStream s = new CodedOutputStream(stream);
+                    var s = new CodedOutputStream(stream);
                     s.WriteTag(typedPrimitive.Tag);
                     typedPrimitive.Write(s, value);
                     s.Flush();
@@ -210,7 +204,7 @@ namespace CloudState.CSharpSupport.Serialization
             var typedPrimitive = (Primitive<T>)primitive;
             using (var stream = value.CreateCodedInput())
             {
-                bool hasValue = false;
+                var hasValue = false;
                 uint tag = 0;
                 while ((tag = stream.ReadTag()) != 0)
                 {
@@ -268,41 +262,41 @@ namespace CloudState.CSharpSupport.Serialization
             if (typeUrl.StartsWith(CloudStatePrimitive))
             {
                 return TypeUrlToPrimitives.FirstOrDefault(x => x.Key == typeUrl).Some().Match(
-                    some: primitive => GetType().GetMethod("BytesToPrimitive")
+                    primitive => GetType().GetMethod("BytesToPrimitive")
                             ?.MakeGenericMethod(primitive.Value.ClassType)
                             .Invoke(this, new object[] { primitive.Value, bytes })
                                 ?? throw new CloudStateException("Couldn't cast to primitive type"),
-                    none: () => throw new CloudStateException($"Unknown primitive type url: {typeUrl}")
+                    () => throw new CloudStateException($"Unknown primitive type url: {typeUrl}")
                 );
             }
-            else if (typeUrl.StartsWith(CloudStateJson))
+            
+            if (typeUrl.StartsWith(CloudStateJson))
             {
                 throw new NotImplementedException();
             }
-            else
-            {
-                ILogger<AnySupport> Logger = new LoggerFactory().CreateLogger<AnySupport>();
+            
+            var logger = new LoggerFactory().CreateLogger<AnySupport>();
 
-                var typeName = typeUrl.Split('/', 2).Some().Match(
-                    some: split =>
+            var typeName = typeUrl.Split('/', 2).Some().Match(
+                some: split =>
+                {
+                    if (split[0] != TypeUrlPrefix)
                     {
-                        if (split[0] != TypeUrlPrefix)
-                        {
-                            Logger.LogWarning($"Message type [{typeUrl}] does not match configured type url prefix [{TypeUrlPrefix}]");
-                        }
-                        return split[1];
-                    },
-                    none: () =>
-                    {
-                        Logger.LogWarning($"Message type [{typeUrl}] does not have a url prefix, it should have one that matchers the configured type url prefix [{TypeUrlPrefix}]");
-                        return typeUrl;
+                        logger.LogWarning($"Message type [{typeUrl}] does not match configured type url prefix [{TypeUrlPrefix}]");
                     }
-                );
+                    return split[1];
+                },
+                none: () =>
+                {
+                    logger.LogWarning($"Message type [{typeUrl}] does not have a url prefix, it should have one that matchers the configured type url prefix [{TypeUrlPrefix}]");
+                    return typeUrl;
+                }
+            );
 
-                var resolvedType = ResolveTypeUrl(typeName);
-                return resolvedType.ParseFrom(bytes);
+            var resolvedType = ResolveTypeUrl(typeName);
+            return resolvedType.ParseFrom(bytes);
 
-            }
+        
 
         }
 
