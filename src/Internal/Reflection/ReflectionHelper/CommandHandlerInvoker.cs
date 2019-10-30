@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using CloudState.CSharpSupport.EventSourced;
+using CloudState.CSharpSupport.Exceptions;
 using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
 using CloudState.CSharpSupport.Reflection.Interfaces;
 using Google.Protobuf.WellKnownTypes;

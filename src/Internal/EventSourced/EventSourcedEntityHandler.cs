@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CloudState.CSharpSupport.EventSourced.Contexts;
+using CloudState.CSharpSupport.Exceptions;
 using CloudState.CSharpSupport.Interfaces.EventSourced;
 using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
 using CloudState.CSharpSupport.Reflection;
@@ -14,7 +15,7 @@ namespace CloudState.CSharpSupport.EventSourced
     {
         private Func<IEventSourcedEntityCreationContext, object> EntityCreationFactory { get; }
         private IBehaviorResolver BehaviorResolver { get; }
-        private object[] CurrentBehaviors { get; set; } = new object[] { };
+        private object[] CurrentBehaviors { get; set; } = { };
         private IEventSourcedContext Context { get; }
         private string BehaviorsString => CurrentBehaviors?.Aggregate("", (agg, cur) => agg + ", " + cur.GetType()) ?? "";
 
@@ -23,7 +24,7 @@ namespace CloudState.CSharpSupport.EventSourced
             // TODO: Will there be race conditions here?
             if (!CurrentBehaviors.Any())
             {
-                CurrentBehaviors = new object[] {
+                CurrentBehaviors = new [] {
                     EntityCreationFactory.Invoke(
                         new EventSourcedEntityCreationContext(Context)
                     )

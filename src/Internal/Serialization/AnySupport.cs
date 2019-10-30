@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using CloudState.CSharpSupport.EventSourced;
+using CloudState.CSharpSupport.Exceptions;
 using CloudState.CSharpSupport.Reflection;
 using CloudState.CSharpSupport.Reflection.Interfaces;
 using CloudState.CSharpSupport.Serialization.Primitives;

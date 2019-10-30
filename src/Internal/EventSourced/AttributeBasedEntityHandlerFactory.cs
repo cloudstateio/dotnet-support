@@ -88,9 +88,4 @@ namespace CloudState.CSharpSupport.EventSourced
 
 
     }
-
-    public class CloudStateException : Exception
-    {
-        public CloudStateException(string message) : base(message) { }
-    }
 }

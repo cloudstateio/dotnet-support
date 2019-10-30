@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using CloudState.CSharpSupport.Attributes.EventSourced;
 using CloudState.CSharpSupport.EventSourced;
+using CloudState.CSharpSupport.Exceptions;
 using CloudState.CSharpSupport.Reflection.Interfaces;
 using static CloudState.CSharpSupport.Reflection.ReflectionHelper.ReflectionHelper;
 using Type = System.Type;

@@ -1,5 +1,6 @@
 using System;
 using CloudState.CSharpSupport.EventSourced;
+using CloudState.CSharpSupport.Exceptions;
 using CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHandler.Entities;
 using CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHandler.Messages;
 using Xunit;
