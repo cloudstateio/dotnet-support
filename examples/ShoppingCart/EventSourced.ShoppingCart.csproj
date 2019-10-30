@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>csharp_support</RootNamespace>
+
+    <!-- Waiting for grpc.tools to support 3.10.x -->
+    <!-- TODO: bootstrap the download of the right protoc -->
+    <PROTOBUF_PROTOC>/usr/local/bin/protoc</PROTOBUF_PROTOC>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Protobuf Include="$(SolutionDir)/proto_files/frontend/**/*.proto;proto_files/example/shoppingcart/**/*.proto" ProtoRoot="$(SolutionDir)/proto_files/frontend;proto_files" OutputDir="proto_dist" CompileOutputs="false" GrpcServices="None" />
+    <Protobuf Update="proto_files/example/shoppingcart/shoppingcart.proto" GrpcServices="Both" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.Core" Version="2.23.1" />
+    <PackageReference Include="Grpc.Tools" Version="2.23.1" />
+    <!-- Waiting for 3.11.x -->
+    <!-- <PackageReference Include="Google.Protobuf" Version="3.10.0" /> -->
+    <ProjectReference Include="$(SolutionDir)/protobuf/csharp/src/Google.Protobuf/Google.Protobuf.csproj" />
+    <ProjectReference Include="$(SolutionDir)/src/Api/CloudState.CSharpSupport.csproj" />
+  </ItemGroup>
+
+</Project>

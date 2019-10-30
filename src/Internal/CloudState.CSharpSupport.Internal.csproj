@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AssemblyName>CloudState.CSharpSupport.Internal</AssemblyName>
+    <RootNamespace>CloudState.CSharpSupport</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+        <_Parameter1>$(RootNamespace)</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+        <_Parameter1>$(RootNamespace).Common</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+        <_Parameter1>$(RootNamespace).Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.Reflection" Version="2.23.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.0" />
+    <PackageReference Include="Grpc.Core" Version="2.23.1" />
+    <PackageReference Include="Optional" Version="4.0.0" />
+    <!-- Waiting for 3.11.x -->
+    <!-- <PackageReference Include="Google.Protobuf" Version="3.10.0" /> -->
+    <ProjectReference Include="..\..\protobuf\csharp\src\Google.Protobuf\Google.Protobuf.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\CloudState.CSharpSupport.Common.csproj" />
+    <ProjectReference Include="..\Protos\CloudState.CSharpSupport.Protos.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,14 +1,12 @@
 .DS_Store
 
-.sonarqube/
+.idea
+.vs
+.vscode
 
-**/bin
-**/obj
+**.DotSettings.user
 
-cloudstate/
-!**/csharp-support-abstractions/cloudstate/
+bin
+obj
 
-**/BuildReports/
-
-tools/
-protobuf/
+protobuf
