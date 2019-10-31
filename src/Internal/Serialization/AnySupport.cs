@@ -15,6 +15,7 @@ using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
 using Optional;
+using FileOptions = System.IO.FileOptions;
 
 namespace CloudState.CSharpSupport.Serialization
 {
@@ -107,13 +108,15 @@ namespace CloudState.CSharpSupport.Serialization
         {
             var fileDescriptor = typeDescriptor.File;
 
+            var csharpNamespace = "";
             string packageName, outerClassName = "", className;
-            var options = fileDescriptor.Proto.Options;
-            if (options?.HasCsharpNamespace == true)
+            if (fileDescriptor?.CustomOptions.TryGetString(
+                Google.Protobuf.Reflection.FileOptions.CsharpNamespaceFieldNumber,
+                out csharpNamespace) == true)
             {
-                packageName = options.CsharpNamespace + ".";
+                packageName = csharpNamespace + ".";
             }
-            else if (!string.IsNullOrEmpty(fileDescriptor.Package))
+            else if (!string.IsNullOrEmpty(fileDescriptor?.Package))
             {
                 packageName = fileDescriptor.Package + ".";
             }

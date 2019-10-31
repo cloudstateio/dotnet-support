@@ -51,13 +51,13 @@ namespace Cloudstate.Eventsourced {
             "QhgKFmlvLmNsb3Vkc3RhdGUucHJvdG9jb2xiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, global::Cloudstate.EntityReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Eventsourced.EventSourcedInit), global::Cloudstate.Eventsourced.EventSourcedInit.Parser, new[]{ "ServiceName", "EntityId", "Snapshot" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Eventsourced.EventSourcedSnapshot), global::Cloudstate.Eventsourced.EventSourcedSnapshot.Parser, new[]{ "SnapshotSequence", "Snapshot" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Eventsourced.EventSourcedEvent), global::Cloudstate.Eventsourced.EventSourcedEvent.Parser, new[]{ "Sequence", "Payload" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Eventsourced.EventSourcedReply), global::Cloudstate.Eventsourced.EventSourcedReply.Parser, new[]{ "CommandId", "ClientAction", "SideEffects", "Events", "Snapshot" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Eventsourced.EventSourcedStreamIn), global::Cloudstate.Eventsourced.EventSourcedStreamIn.Parser, new[]{ "Init", "Event", "Command" }, new[]{ "Message" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Eventsourced.EventSourcedStreamOut), global::Cloudstate.Eventsourced.EventSourcedStreamOut.Parser, new[]{ "Reply", "Failure" }, new[]{ "Message" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Eventsourced.EventSourcedInit), global::Cloudstate.Eventsourced.EventSourcedInit.Parser, new[]{ "ServiceName", "EntityId", "Snapshot" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Eventsourced.EventSourcedSnapshot), global::Cloudstate.Eventsourced.EventSourcedSnapshot.Parser, new[]{ "SnapshotSequence", "Snapshot" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Eventsourced.EventSourcedEvent), global::Cloudstate.Eventsourced.EventSourcedEvent.Parser, new[]{ "Sequence", "Payload" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Eventsourced.EventSourcedReply), global::Cloudstate.Eventsourced.EventSourcedReply.Parser, new[]{ "CommandId", "ClientAction", "SideEffects", "Events", "Snapshot" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Eventsourced.EventSourcedStreamIn), global::Cloudstate.Eventsourced.EventSourcedStreamIn.Parser, new[]{ "Init", "Event", "Command" }, new[]{ "Message" }, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Eventsourced.EventSourcedStreamOut), global::Cloudstate.Eventsourced.EventSourcedStreamOut.Parser, new[]{ "Reply", "Failure" }, new[]{ "Message" }, null, null)
           }));
     }
     #endregion

@@ -32,21 +32,12 @@ namespace Google.Protobuf {
             "b3JnL2dlbnByb3RvL2dvb2dsZWFwaXMvYXBpL2Fubm90YXRpb25zO2Fubm90",
             "YXRpb25zogIER0FQSaoCD0dvb2dsZS5Qcm90b2J1ZmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Google.Protobuf.HttpReflection.Descriptor, global::Google.Protobuf.Reflection.DescriptorReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(null, new pb::Extension[] { AnnotationsExtensions.Http }, null));
+          new pbr::FileDescriptor[] { global::Google.Protobuf.HttpReflection.Descriptor, pbr::FileDescriptor.DescriptorProtoFileDescriptor, },
+          new pbr::GeneratedClrTypeInfo(null, null));
     }
     #endregion
 
   }
-  /// <summary>Holder for extension identifiers generated from the top level of google/api/annotations.proto</summary>
-  internal static partial class AnnotationsExtensions {
-    /// <summary>
-    /// See `HttpRule`.
-    /// </summary>
-    public static readonly pb::Extension<global::Google.Protobuf.Reflection.MethodOptions, global::Google.Protobuf.HttpRule> Http =
-      new pb::Extension<global::Google.Protobuf.Reflection.MethodOptions, global::Google.Protobuf.HttpRule>(72295728, pb::FieldCodec.ForMessage(578365826, global::Google.Protobuf.HttpRule.Parser));
-  }
-
 }
 
 #endregion Designer generated code

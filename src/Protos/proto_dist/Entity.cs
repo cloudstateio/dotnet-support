@@ -58,20 +58,20 @@ namespace Cloudstate {
             "Y3Rpb25FcnJvchoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eSIAQhgKFmlvLmNs",
             "b3Vkc3RhdGUucHJvdG9jb2xiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, global::Google.Protobuf.Reflection.DescriptorReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Reply), global::Cloudstate.Reply.Parser, new[]{ "Payload" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Forward), global::Cloudstate.Forward.Parser, new[]{ "ServiceName", "CommandName", "Payload" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.ClientAction), global::Cloudstate.ClientAction.Parser, new[]{ "Reply", "Forward", "Failure" }, new[]{ "Action" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.SideEffect), global::Cloudstate.SideEffect.Parser, new[]{ "ServiceName", "CommandName", "Payload", "Synchronous" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Command), global::Cloudstate.Command.Parser, new[]{ "EntityId", "Id", "Name", "Payload", "Streamed" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.StreamCancelled), global::Cloudstate.StreamCancelled.Parser, new[]{ "EntityId", "Id" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Failure), global::Cloudstate.Failure.Parser, new[]{ "CommandId", "Description" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.EntitySpec), global::Cloudstate.EntitySpec.Parser, new[]{ "Proto", "Entities", "ServiceInfo" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.ServiceInfo), global::Cloudstate.ServiceInfo.Parser, new[]{ "ServiceName", "ServiceVersion", "ServiceRuntime", "SupportLibraryName", "SupportLibraryVersion" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Entity), global::Cloudstate.Entity.Parser, new[]{ "EntityType", "ServiceName", "PersistenceId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.UserFunctionError), global::Cloudstate.UserFunctionError.Parser, new[]{ "Message" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.ProxyInfo), global::Cloudstate.ProxyInfo.Parser, new[]{ "ProtocolMajorVersion", "ProtocolMinorVersion", "ProxyName", "ProxyVersion", "SupportedEntityTypes" }, null, null, null, null)
+          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, pbr::FileDescriptor.DescriptorProtoFileDescriptor, },
+          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Reply), global::Cloudstate.Reply.Parser, new[]{ "Payload" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Forward), global::Cloudstate.Forward.Parser, new[]{ "ServiceName", "CommandName", "Payload" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.ClientAction), global::Cloudstate.ClientAction.Parser, new[]{ "Reply", "Forward", "Failure" }, new[]{ "Action" }, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.SideEffect), global::Cloudstate.SideEffect.Parser, new[]{ "ServiceName", "CommandName", "Payload", "Synchronous" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Command), global::Cloudstate.Command.Parser, new[]{ "EntityId", "Id", "Name", "Payload", "Streamed" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.StreamCancelled), global::Cloudstate.StreamCancelled.Parser, new[]{ "EntityId", "Id" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Failure), global::Cloudstate.Failure.Parser, new[]{ "CommandId", "Description" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.EntitySpec), global::Cloudstate.EntitySpec.Parser, new[]{ "Proto", "Entities", "ServiceInfo" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.ServiceInfo), global::Cloudstate.ServiceInfo.Parser, new[]{ "ServiceName", "ServiceVersion", "ServiceRuntime", "SupportLibraryName", "SupportLibraryVersion" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Entity), global::Cloudstate.Entity.Parser, new[]{ "EntityType", "ServiceName", "PersistenceId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.UserFunctionError), global::Cloudstate.UserFunctionError.Parser, new[]{ "Message" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.ProxyInfo), global::Cloudstate.ProxyInfo.Parser, new[]{ "ProtocolMajorVersion", "ProtocolMinorVersion", "ProxyName", "ProxyVersion", "SupportedEntityTypes" }, null, null, null)
           }));
     }
     #endregion

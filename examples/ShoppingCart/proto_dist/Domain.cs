@@ -34,11 +34,11 @@ namespace Com.Example.Shoppingcart.Persistence {
             "ZW5jZS5MaW5lSXRlbWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.Persistence.LineItem), global::Com.Example.Shoppingcart.Persistence.LineItem.Parser, new[]{ "ProductId", "Name", "Quantity" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.Persistence.ItemAdded), global::Com.Example.Shoppingcart.Persistence.ItemAdded.Parser, new[]{ "Item" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.Persistence.ItemRemoved), global::Com.Example.Shoppingcart.Persistence.ItemRemoved.Parser, new[]{ "ProductId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.Persistence.Cart), global::Com.Example.Shoppingcart.Persistence.Cart.Parser, new[]{ "Items" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.Persistence.LineItem), global::Com.Example.Shoppingcart.Persistence.LineItem.Parser, new[]{ "ProductId", "Name", "Quantity" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.Persistence.ItemAdded), global::Com.Example.Shoppingcart.Persistence.ItemAdded.Parser, new[]{ "Item" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.Persistence.ItemRemoved), global::Com.Example.Shoppingcart.Persistence.ItemRemoved.Parser, new[]{ "ProductId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.Persistence.Cart), global::Com.Example.Shoppingcart.Persistence.Cart.Parser, new[]{ "Items" }, null, null, null)
           }));
     }
     #endregion

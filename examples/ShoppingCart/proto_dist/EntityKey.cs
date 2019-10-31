@@ -29,18 +29,12 @@ namespace io.cloudstate {
             "HS5nb29nbGUucHJvdG9idWYuRmllbGRPcHRpb25zGNKGAyABKAhCHwoNaW8u",
             "Y2xvdWRzdGF0ZaoCDWlvLmNsb3Vkc3RhdGViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Google.Protobuf.Reflection.DescriptorReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(null, new pb::Extension[] { EntityKeyExtensions.EntityKey }, null));
+          new pbr::FileDescriptor[] { pbr::FileDescriptor.DescriptorProtoFileDescriptor, },
+          new pbr::GeneratedClrTypeInfo(null, null));
     }
     #endregion
 
   }
-  /// <summary>Holder for extension identifiers generated from the top level of cloudstate/entity_key.proto</summary>
-  internal static partial class EntityKeyExtensions {
-    public static readonly pb::Extension<global::Google.Protobuf.Reflection.FieldOptions, bool> EntityKey =
-      new pb::Extension<global::Google.Protobuf.Reflection.FieldOptions, bool>(50002, pb::FieldCodec.ForBool(400016, false));
-  }
-
 }
 
 #endregion Designer generated code

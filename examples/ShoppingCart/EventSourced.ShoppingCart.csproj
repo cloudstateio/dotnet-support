@@ -7,7 +7,7 @@
 
     <!-- Waiting for grpc.tools to support 3.10.x -->
     <!-- TODO: bootstrap the download of the right protoc -->
-    <PROTOBUF_PROTOC>/usr/local/bin/protoc</PROTOBUF_PROTOC>
+    <PROTOBUF_PROTOC>/Users/$(USER)/Applications/protoc</PROTOBUF_PROTOC>
 
   </PropertyGroup>
 
@@ -23,6 +23,10 @@
     <!-- <PackageReference Include="Google.Protobuf" Version="3.10.0" /> -->
     <ProjectReference Include="$(SolutionDir)/protobuf/csharp/src/Google.Protobuf/Google.Protobuf.csproj" />
     <ProjectReference Include="$(SolutionDir)/src/Api/CloudState.CSharpSupport.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="proto_dist" />
   </ItemGroup>
 
 </Project>

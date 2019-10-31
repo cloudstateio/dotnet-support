@@ -44,15 +44,15 @@ namespace Com.Example.Shoppingcart {
             "cnQSKS5jb20uZXhhbXBsZS5zaG9wcGluZ2NhcnQuR2V0U2hvcHBpbmdDYXJ0",
             "Gh4uY29tLmV4YW1wbGUuc2hvcHBpbmdjYXJ0LkNhcnQiOYLT5JMCMxIQL2Nh",
             "cnRzL3t1c2VyX2lkfVofEhYvY2FydHMve3VzZXJfaWR9L2l0ZW1zYgVpdGVt",
-            "c2IGcHJvdG8z"));
+            "c0IbqgIYQ29tLkV4YW1wbGUuU2hvcHBpbmdjYXJ0YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, global::io.cloudstate.EntityKeyReflection.Descriptor, global::Google.Protobuf.AnnotationsReflection.Descriptor, global::Google.Protobuf.HttpReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.AddLineItem), global::Com.Example.Shoppingcart.AddLineItem.Parser, new[]{ "UserId", "ProductId", "Name", "Quantity" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.RemoveLineItem), global::Com.Example.Shoppingcart.RemoveLineItem.Parser, new[]{ "UserId", "ProductId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.GetShoppingCart), global::Com.Example.Shoppingcart.GetShoppingCart.Parser, new[]{ "UserId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.LineItem), global::Com.Example.Shoppingcart.LineItem.Parser, new[]{ "ProductId", "Name", "Quantity" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.Cart), global::Com.Example.Shoppingcart.Cart.Parser, new[]{ "Items" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.AddLineItem), global::Com.Example.Shoppingcart.AddLineItem.Parser, new[]{ "UserId", "ProductId", "Name", "Quantity" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.RemoveLineItem), global::Com.Example.Shoppingcart.RemoveLineItem.Parser, new[]{ "UserId", "ProductId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.GetShoppingCart), global::Com.Example.Shoppingcart.GetShoppingCart.Parser, new[]{ "UserId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.LineItem), global::Com.Example.Shoppingcart.LineItem.Parser, new[]{ "ProductId", "Name", "Quantity" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Example.Shoppingcart.Cart), global::Com.Example.Shoppingcart.Cart.Parser, new[]{ "Items" }, null, null, null)
           }));
     }
     #endregion

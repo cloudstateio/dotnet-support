@@ -44,9 +44,9 @@ namespace Cloudstate.Function {
             "ZHN0YXRlLnByb3RvY29sYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, global::Cloudstate.EntityReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Function.FunctionCommand), global::Cloudstate.Function.FunctionCommand.Parser, new[]{ "ServiceName", "Name", "Payload" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Function.FunctionReply), global::Cloudstate.Function.FunctionReply.Parser, new[]{ "Reply", "Forward", "SideEffects" }, new[]{ "Response" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Function.FunctionCommand), global::Cloudstate.Function.FunctionCommand.Parser, new[]{ "ServiceName", "Name", "Payload" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Cloudstate.Function.FunctionReply), global::Cloudstate.Function.FunctionReply.Parser, new[]{ "Reply", "Forward", "SideEffects" }, new[]{ "Response" }, null, null)
           }));
     }
     #endregion
