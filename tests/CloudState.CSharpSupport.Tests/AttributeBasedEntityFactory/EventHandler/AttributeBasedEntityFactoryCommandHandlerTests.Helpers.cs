@@ -13,9 +13,9 @@ using Google.Protobuf.WellKnownTypes;
 using Moq;
 using Optional.Unsafe;
 
-namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHandler
+namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.EventHandler
 {
-    public partial class AttributeBasedEntityFactoryCommandHandlerTests
+    public partial class AttributeBasedEntityFactoryEventHandlerTests
     {
         private static IEntityHandler CreateHandler<T>(Func<IEventSourcedEntityCreationContext, object> entityFactory = null)
         {
@@ -25,44 +25,25 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHand
             var mockSupport = new Mock<IEventSourcedContext>();
             mockSupport.Setup(x => x.EntityId)
                 .Returns("foo");
-
-            var method = new ResolvedServiceMethod<string, Wrapped>(
-                Com.Example.Shoppingcart.ShoppingCart
-                    .Descriptor.Methods
-                    .First(x => x.Name == "AddItem"),
-                new StringResolvedType(),
-                new WrappedResolvedType()
-            );
-
+            
             return new AttributeBasedEntityHandlerFactory(
                 typeof(T),
                 anySupport,
-                new[] { method }.ToDictionary(
+                new IResolvedServiceMethod[] { }.ToDictionary(
                     x => x.Descriptor.Name,
-                    x => x as IResolvedServiceMethod),
+                    x => x),
                 entityFactory
             ).CreateEntityHandler(mockSupport.Object);
         }
 
-        Wrapped DecodeWrapped(Optional.Option<Any> maybeAny)
+        private class MockEventContextRef
         {
-            return new WrappedResolvedType().ParseFrom(maybeAny.ValueOrFailure().Value);
-        }
-        
-        private class MockCommandContextRef
-        {
-            public List<object> Emitted { get; }
-            public ICommandContext Object { get; }
-            public MockCommandContextRef(long cmdId = 1L, long seq = 1L, List<object> emitted = null)
+            public IEventContext Object { get; }
+            public MockEventContextRef(long seq = 1L)
             {
-                Emitted = emitted ?? new List<object>();
-                var context = new Mock<ICommandContext>();
-                context.Setup(x => x.CommandName).Returns("AddItem");
-                context.Setup(x => x.CommandId).Returns(cmdId);
-                context.Setup(x => x.Sequence).Returns(seq);
+                var context = new Mock<IEventContext>();
+                context.Setup(x => x.SequenceNumber).Returns(seq);
                 context.Setup(x => x.EntityId).Returns("foo");
-                context.Setup(x => x.Emit(It.IsAny<object>()))
-                    .Callback<object>(@event => Emitted.Add(@event));
                 Object = context.Object;
             }
         }

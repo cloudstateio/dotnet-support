@@ -16,7 +16,8 @@ namespace CloudState.CSharpSupport.EventSourced
     {
         private Type InitialClass { get; }
         private IReadOnlyDictionary<string, IResolvedServiceMethod> ResolvedMethods { get; }
-        private ReflectionCacheBehaviorResolver BehaviorResolver { get; } = new ReflectionCacheBehaviorResolver();
+
+        private ReflectionCacheBehaviorResolver BehaviorResolver { get; }
         private AnySupport AnySupport { get; }
         private Func<IEventSourcedEntityCreationContext, object> Factory { get; }
 
@@ -30,6 +31,7 @@ namespace CloudState.CSharpSupport.EventSourced
             InitialClass = initialClass;
             AnySupport = anySupport;
             ResolvedMethods = resolvedMethods;
+            BehaviorResolver = new ReflectionCacheBehaviorResolver(() => ResolvedMethods);
             Factory = Constructor(InitialClass, factory);
             InitCache();
         }
@@ -44,6 +46,7 @@ namespace CloudState.CSharpSupport.EventSourced
             InitialClass = initialClass;
             AnySupport = anySupport;
             ResolvedMethods = AnySupport.ResolveServiceDescriptor(descriptor);
+            BehaviorResolver = new ReflectionCacheBehaviorResolver(() => ResolvedMethods);
             Factory = Constructor(InitialClass, factory);
             InitCache();
         }
@@ -60,6 +63,7 @@ namespace CloudState.CSharpSupport.EventSourced
         public IEntityHandler CreateEntityHandler(IEventSourcedContext ctx)
         {
             return new EventSourcedEntityHandler(
+                AnySupport,
                 ctx,
                 BehaviorResolver,
                 x => Factory.Invoke(x)
@@ -78,10 +82,7 @@ namespace CloudState.CSharpSupport.EventSourced
         private void InitCache()
         {
             BehaviorResolver
-                .GetOrAdd(
-                    InitialClass,
-                    ResolvedMethods
-                );
+                .GetOrAdd(InitialClass);
         }
 
 

@@ -122,7 +122,7 @@ namespace CloudState.CSharpSupport.EventSourced.Services
                                 entityHandler,
                                 statefulService.SnapshotEvery,
                                 new AbstractContext(RootContext),
-                                new AbstractClientActionContext(RootContext, activatableContext),
+                                new AbstractClientActionContext(command.Id, RootContext, activatableContext),
                                 new AbstractEffectContext(activatableContext),
                                 activatableContext
                             );
@@ -145,8 +145,8 @@ namespace CloudState.CSharpSupport.EventSourced.Services
                             {
                                 activatableContext.Deactivate();
                             }
-                                
-                            var anyResult = reply.ValueOr(()=>throw new InvalidOperationException("Command result was null")); 
+
+                            var anyResult = reply.ValueOr(() => throw new InvalidOperationException("Command result was null"));
                             var clientAction = commandContext.AbstractClientActionContext.CreateClientAction(reply, false);
 
                             EventSourcedReply outReply;
@@ -212,7 +212,7 @@ namespace CloudState.CSharpSupport.EventSourced.Services
                     }
 
                 }
-                
+
             });
         }
     }

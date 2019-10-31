@@ -4,4 +4,9 @@ namespace CloudState.CSharpSupport.Interfaces.EventSourced.Contexts
     {
         long SequenceNumber { get; }
     }
+
+    public interface IEventBehaviorContext : IEventContext, IBehaviorContext
+    {
+        
+    }
 }

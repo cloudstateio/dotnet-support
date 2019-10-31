@@ -1,39 +1,62 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using CloudState.CSharpSupport.Attributes.EventSourced;
+using CloudState.CSharpSupport.EventSourced.Reflection;
 using CloudState.CSharpSupport.Exceptions;
 using CloudState.CSharpSupport.Reflection.Interfaces;
+using Optional;
 using static CloudState.CSharpSupport.Reflection.ReflectionHelper.ReflectionHelper;
 using Type = System.Type;
 
 namespace CloudState.CSharpSupport.Reflection
 {
-    public class EventBehaviorReflection
+    internal class EventBehaviorReflection
     {
-        private EventBehaviorReflection(IReadOnlyDictionary<string, CommandHandlerInvoker> commandHandlers)
+        private ConcurrentDictionary<Type, Option<EventHandlerInvoker>> EventHandlerCache { get; }
+            = new ConcurrentDictionary<Type, Option<EventHandlerInvoker>>();
+
+        internal IReadOnlyDictionary<string, CommandHandlerInvoker> CommandHandlers { get; }
+        private Dictionary<Type, EventHandlerInvoker> EventHandlers { get; }
+        
+
+        private EventBehaviorReflection(IReadOnlyDictionary<string, CommandHandlerInvoker> commandHandlers,
+            Dictionary<Type, EventHandlerInvoker> eventHandlers)
         {
             CommandHandlers = commandHandlers;
+            EventHandlers = eventHandlers;
         }
-
-        internal static EventBehaviorReflection Create(Type type, IReadOnlyDictionary<string, IResolvedServiceMethod> serviceMethods)
+        
+        internal static EventBehaviorReflection Create(Type entityType, IReadOnlyDictionary<string, IResolvedServiceMethod> serviceMethods)
         {
-            var allMethods = GetAllDeclaredMethods(type);
+            var allMethods = GetAllDeclaredMethods(entityType);
 
+            var eventHandlers = allMethods
+                .Where(type => type.GetCustomAttribute(typeof(EventHandlerAttribute)) != null)
+                .Select(method => new EventHandlerInvoker(method))
+                .GroupBy(x => x.AttributeEventClass)
+                .Select(x =>
+                {
+                    if (x.Count() > 1)
+                    {
+                        throw new CloudStateException("Multiple event handlers for the same type not allowed.");
+                    }
+                    return new { x.Key, e = x.First() };
+                })
+                .ToDictionary(x => x.Key, x => x.e);
+            
             var commandHandlers = allMethods
                 .Where(x => x.GetCustomAttribute(typeof(CommandHandlerAttribute)) != null)
                 .Select(method =>
                 {
-
                     var annotation = method.GetCustomAttribute(typeof(CommandHandlerAttribute)) as CommandHandlerAttribute;
-                    var name = string.IsNullOrEmpty(annotation?.Name) ?
-                        GetCapitalizedName(method) :
-                        annotation.Name;
+                    var name = string.IsNullOrEmpty(annotation?.Name) ? GetCapitalizedName(method) : annotation.Name;
 
                     if (!serviceMethods.TryGetValue(name, out var serviceMethod))
                     {
                         throw new CloudStateException(
-                            $"Command handler method ${method.Name} for command {name} " +
+                            $"Command handler method [{method.Name}] for command [{name}] " +
                             "found, but the service has no command by that name."
                         );
                     }
@@ -55,10 +78,45 @@ namespace CloudState.CSharpSupport.Reflection
                 })
                 .ToDictionary(x => x.Key, x => x.e);
 
-            return new EventBehaviorReflection(commandHandlers);
+            return new EventBehaviorReflection(commandHandlers, eventHandlers);
+        }
+        
+        internal Option<EventHandlerInvoker> GetEventHandler(Type eventType)
+        {
+            return EventHandlerCache.GetOrAdd(
+                eventType,
+                type => GetHandlerForClass(EventHandlers, type)
+            );
+
         }
 
-        internal IReadOnlyDictionary<string, CommandHandlerInvoker> CommandHandlers { get; }
+//        public Option<SnapshotHandlerInvoker> GetCachedSnapshotHandlerForClass(System.Type type) =>
+//            SnapshotHandlerCache.GetOrAdd(
+//                type,
+//                type => GetHandlerForClass<SnapshotHandlerInvoker>(SnapshotHandlers, type)
+//            );
+        
+        private Option<T> GetHandlerForClass<T>(IReadOnlyDictionary<Type, T> handlers, Type type)
+        {
+            if (handlers.TryGetValue(type, out var handler))
+                return handler.Some();
+            foreach (var @interface in type.GetInterfaces())
+            {
+                var match = GetHandlerForClass(handlers, @interface).Match(
+                    x => x.Some(),
+                    Option.None<T>
+                );
+                if (match.HasValue)
+                {
+                    return match;
+                }
+            }
+            if (type.BaseType != null)
+            {
+                return GetHandlerForClass(handlers, type.BaseType);
+            }
+            return Option.None<T>();
+        }
 
     }
 }

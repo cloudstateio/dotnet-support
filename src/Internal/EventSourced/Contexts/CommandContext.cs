@@ -14,9 +14,9 @@ namespace CloudState.CSharpSupport.EventSourced.Contexts
     internal class CommandContext : ICommandContext
     {
         public List<Any> Events { get; } = new List<Any>();
-        
+
         public bool PerformSnapshot { get; private set; } = false;
-        
+
         private AnySupport AnySupport { get; }
         private IEntityHandler EntityHandler { get; }
         private int SnapshotEvery { get; }
@@ -73,7 +73,7 @@ namespace CloudState.CSharpSupport.EventSourced.Contexts
             Events.Add(anyEvent);
             PerformSnapshot = (SnapshotEvery > 0) && (PerformSnapshot || (nextSequenceNumber % SnapshotEvery == 0));
         }
-        
+
         // ICommandContext.IEffectContext
         public void Effect(IServiceCall effect, bool synchronous) => AbstractEffectContext.Effect(effect, synchronous);
     }

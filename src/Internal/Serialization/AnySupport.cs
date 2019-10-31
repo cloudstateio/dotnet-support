@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using CloudState.CSharpSupport.Exceptions;
@@ -80,7 +81,7 @@ namespace CloudState.CSharpSupport.Serialization
                             typeof(IResolvedType<>).MakeGenericType(method.OutputType.ClrType)
                         }
                     ).Invoke(
-                        new [] {
+                        new[] {
                             method,
                             GetType()
                                 .GetMethod("ResolveTypeDescriptor")
@@ -130,7 +131,7 @@ namespace CloudState.CSharpSupport.Serialization
             //       else ""
 
             className = packageName + outerClassName + typeDescriptor.Name;
-            
+
             try
             {
                 var instance = Activator.CreateInstance(typeDescriptor.ClrType);
@@ -176,8 +177,10 @@ namespace CloudState.CSharpSupport.Serialization
                     )
                 );
         }
-
-        private static ByteString PrimitiveToBytes<T>(IPrimitive primitive, T value)
+        
+        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+        [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
+        public ByteString PrimitiveToBytes<T>(IPrimitive primitive, T value)
         {
 
             var typedPrimitive = (Primitive<T>)primitive;
@@ -199,6 +202,7 @@ namespace CloudState.CSharpSupport.Serialization
             }
         }
 
+        [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Local")]
         public T BytesToPrimitive<T>(IPrimitive primitive, ByteString value)
         {
             var typedPrimitive = (Primitive<T>)primitive;
@@ -269,12 +273,12 @@ namespace CloudState.CSharpSupport.Serialization
                     () => throw new CloudStateException($"Unknown primitive type url: {typeUrl}")
                 );
             }
-            
+
             if (typeUrl.StartsWith(CloudStateJson))
             {
                 throw new NotImplementedException();
             }
-            
+
             var logger = new LoggerFactory().CreateLogger<AnySupport>();
 
             var typeName = typeUrl.Split('/', 2).Some().Match(
@@ -296,7 +300,7 @@ namespace CloudState.CSharpSupport.Serialization
             var resolvedType = ResolveTypeUrl(typeName);
             return resolvedType.ParseFrom(bytes);
 
-        
+
 
         }
 

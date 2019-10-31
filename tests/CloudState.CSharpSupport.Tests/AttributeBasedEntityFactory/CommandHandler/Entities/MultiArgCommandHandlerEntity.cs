@@ -13,7 +13,7 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHand
     {
         private IEventSourcedContext Ctx { get; }
         private string Eid { get; }
-        
+
         public MultiArgCommandHandlerEntity(IEventSourcedContext ctx)
         {
             Ctx = ctx;

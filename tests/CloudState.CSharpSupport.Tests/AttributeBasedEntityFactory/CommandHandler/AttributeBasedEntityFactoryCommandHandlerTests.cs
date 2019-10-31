@@ -13,7 +13,7 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHand
             var handler = CreateHandler<NoArgCommandHandlerEntity>();
             Assert.NotNull(handler);
         }
-        
+
         [Fact]
         public void supports_no_arg_command_handler()
         {
@@ -23,7 +23,7 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHand
                 DecodeWrapped(handler.HandleCommand(Command.Create("nothing"), new MockCommandContextRef().Object))
             );
         }
-        
+
         [Fact]
         public void supports_single_arg_command_handler()
         {
@@ -43,7 +43,7 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHand
                 DecodeWrapped(handler.HandleCommand(Command.Create("blah"), new MockCommandContextRef().Object))
             );
         }
-        
+
         [Fact]
         public void should_allow_emitting_events()
         {
@@ -73,7 +73,7 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHand
 
         }
 
-        
+
 
     }
 }

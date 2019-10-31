@@ -12,20 +12,21 @@ namespace CloudState.CSharpSupport.Contexts.Abstractions
     {
         private AbstractActivatableContext ActivatableContext { get; }
         private IContext RootContext { get; }
-        
+
         long CommandId { get; }
 
-        Option<String> Error { get; set; }
-        Option<Forward> ForwardMessage { get; set; }
+        private Option<string> Error { get; set; }
+        private Option<Forward> ForwardMessage { get; set; }
 
         public bool HasError => Error.HasValue;
 
         public IServiceCallFactory ServiceCallFactory => RootContext.ServiceCallFactory;
 
-        internal AbstractClientActionContext(IContext rootContext, AbstractActivatableContext activatableContext)
+        internal AbstractClientActionContext(long commandId, IContext rootContext, AbstractActivatableContext activatableContext)
         {
             RootContext = rootContext;
             ActivatableContext = activatableContext;
+            CommandId = commandId;
         }
 
         public Exception Fail(string errorMessage)
@@ -44,7 +45,7 @@ namespace CloudState.CSharpSupport.Contexts.Abstractions
             ActivatableContext.CheckActive();
             if (ForwardMessage.HasValue)
                 throw new InvalidOperationException("This context has already forwarded.");
-            
+
             ForwardMessage = Optional.Option.Some(
                 new Forward
                 {
@@ -109,6 +110,6 @@ namespace CloudState.CSharpSupport.Contexts.Abstractions
                     }
                 }
             );
-        
+
     }
 }
