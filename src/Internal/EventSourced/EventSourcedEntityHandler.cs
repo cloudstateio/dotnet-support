@@ -21,7 +21,7 @@ namespace CloudState.CSharpSupport.EventSourced
         private AnySupport AnySupport { get; }
         private Func<IEventSourcedEntityCreationContext, object> EntityCreationFactory { get; }
         private IBehaviorResolver BehaviorReflectionCache { get; }
-        private object[] CurrentBehaviors { get; set; } = { };
+        private object[] CurrentBehaviors { get; set; }
         private IEventSourcedContext Context { get; }
         private string BehaviorsString => CurrentBehaviors?.Aggregate("", (agg, cur) => agg + ", " + cur.GetType()) ?? "";
 
@@ -47,15 +47,6 @@ namespace CloudState.CSharpSupport.EventSourced
             CurrentBehaviors = explicitBehaviors.Match(behaviors => behaviors, () => new [] {entity});
         }
         
-        private IEnumerable<object> ValidateBehaviors(IEnumerable<object> behaviors)
-        {
-            foreach (var behavior in behaviors)
-            {
-                GetCachedBehaviorReflection(behavior);
-                yield return behavior;
-            }
-        }
-
         public Option<Any> HandleCommand(Any command, ICommandContext context)
         {
             return Unwrap(() =>
@@ -74,7 +65,7 @@ namespace CloudState.CSharpSupport.EventSourced
                     .Or(AlternativeFactory(context.CommandName, BehaviorsString));
             });
         }
-
+        
         public void HandleEvent(Any @event, IEventContext context)
         {
             Unwrap(() =>
@@ -113,10 +104,33 @@ namespace CloudState.CSharpSupport.EventSourced
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// References the <see cref="BehaviorReflectionCache"/> to get or
+        /// set the behavior reflection based on the resolved methods known
+        /// to the <see cref="AttributeBasedEntityHandlerFactory"/>.
+        /// </summary>
+        /// <param name="behavior"></param>
+        /// <returns></returns>
         private EventBehaviorReflection GetCachedBehaviorReflection(object behavior)
         {
             return BehaviorReflectionCache.GetOrAdd(behavior.GetType());
         }
+        
+        /// <summary>
+        /// Eagerly reflects upon the behavior for handler validation
+        /// and returns a copy of the enumerable.
+        /// </summary>
+        /// <param name="behaviors"></param>
+        /// <returns></returns>
+        private IEnumerable<object> ValidateBehaviors(IEnumerable<object> behaviors)
+        {
+            foreach (var behavior in behaviors)
+            {
+                GetCachedBehaviorReflection(behavior);
+                yield return behavior;
+            }
+        }
+
         
         /// <summary>
         /// Helper function to unwrap the handler's inner exceptions
