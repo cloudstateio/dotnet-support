@@ -7,7 +7,9 @@ using CloudState.CSharpSupport.Contexts.Abstractions;
 using CloudState.CSharpSupport.EventSourced.Contexts;
 using CloudState.CSharpSupport.EventSourced.Interfaces;
 using CloudState.CSharpSupport.Exceptions;
+using CloudState.CSharpSupport.Extensions;
 using CloudState.CSharpSupport.Interfaces.Contexts;
+using CloudState.CSharpSupport.Interfaces.EventSourced;
 using CloudState.CSharpSupport.Interfaces.Services;
 using Cloudstate.Eventsourced;
 using Google.Protobuf.WellKnownTypes;
@@ -39,7 +41,8 @@ namespace CloudState.CSharpSupport.EventSourced.Services
             RootContext = context;
         }
 
-        public override async Task handle(IAsyncStreamReader<EventSourcedStreamIn> requestStream, IServerStreamWriter<EventSourcedStreamOut> responseStream, ServerCallContext context)
+        public override async Task handle(IAsyncStreamReader<EventSourcedStreamIn> requestStream,
+            IServerStreamWriter<EventSourcedStreamOut> responseStream, ServerCallContext context)
         {
             if (!await requestStream.MoveNext())
                 return;
@@ -54,7 +57,8 @@ namespace CloudState.CSharpSupport.EventSourced.Services
                     );
                 case MessageOneofCase.Init:
                     var init = requestStream.Current.Init;
-                    if (!EventSourcedStatefulServices.TryGetValue(init.ServiceName, out var eventSourcedStatefulService))
+                    if (!EventSourcedStatefulServices.TryGetValue(init.ServiceName, out var eventSourcedStatefulService)
+                    )
                         throw new InvalidOperationException($"Failed to locate service with name {init.ServiceName}");
                     try
                     {
@@ -67,13 +71,13 @@ namespace CloudState.CSharpSupport.EventSourced.Services
                         // TODO: translate to response error
                         throw;
                     }
+
                     break;
                 default:
                     throw new InvalidOperationException(
                         $"First message on entity stream is expected to be 'Init'.  Received unknown case."
                     );
             }
-
         }
 
         private async Task RunEntity(EventSourcedInit init, IEventSourcedStatefulService statefulService,
@@ -101,119 +105,122 @@ namespace CloudState.CSharpSupport.EventSourced.Services
                 startingSequenceNumber = snapshotSequence;
             }
 
-            await stream.Request.SelectAsync(startingSequenceNumber, async (sequence, message) =>
+            async Task ProcessStream(long sequence, EventSourcedStreamIn message)
             {
                 while (await stream.Request.MoveNext())
-                {
                     switch (message.MessageCase)
                     {
                         case MessageOneofCase.Command:
-                            var command = message.Command;
-                            if (command.EntityId != entityId)
-                                throw new InvalidOperationException(
-                                    "Entity received a message was not intended for itself");
-                            var activatableContext = new AbstractActivatableContext();
-                            var commandContext = new CommandContext(
-                                entityId,
-                                sequence,
-                                command.Name,
-                                command.Id,
-                                statefulService.AnySupport,
-                                entityHandler,
-                                statefulService.SnapshotEvery,
-                                new AbstractContext(RootContext),
-                                new AbstractClientActionContext(command.Id, RootContext, activatableContext),
-                                new AbstractEffectContext(activatableContext),
-                                activatableContext
-                            );
-                            var reply = Optional.Option.None<Any>();
-                            try
-                            {
-                                // FIXME is this allowed to throw
-                                reply = entityHandler.HandleCommand(command.Payload, commandContext);
-                            }
-                            catch (Exception ex)
-                            {
-                                switch (ex)
-                                {
-                                    case FailInvokedException _:
-                                        reply = Optional.Option.Some(Any.Pack(new Empty()));
-                                        break;
-                                }
-                            }
-                            finally
-                            {
-                                activatableContext.Deactivate();
-                            }
-
-                            var anyResult = reply.ValueOr(() => throw new InvalidOperationException("Command result was null"));
-                            var clientAction = commandContext.AbstractClientActionContext.CreateClientAction(reply, false);
-
-                            EventSourcedReply outReply;
-                            if (!commandContext.AbstractClientActionContext.HasError)
-                            {
-                                var endSequenceNumber = sequence + commandContext.Events.Count;
-                                var snapshot = Optional.Option.None<Any>();
-                                if (commandContext.PerformSnapshot)
-                                {
-                                    var s = entityHandler.Snapshot(
-                                        new SnapshotContext(
-                                            entityId,
-                                            endSequenceNumber,
-                                            RootContext.ServiceCallFactory
-                                        )
-                                    );
-                                    if (s.HasValue)
-                                        snapshot = s;
-                                }
-
-                                outReply = new EventSourcedReply
-                                {
-                                    CommandId = message.Command.Id,
-                                    ClientAction = clientAction.ValueOr(() => throw new ArgumentNullException(nameof(clientAction)))
-                                };
-                                outReply.SideEffects.Add(commandContext.AbstractEffectContext.SideEffects);
-                                outReply.Events.Add(commandContext.Events); // UNSAFE
-                                snapshot.MatchSome(x => outReply.Snapshot = x);
-                            }
-                            else
-                            {
-                                outReply = new EventSourcedReply
-                                {
-                                    CommandId = message.Command.Id,
-                                    ClientAction = new ClientAction
-                                    {
-                                        Reply = new Reply { Payload = anyResult }
-                                    }
-                                };
-
-                            }
-
-                            await stream.Response.WriteAsync(
-                                new EventSourcedStreamOut { Reply = outReply }
-                            );
+                            await HandleCommand(statefulService, stream, message, entityId, sequence, entityHandler);
                             break;
 
                         case MessageOneofCase.Event:
                             var eventContext = new EventContext(entityId, message.Event.Sequence, new AbstractContext(RootContext));
                             entityHandler.HandleEvent(message.Event.Payload, eventContext);
-                            await stream.Response.WriteAsync(
-                                new EventSourcedStreamOut { /* No body from handled event */ }
-                            );
+                            await stream.Response.WriteAsync(new EventSourcedStreamOut());
                             break;
 
                         case MessageOneofCase.Init:
-                            throw new InvalidOperationException($"Entity [{entityId}] already inited");
+                            throw new InvalidOperationException($"Entity [{entityId}] already initialized");
                         case MessageOneofCase.None:
                             throw new InvalidOperationException($"Missing message");
                         default:
                             throw new NotImplementedException("Unknown message case");
-
                     }
+            }
 
+            await stream.Request.SelectAsync(startingSequenceNumber, ProcessStream);
+        }
+
+        private async Task HandleCommand(IEventSourcedStatefulService statefulService, MessageStreamingContext stream,
+            EventSourcedStreamIn message, string entityId, long sequence, IEntityHandler entityHandler)
+        {
+            var command = message.Command;
+            if (command.EntityId != entityId)
+                throw new InvalidOperationException(
+                    "Entity received a message was not intended for itself");
+            var activatableContext = new AbstractActivatableContext();
+            var commandContext = new CommandContext(
+                entityId,
+                sequence,
+                command.Name,
+                command.Id,
+                statefulService.AnySupport,
+                entityHandler,
+                statefulService.SnapshotEvery,
+                new AbstractContext(RootContext),
+                new AbstractClientActionContext(command.Id, RootContext, activatableContext),
+                new AbstractEffectContext(activatableContext),
+                activatableContext
+            );
+            var reply = Optional.Option.None<Any>();
+            try
+            {
+                // FIXME is this allowed to throw
+                reply = entityHandler.HandleCommand(command.Payload, commandContext);
+            }
+            catch (Exception ex)
+            {
+                switch (ex)
+                {
+                    case FailInvokedException _:
+                        reply = Optional.Option.Some(Any.Pack(new Empty()));
+                        break;
+                }
+            }
+            finally
+            {
+                activatableContext.Deactivate();
+            }
+
+            var anyResult = reply.ValueOr(() =>
+                throw new InvalidOperationException("Command result was null"));
+            var clientAction =
+                commandContext.AbstractClientActionContext.CreateClientAction(reply, false);
+
+            EventSourcedReply outReply;
+            if (!commandContext.AbstractClientActionContext.HasError)
+            {
+                var endSequenceNumber = sequence + commandContext.Events.Count;
+                var snapshot = Optional.Option.None<Any>();
+                if (commandContext.PerformSnapshot)
+                {
+                    var s = entityHandler.Snapshot(
+                        new SnapshotContext(
+                            entityId,
+                            endSequenceNumber,
+                            RootContext.ServiceCallFactory
+                        )
+                    );
+                    if (s.HasValue)
+                        snapshot = s;
                 }
 
-            });
+                outReply = new EventSourcedReply
+                {
+                    CommandId = message.Command.Id,
+                    ClientAction = clientAction.ValueOr(() =>
+                        throw new ArgumentNullException(nameof(clientAction)))
+                };
+                outReply.SideEffects.Add(commandContext.AbstractEffectContext.SideEffects);
+                outReply.Events.Add(commandContext.Events); // UNSAFE
+                snapshot.MatchSome(x => outReply.Snapshot = x);
+            }
+            else
+            {
+                outReply = new EventSourcedReply
+                {
+                    CommandId = message.Command.Id,
+                    ClientAction = new ClientAction
+                    {
+                        Reply = new Reply {Payload = anyResult}
+                    }
+                };
+            }
+
+            await stream.Response.WriteAsync(
+                new EventSourcedStreamOut {Reply = outReply}
+            );
         }
     }
 }

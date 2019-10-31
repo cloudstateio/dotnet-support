@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Grpc.Core;
 
-namespace CloudState.CSharpSupport.EventSourced.Services
+namespace CloudState.CSharpSupport.Extensions
 {
     public static class AsyncStreamReaderExtensions
     {

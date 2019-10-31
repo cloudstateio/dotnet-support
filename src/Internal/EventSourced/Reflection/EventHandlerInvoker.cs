@@ -14,7 +14,7 @@ namespace CloudState.CSharpSupport.EventSourced.Reflection
         private MethodInfo Method { get; }
         private EventHandlerAttribute Attribute { get; }
         private ReflectionHelper.ParameterHandler[] Parameters { get; }
-        internal Type AttributeEventClass { get;  }
+        internal Type AttributeEventClass { get; }
 
         public EventHandlerInvoker(MethodInfo method)
         {

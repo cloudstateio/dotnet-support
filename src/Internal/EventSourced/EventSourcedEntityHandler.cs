@@ -51,18 +51,18 @@ namespace CloudState.CSharpSupport.EventSourced
         {
             return Unwrap(() =>
             {
-                Func<Any> AlternativeFactory(string commandName, string behaviors) =>
-                    () => throw new CloudStateException(
-                        $"No command handler found for command [{commandName}] on any of the current behaviors: {behaviors}"
+                // TODO: Need to refine this to be clear on the potential exception resulting from the cascading commandhandler / result lookup 
+                var result = CurrentBehaviors
+                    .Select(behavior => GetCachedBehaviorReflection(behavior)
+                        .CommandHandlers[context.CommandName]
+                        .Invoke(behavior, command, context))
+                    .FirstOrDefault(x => x.HasValue);
+                if (!result.HasValue)
+                    throw new CloudStateException(
+                        $"No command handler found for command [{context.CommandName}] on any of the " +
+                        $"current behaviors: {BehaviorsString}"
                     );
-
-                return CurrentBehaviors
-                    .Take(1)
-                    .Select(behavior =>
-                        GetCachedBehaviorReflection(behavior).CommandHandlers[context.CommandName]
-                            .Invoke(behavior, command, context))
-                    .FirstOrDefault()
-                    .Or(AlternativeFactory(context.CommandName, BehaviorsString));
+                return result;
             });
         }
         
@@ -72,7 +72,6 @@ namespace CloudState.CSharpSupport.EventSourced
             {
                 var obj = AnySupport.Decode(@event);
                 if (!CurrentBehaviors
-                    .Take(1)
                     .Any(behavior => GetCachedBehaviorReflection(behavior)
                         .GetEventHandler(obj.GetType())
                         .Match(handler => {
@@ -94,9 +93,32 @@ namespace CloudState.CSharpSupport.EventSourced
             });
         }
 
-        public void HandleSnapshot(Any snapshot, ISnapshotContext context)
+        public void HandleSnapshot(Any anySnapshot, ISnapshotContext context)
         {
-            throw new NotImplementedException();
+            Unwrap(() =>
+            {
+                var snapshot = AnySupport.Decode(anySnapshot);
+                if (!CurrentBehaviors.Any(behavior => BehaviorReflectionCache.GetOrAdd(behavior.GetType())
+                    .GetSnapshotHandler(snapshot.GetType())
+                    .Match(handler =>
+                    {
+                        var active = true;
+                        var ctx = new SnapshotBehaviorContext(context, behaviors =>
+                        {
+                            // TODO: Check sequence number override on this context is set correctly.
+                            // ReSharper disable once AccessToModifiedClosure
+                            if (!active) throw new InvalidOperationException("Context is not active!");
+                            CurrentBehaviors = ValidateBehaviors(behaviors).ToArray();
+                        });
+                        handler.Invoke(behavior, snapshot, ctx);
+                        active = false;
+                        return true;
+                    }, () => false))
+                ) throw new CloudStateException(
+                    $"No snapshot handler found for snapshot [{snapshot.GetType()}] on any of the current behaviors [{BehaviorsString}]"
+                );
+            });
+            
         }
 
         public Option<Any> Snapshot(ISnapshotContext context)

@@ -1,4 +1,4 @@
 namespace CloudState.CSharpSupport.Interfaces.EventSourced.Contexts
 {
-    public interface ISnapshotContext { }
+    public interface ISnapshotContext : IEventSourcedContext { }
 }

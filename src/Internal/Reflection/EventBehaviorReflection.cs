@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,16 +17,22 @@ namespace CloudState.CSharpSupport.Reflection
     {
         private ConcurrentDictionary<Type, Option<EventHandlerInvoker>> EventHandlerCache { get; }
             = new ConcurrentDictionary<Type, Option<EventHandlerInvoker>>();
+        private ConcurrentDictionary<Type, Option<SnapshotHandlerInvoker>> SnapshotHandlerCache { get; }
+            = new ConcurrentDictionary<Type, Option<SnapshotHandlerInvoker>>();
 
         internal IReadOnlyDictionary<string, CommandHandlerInvoker> CommandHandlers { get; }
         private Dictionary<Type, EventHandlerInvoker> EventHandlers { get; }
         
+        private Dictionary<Type, SnapshotHandlerInvoker> SnapshotHandlers { get; }
+        
 
         private EventBehaviorReflection(IReadOnlyDictionary<string, CommandHandlerInvoker> commandHandlers,
-            Dictionary<Type, EventHandlerInvoker> eventHandlers)
+            Dictionary<Type, EventHandlerInvoker> eventHandlers,
+            Dictionary<Type, SnapshotHandlerInvoker> snapshotHandlers)
         {
             CommandHandlers = commandHandlers;
             EventHandlers = eventHandlers;
+            SnapshotHandlers = snapshotHandlers;
         }
         
         internal static EventBehaviorReflection Create(Type entityType, IReadOnlyDictionary<string, IResolvedServiceMethod> serviceMethods)
@@ -78,7 +85,21 @@ namespace CloudState.CSharpSupport.Reflection
                 })
                 .ToDictionary(x => x.Key, x => x.e);
 
-            return new EventBehaviorReflection(commandHandlers, eventHandlers);
+            var snapshotHandlers = allMethods
+                .Where(x => x.GetCustomAttribute(typeof(SnapshotHandlerAttribute)) != null)
+                .Select(method => new SnapshotHandlerInvoker(method))
+                .GroupBy(x => x.SnapshotClass)
+                .Select(x => x switch
+                {
+                    { } single when single.Count() == 1 => (single.Key, Value: single.First()),
+                    { } many => throw new Exception(
+                        $"Multiple methods found for handling snapshot of type [{many.Key}]: " +
+                        $"[{string.Join(", ", many.Select(x => x.Method.Name))}]"),
+                    _ => throw new InvalidOperationException()
+                })
+                .ToDictionary(x => x.Key, x => x.Value);
+            
+            return new EventBehaviorReflection(commandHandlers, eventHandlers, snapshotHandlers);
         }
         
         internal Option<EventHandlerInvoker> GetEventHandler(Type eventType)
@@ -90,12 +111,13 @@ namespace CloudState.CSharpSupport.Reflection
 
         }
 
-//        public Option<SnapshotHandlerInvoker> GetCachedSnapshotHandlerForClass(System.Type type) =>
-//            SnapshotHandlerCache.GetOrAdd(
-//                type,
-//                type => GetHandlerForClass<SnapshotHandlerInvoker>(SnapshotHandlers, type)
-//            );
-        
+        public Option<SnapshotHandlerInvoker> GetSnapshotHandler(Type snapshotType)
+        {
+            return SnapshotHandlerCache.GetOrAdd(
+                snapshotType,
+                type => GetHandlerForClass(SnapshotHandlers, type));
+        }
+
         private Option<T> GetHandlerForClass<T>(IReadOnlyDictionary<Type, T> handlers, Type type)
         {
             if (handlers.TryGetValue(type, out var handler))

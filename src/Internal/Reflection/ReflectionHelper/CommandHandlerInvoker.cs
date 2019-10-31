@@ -14,7 +14,7 @@ namespace CloudState.CSharpSupport.Reflection.ReflectionHelper
     {
         internal class CommandHandlerInvoker
         {
-            public MethodInfo Method { get; }
+            private MethodInfo Method { get; }
             public IResolvedServiceMethod ServiceMethod { get; }
             private string Name => ServiceMethod.Descriptor.FullName;
             private ParameterHandler[] Parameters { get; }
@@ -29,10 +29,8 @@ namespace CloudState.CSharpSupport.Reflection.ReflectionHelper
                 ServiceMethod = serviceMethod;
 
                 Parameters = GetParameterHandlers<ICommandContext>(method); // TODO: Extra parameters
-                if (Parameters.Where(x => x.GetType().IsInstanceOfType(typeof(MainArgumentParameterHandler))).Count() > 1)
-                {
+                if (Parameters.Count(x => x.GetType().IsInstanceOfType(typeof(MainArgumentParameterHandler))) > 1)
                     throw new CloudStateException("Method has too many main arg parameters");
-                }
 
                 foreach (var parameter in Parameters)
                 {
@@ -69,13 +67,12 @@ namespace CloudState.CSharpSupport.Reflection.ReflectionHelper
                     VerifyOutputType(GetFirstParameter(Method.ReturnType.GenericTypeArguments[0]));
                     return result =>
                     {
-                        var asOptional = result as Option<object>?;
-                        if (asOptional != null && asOptional.Value.HasValue)
+                        if (result is Option<object> asOptional && asOptional.HasValue)
                         {
                             return Optional.Option.Some(
-                                Serialize(asOptional.Value.Match(
-                                    some: x => x,
-                                    none: () => Optional.Option.Some(Any.Pack(new Empty()))
+                                Serialize(asOptional.Match(
+                                    x => x,
+                                    () => Optional.Option.Some(Any.Pack(new Empty()))
                                 ))
                             );
                         }

@@ -3,7 +3,7 @@ using CloudState.CSharpSupport.Interfaces.EventSourced;
 using CloudState.CSharpSupport.Serialization;
 using ServiceDescriptor = Google.Protobuf.Reflection.ServiceDescriptor;
 
-namespace CloudState.CSharpSupport.EventSourced
+namespace CloudState.CSharpSupport
 {
     internal class EventSourcedStatefulService : StatefulEntityService
     {
