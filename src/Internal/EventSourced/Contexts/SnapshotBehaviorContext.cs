@@ -4,11 +4,12 @@ using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
 
 namespace CloudState.CSharpSupport.EventSourced.Contexts
 {
-    internal class SnapshotBehaviorContext : DelegatingEventSourcedContext, ISnapshotBehaviorContext
+    internal class SnapshotBehaviorContext : DelegatingEventSourcedContext<ISnapshotContext>, ISnapshotBehaviorContext
     {
         private Action<object[]> Become { get; }
-        
-        public SnapshotBehaviorContext(IEventSourcedContext @delegate, Action<object[]> become) : base(@delegate)
+        public long SequenceNumber => Delegate.SequenceNumber;
+
+        public SnapshotBehaviorContext(ISnapshotContext @delegate, Action<object[]> become) : base(@delegate)
         {
             Become = become;
         }

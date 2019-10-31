@@ -3,14 +3,22 @@ using CloudState.CSharpSupport.Interfaces.Services;
 
 namespace CloudState.CSharpSupport.Contexts.Abstractions
 {
-    internal abstract class DelegatingEventSourcedContext : IEventSourcedContext
+    internal abstract class DelegatingEventSourcedContext : DelegatingEventSourcedContext<IEventSourcedContext>
     {
-        private IEventSourcedContext Delegate { get; }
+        protected DelegatingEventSourcedContext(IEventSourcedContext @delegate) : base(@delegate)
+        {
+        }
+    }
+        
+    internal abstract class DelegatingEventSourcedContext<T> : IEventSourcedContext
+        where T : IEventSourcedContext
+    {
+        protected T Delegate { get; }
 
         public string EntityId => Delegate.EntityId;
         public IServiceCallFactory ServiceCallFactory => Delegate.ServiceCallFactory;
 
-        protected DelegatingEventSourcedContext(IEventSourcedContext @delegate)
+        protected DelegatingEventSourcedContext(T @delegate)
         {
             Delegate = @delegate;
         }

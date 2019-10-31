@@ -15,9 +15,9 @@ using Optional.Unsafe;
 
 namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.EventHandler
 {
-    public partial class AttributeBasedEntityFactoryEventHandlerTests
+    public static class EventHandlerTestsHelper
     {
-        private static IEntityHandler CreateHandler<T>(Func<IEventSourcedEntityCreationContext, object> entityFactory = null)
+        internal static IEntityHandler CreateHandler<T>(Func<IEventSourcedEntityCreationContext, object> entityFactory = null)
         {
             var anySupport = new AnySupport(
                 new[] { Com.Example.Shoppingcart.Persistence.DomainReflection.Descriptor }
@@ -36,7 +36,7 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.EventHandle
             ).CreateEntityHandler(mockSupport.Object);
         }
 
-        private class MockEventContextRef
+        internal class MockEventContextRef
         {
             public IEventContext Object { get; }
             public MockEventContextRef(long seq = 1L)

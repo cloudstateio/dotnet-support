@@ -1,4 +1,7 @@
+using System;
 using CloudState.CSharpSupport.Exceptions;
+using CloudState.CSharpSupport.Interfaces.EventSourced;
+using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
 using CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHandler.Entities;
 using CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHandler.Messages;
 using CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.EventHandler.Entities;
@@ -7,7 +10,7 @@ using Xunit;
 
 namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.EventHandler
 {
-    public partial class AttributeBasedEntityFactoryEventHandlerTests
+    public class EventHandlerTests
     {
         [Fact]
         public void can_instantiate_entity_handler()
@@ -21,12 +24,11 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.EventHandle
         {
             var obj = new NoArgEventHandlerEntity();
             var handler = CreateHandler<NoArgEventHandlerEntity>(x => obj);
-            handler.HandleEvent(Event.Create("nothing"), new MockEventContextRef().Object);
+            handler.HandleEvent(Event.Create("nothing"), new EventHandlerTestsHelper.MockEventContextRef().Object);
             Assert.True(obj.Invoked);
         }
-
         
-
+        private IEntityHandler CreateHandler<T>(Func<IEventSourcedEntityCreationContext, object> entityFactory = null) => EventHandlerTestsHelper.CreateHandler<T>(entityFactory);
 
     }
 }

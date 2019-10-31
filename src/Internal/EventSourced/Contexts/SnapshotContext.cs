@@ -6,13 +6,13 @@ namespace CloudState.CSharpSupport.EventSourced.Contexts
     internal class SnapshotContext : ISnapshotContext
     {
         public string EntityId { get; }
-        public long Sequence { get; }
+        public long SequenceNumber { get; }
         public IServiceCallFactory ServiceCallFactory { get; }
 
         public SnapshotContext(string entityId, long sequence, IServiceCallFactory serviceCallFactory)
         {
             EntityId = entityId;
-            Sequence = sequence;
+            SequenceNumber = sequence;
             ServiceCallFactory = serviceCallFactory;
         }
     }

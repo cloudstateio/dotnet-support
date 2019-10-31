@@ -118,7 +118,6 @@ namespace CloudState.CSharpSupport.EventSourced
                     $"No snapshot handler found for snapshot [{snapshot.GetType()}] on any of the current behaviors [{BehaviorsString}]"
                 );
             });
-            
         }
 
         public Option<Any> Snapshot(ISnapshotContext context)
@@ -161,7 +160,7 @@ namespace CloudState.CSharpSupport.EventSourced
         /// <typeparam name="TResult"></typeparam>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        private TResult Unwrap<TResult>(Func<TResult> func)
+        private static TResult Unwrap<TResult>(Func<TResult> func)
         {
             try
             {
@@ -180,7 +179,7 @@ namespace CloudState.CSharpSupport.EventSourced
         /// </summary>
         /// <param name="func"></param>
         /// <exception cref="Exception"></exception>
-        private void Unwrap(Action func)
+        private static void Unwrap(Action func)
         {
             try
             {

@@ -19,8 +19,4 @@
     <ProjectReference Include="$(SolutionDir)/src/Api/CloudState.CSharpSupport.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="AttributeBasedEntityFactory\SnapshotHandler" />
-  </ItemGroup>
-
 </Project>

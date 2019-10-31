@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Cloudstate.Eventsourced;
 using Grpc.Core;
 
 namespace CloudState.CSharpSupport.Contexts
 {
 
+    [ExcludeFromCodeCoverage]
     internal class MessageStreamingContext
     {
         internal IAsyncStreamReader<EventSourcedStreamIn> Request { get; }
