@@ -1,15 +1,17 @@
-ARG artifact_path
-ARG main_dll
-ARG NETCORE_VERSION=2.2-bionic
+ARG MAIN_DLL
+ARG ARTIFACT_PATH
+ARG NETCORE_VERSION=2.2
+FROM mcr.microsoft.com/dotnet/core/runtime:$NETCORE_VERSION as runtime
 
-FROM mcr.microsoft.com/dotnet/core/runtime:${NETCORE_VERSION} as runtime
+ARG MAIN_DLL
+ARG ARTIFACT_PATH
 
-ENV main_dll=$main_dll
+ENV MAIN_DLL=${MAIN_DLL}
 
-WORKDIR /app
+RUN env
 
-COPY $artifact_path .
+COPY ${ARTIFACT_PATH}/ /app
 
 EXPOSE 8080
 
-CMD ["dotnet", $main_dll]
+ENTRYPOINT dotnet /app/$MAIN_DLL
