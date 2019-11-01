@@ -48,7 +48,7 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.CommandHand
         {
             return new WrappedResolvedType().ParseFrom(maybeAny.ValueOrFailure().Value);
         }
-        
+
         private class MockCommandContextRef
         {
             public List<object> Emitted { get; }

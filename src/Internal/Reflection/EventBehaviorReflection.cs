@@ -22,9 +22,9 @@ namespace CloudState.CSharpSupport.Reflection
 
         internal IReadOnlyDictionary<string, CommandHandlerInvoker> CommandHandlers { get; }
         private Dictionary<Type, EventHandlerInvoker> EventHandlers { get; }
-        
+
         private Dictionary<Type, SnapshotHandlerInvoker> SnapshotHandlers { get; }
-        
+
 
         private EventBehaviorReflection(IReadOnlyDictionary<string, CommandHandlerInvoker> commandHandlers,
             Dictionary<Type, EventHandlerInvoker> eventHandlers,
@@ -34,7 +34,7 @@ namespace CloudState.CSharpSupport.Reflection
             EventHandlers = eventHandlers;
             SnapshotHandlers = snapshotHandlers;
         }
-        
+
         internal static EventBehaviorReflection Create(Type entityType, IReadOnlyDictionary<string, IResolvedServiceMethod> serviceMethods)
         {
             var allMethods = GetAllDeclaredMethods(entityType);
@@ -52,7 +52,7 @@ namespace CloudState.CSharpSupport.Reflection
                     return new { x.Key, e = x.First() };
                 })
                 .ToDictionary(x => x.Key, x => x.e);
-            
+
             var commandHandlers = allMethods
                 .Where(x => x.GetCustomAttribute(typeof(CommandHandlerAttribute)) != null)
                 .Select(method =>
@@ -98,10 +98,10 @@ namespace CloudState.CSharpSupport.Reflection
                     _ => throw new InvalidOperationException()
                 })
                 .ToDictionary(x => x.Key, x => x.Value);
-            
+
             return new EventBehaviorReflection(commandHandlers, eventHandlers, snapshotHandlers);
         }
-        
+
         internal Option<EventHandlerInvoker> GetEventHandler(Type eventType)
         {
             return EventHandlerCache.GetOrAdd(

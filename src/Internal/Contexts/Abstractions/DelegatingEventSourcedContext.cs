@@ -9,7 +9,7 @@ namespace CloudState.CSharpSupport.Contexts.Abstractions
         {
         }
     }
-        
+
     internal abstract class DelegatingEventSourcedContext<T> : IEventSourcedContext
         where T : IEventSourcedContext
     {

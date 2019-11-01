@@ -6,16 +6,16 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.SnapshotHan
     [EventSourcedEntity]
     public class SingleArgSnapshotHandlerEntity
     {
-      public bool Invoked { get; private set; }
-      
-      [SnapshotHandler]
-      public void HandleSnapshot(string snapshot)
-      {
-          Assert.Equal("snap!", snapshot);
-          Invoked = true;
-      }
+        public bool Invoked { get; private set; }
+
+        [SnapshotHandler]
+        public void HandleSnapshot(string snapshot)
+        {
+            Assert.Equal("snap!", snapshot);
+            Invoked = true;
+        }
     }
-    
+
     /*
      * val ctx = new SnapshotContext with BaseContext {
         override def sequenceNumber(): Long = 10

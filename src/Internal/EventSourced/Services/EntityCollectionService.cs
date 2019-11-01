@@ -213,13 +213,13 @@ namespace CloudState.CSharpSupport.EventSourced.Services
                     CommandId = message.Command.Id,
                     ClientAction = new ClientAction
                     {
-                        Reply = new Reply {Payload = anyResult}
+                        Reply = new Reply { Payload = anyResult }
                     }
                 };
             }
 
             await stream.Response.WriteAsync(
-                new EventSourcedStreamOut {Reply = outReply}
+                new EventSourcedStreamOut { Reply = outReply }
             );
         }
     }

@@ -44,9 +44,9 @@ namespace CloudState.CSharpSupport.EventSourced
             var ctx = new EventSourcedEntityCreationContext(context, Become);
             var entity = EntityCreationFactory(ctx);
             active = false;
-            CurrentBehaviors = explicitBehaviors.Match(behaviors => behaviors, () => new [] {entity});
+            CurrentBehaviors = explicitBehaviors.Match(behaviors => behaviors, () => new[] { entity });
         }
-        
+
         public Option<Any> HandleCommand(Any command, ICommandContext context)
         {
             return Unwrap(() =>
@@ -65,7 +65,7 @@ namespace CloudState.CSharpSupport.EventSourced
                 return result;
             });
         }
-        
+
         public void HandleEvent(Any @event, IEventContext context)
         {
             Unwrap(() =>
@@ -74,18 +74,19 @@ namespace CloudState.CSharpSupport.EventSourced
                 if (!CurrentBehaviors
                     .Any(behavior => GetCachedBehaviorReflection(behavior)
                         .GetEventHandler(obj.GetType())
-                        .Match(handler => {
-                                var active = true;
-                                var ctx = new EventBehaviorContext(context, behaviors =>
-                                {
+                        .Match(handler =>
+                        {
+                            var active = true;
+                            var ctx = new EventBehaviorContext(context, behaviors =>
+                            {
                                     // ReSharper disable once AccessToModifiedClosure
                                     if (!active) throw new InvalidOperationException("Context is not active!");
-                                    CurrentBehaviors = ValidateBehaviors(behaviors).ToArray();
-                                });
-                                handler.Invoke(behavior, obj, ctx);
-                                active = false;
-                                return true; 
-                            }, 
+                                CurrentBehaviors = ValidateBehaviors(behaviors).ToArray();
+                            });
+                            handler.Invoke(behavior, obj, ctx);
+                            active = false;
+                            return true;
+                        },
                             () => false)
                     )
                 ) throw new CloudStateException(
@@ -136,7 +137,7 @@ namespace CloudState.CSharpSupport.EventSourced
         {
             return BehaviorReflectionCache.GetOrAdd(behavior.GetType());
         }
-        
+
         /// <summary>
         /// Eagerly reflects upon the behavior for handler validation
         /// and returns a copy of the enumerable.
@@ -152,7 +153,7 @@ namespace CloudState.CSharpSupport.EventSourced
             }
         }
 
-        
+
         /// <summary>
         /// Helper function to unwrap the handler's inner exceptions
         /// </summary>
@@ -173,7 +174,7 @@ namespace CloudState.CSharpSupport.EventSourced
                 throw;
             }
         }
-        
+
         /// <summary>
         /// Helper function to unwrap the handler's inner exceptions 
         /// </summary>

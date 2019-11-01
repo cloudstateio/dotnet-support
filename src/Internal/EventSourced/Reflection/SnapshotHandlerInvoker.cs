@@ -29,17 +29,17 @@ namespace CloudState.CSharpSupport.EventSourced.Reflection
                     .Select(_ => (_ as ReflectionHelper.MainArgumentParameterHandler)?.Type)
                     .Where(_ => _ != null)
                     .ToArray() switch
-                {
-                    { } single when single.Length == 1 => single[0],
-                    { } others => throw new CloudStateException(
-                        $"SnapshotHandler method [{method}] must defined at most one non context parameter " +
-                        "to handle snapshots, the parameters defined were: " +
-                        $"[{string.Join(", ", others.Select(_ => _.Name))}]"),
-                    _ => throw new InvalidOperationException()
-                };
+            {
+                { } single when single.Length == 1 => single[0],
+                { } others => throw new CloudStateException(
+                    $"SnapshotHandler method [{method}] must defined at most one non context parameter " +
+                    "to handle snapshots, the parameters defined were: " +
+                    $"[{string.Join(", ", others.Select(_ => _.Name))}]"),
+                _ => throw new InvalidOperationException()
+            };
 
         }
-        
+
         public void Invoke(object obj, object snapshot, ISnapshotBehaviorContext context)
         {
             var ctx = new ReflectionHelper.InvocationContext(snapshot, context);

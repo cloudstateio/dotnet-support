@@ -58,7 +58,7 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory
         {
             return AttributeBasedEntityFactoryCommandHandlerTests.CreateHandler<T>();
         }
-        
+
     }
 
     [EventSourcedEntity]

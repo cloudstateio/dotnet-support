@@ -19,7 +19,7 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.SnapshotHan
             var mockSupport = new Mock<IEventSourcedContext>();
             mockSupport.Setup(x => x.EntityId)
                 .Returns("foo");
-            
+
             return new AttributeBasedEntityHandlerFactory(
                 typeof(T),
                 anySupport,

@@ -9,7 +9,7 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.EventHandle
     public class NoArgEventHandlerEntity
     {
         public bool Invoked { get; private set; }
-        
+
         [SuppressMessage("ReSharper", "UnusedMember.Global")]
         [EventHandler(typeof(string))]
         public void Handle()

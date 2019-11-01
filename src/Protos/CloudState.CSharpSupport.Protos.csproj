@@ -9,16 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="$(SolutionDir)/proto_files/protocols/**/*.proto" ProtoRoot="$(SolutionDir)/proto_files/protocols" OutputDir="proto_dist" CompileOutputs="false" GrpcServices="Both" />
+    <Protobuf Include="../../../proto_files/protocols/**/*.proto" ProtoRoot="../../../proto_files/protocols" OutputDir="proto_dist" CompileOutputs="false" GrpcServices="Both" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../protobuf/csharp/src/Google.Protobuf/Google.Protobuf.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Grpc.Core" Version="2.23.1" />
     <PackageReference Include="Grpc.Tools" Version="2.23.1" />
-    <!-- Waiting for 3.11.x -->
-    <!-- <PackageReference Include="Google.Protobuf" Version="3.10.0" /> -->
-    <!-- TODO: Submodule and ref master / patch branch -->
-    <ProjectReference Include="$(SolutionDir)/protobuf/csharp/src/Google.Protobuf/Google.Protobuf.csproj" />
   </ItemGroup>
 
   <ItemGroup>

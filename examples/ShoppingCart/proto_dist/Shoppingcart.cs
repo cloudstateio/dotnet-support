@@ -44,7 +44,7 @@ namespace Com.Example.Shoppingcart {
             "cnQSKS5jb20uZXhhbXBsZS5zaG9wcGluZ2NhcnQuR2V0U2hvcHBpbmdDYXJ0",
             "Gh4uY29tLmV4YW1wbGUuc2hvcHBpbmdjYXJ0LkNhcnQiOYLT5JMCMxIQL2Nh",
             "cnRzL3t1c2VyX2lkfVofEhYvY2FydHMve3VzZXJfaWR9L2l0ZW1zYgVpdGVt",
-            "c0IbqgIYQ29tLkV4YW1wbGUuU2hvcHBpbmdjYXJ0YgZwcm90bzM="));
+            "c2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, global::io.cloudstate.EntityKeyReflection.Descriptor, global::Google.Protobuf.AnnotationsReflection.Descriptor, global::Google.Protobuf.HttpReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {

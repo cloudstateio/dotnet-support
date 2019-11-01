@@ -9,7 +9,7 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.EventHandle
     {
         public static Any Create(string msg)
         {
-            return new AnySupport(new FileDescriptor[] {}).Encode(msg);
+            return new AnySupport(new FileDescriptor[] { }).Encode(msg);
         }
     }
 }

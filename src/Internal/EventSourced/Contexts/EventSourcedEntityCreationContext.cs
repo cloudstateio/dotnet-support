@@ -7,7 +7,7 @@ namespace CloudState.CSharpSupport.EventSourced.Contexts
     internal class EventSourcedEntityCreationContext : DelegatingEventSourcedContext, IEventSourcedEntityCreationContext
     {
         private Action<object[]> Become { get; }
-        
+
         public EventSourcedEntityCreationContext(IEventSourcedContext @delegate, Action<object[]> become)
             : base(@delegate)
         {

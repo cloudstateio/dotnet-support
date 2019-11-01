@@ -180,7 +180,7 @@ namespace CloudState.CSharpSupport.Serialization
                     )
                 );
         }
-        
+
         [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
         [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
         public ByteString PrimitiveToBytes<T>(IPrimitive primitive, T value)

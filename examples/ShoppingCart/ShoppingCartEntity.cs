@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using CloudState.CSharpSupport.Attributes;
 using CloudState.CSharpSupport.Attributes.EventSourced;
-using Com.Example.Shoppingcart;
+using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
+using Com.Example.Shoppingcart.Persistence;
+using Microsoft.Extensions.Logging;
 
 namespace csharp_support
 {
@@ -23,6 +25,7 @@ namespace csharp_support
         [CommandHandler]
         public Cart GetCart()
         {
+            ;
             var cart = new Cart();
             cart.Items.AddRange(Cart.Values);
             return cart;
