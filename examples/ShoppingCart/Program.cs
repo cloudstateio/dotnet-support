@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace csharp_support
+namespace EventSourced.ShoppingCart
 {
     public static class Program
     {

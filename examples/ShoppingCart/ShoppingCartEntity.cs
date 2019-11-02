@@ -2,11 +2,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using CloudState.CSharpSupport.Attributes;
 using CloudState.CSharpSupport.Attributes.EventSourced;
-using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
 using Com.Example.Shoppingcart.Persistence;
-using Microsoft.Extensions.Logging;
 
-namespace csharp_support
+namespace EventSourced.ShoppingCart
 {
     [EventSourcedEntity]
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
