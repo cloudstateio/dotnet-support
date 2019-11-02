@@ -107,26 +107,25 @@ namespace CloudState.CSharpSupport.EventSourced.Services
 
             async Task ProcessStream(long sequence, EventSourcedStreamIn message)
             {
-                while (await stream.Request.MoveNext())
-                    switch (message.MessageCase)
-                    {
-                        case MessageOneofCase.Command:
-                            await HandleCommand(statefulService, stream, message, entityId, sequence, entityHandler);
-                            break;
+                switch (message.MessageCase)
+                {
+                    case MessageOneofCase.Command:
+                        await HandleCommand(statefulService, stream, message, entityId, sequence, entityHandler);
+                        break;
 
-                        case MessageOneofCase.Event:
-                            var eventContext = new EventContext(entityId, message.Event.Sequence, new AbstractContext(RootContext));
-                            entityHandler.HandleEvent(message.Event.Payload, eventContext);
-                            await stream.Response.WriteAsync(new EventSourcedStreamOut());
-                            break;
+                    case MessageOneofCase.Event:
+                        var eventContext = new EventContext(entityId, message.Event.Sequence, new AbstractContext(RootContext));
+                        entityHandler.HandleEvent(message.Event.Payload, eventContext);
+                        await stream.Response.WriteAsync(new EventSourcedStreamOut());
+                        break;
 
-                        case MessageOneofCase.Init:
-                            throw new InvalidOperationException($"Entity [{entityId}] already initialized");
-                        case MessageOneofCase.None:
-                            throw new InvalidOperationException($"Missing message");
-                        default:
-                            throw new NotImplementedException("Unknown message case");
-                    }
+                    case MessageOneofCase.Init:
+                        throw new InvalidOperationException($"Entity [{entityId}] already initialized");
+                    case MessageOneofCase.None:
+                        throw new InvalidOperationException($"Missing message");
+                    default:
+                        throw new NotImplementedException("Unknown message case");
+                }
             }
 
             await stream.Request.SelectAsync(startingSequenceNumber, ProcessStream);
