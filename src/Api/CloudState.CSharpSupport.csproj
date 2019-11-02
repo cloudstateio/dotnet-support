@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="*.nuspec" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="*.nuspec" CopyToOutputDirectory="true" />
   </ItemGroup>
 
   <ItemGroup>
