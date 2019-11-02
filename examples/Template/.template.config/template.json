@@ -1,0 +1,15 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Jonathan Nagy",
+    "classifications": [ "Console" ], 
+    "name": "CloudState CSharp Template",
+    "identity": "CloudState.CSharpTemplate",         
+    "groupIdentity":"CloudState.CSharpTemplate",
+    "shortName": "cloudstate",                    
+    "tags": {
+      "language": "C#",                         
+      "type":"project"
+    },
+    "sourceName": "CloudState.CSharpTemplate",              
+    "preferNameDirectory":true
+  }
