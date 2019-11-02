@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <AssemblyName>CloudState.CSharpSupport.Internal</AssemblyName>
     <RootNamespace>CloudState.CSharpSupport</RootNamespace>
+    <AssemblyName>CloudState.CSharpSupport.Internal</AssemblyName>
     <LangVersion>8</LangVersion>
   </PropertyGroup>
 
