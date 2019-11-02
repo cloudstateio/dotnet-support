@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <RootNamespace>csharp_support</RootNamespace>
-
+    <IsPackable>false</IsPackable>
     <!-- Waiting for grpc.tools to support 3.10.x -->
     <!-- TODO: bootstrap the download of the right protoc -->
     <PROTOBUF_PROTOC>/Users/$(USER)/Applications/protoc</PROTOBUF_PROTOC>
@@ -18,16 +18,12 @@
 
   <ItemGroup>
     <ProjectReference Include="../../protobuf/csharp/src/Google.Protobuf/Google.Protobuf.csproj" />
-    <ProjectReference Include="..\..\src\Api\CloudState.CSharpSupport.csproj" />
+    <ProjectReference Include="../../src/Api/CloudState.CSharpSupport.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Grpc.Core" Version="2.23.1" />
     <PackageReference Include="Grpc.Tools" Version="2.23.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="proto_dist" />
   </ItemGroup>
 
 </Project>
