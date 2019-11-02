@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CloudState.CSharpSupport.Contexts.Abstractions;
 using CloudState.CSharpSupport.Contexts.Interfaces;
+using CloudState.CSharpSupport.Exceptions;
 using CloudState.CSharpSupport.Interfaces.EventSourced;
 using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
 using CloudState.CSharpSupport.Interfaces.Services;
@@ -76,5 +77,14 @@ namespace CloudState.CSharpSupport.EventSourced.Contexts
 
         // ICommandContext.IEffectContext
         public void Effect(IServiceCall effect, bool synchronous) => AbstractEffectContext.Effect(effect, synchronous);
+        public void Forward(IServiceCall to)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CloudStateException Fail(string errorMessage)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
