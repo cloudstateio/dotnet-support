@@ -10,14 +10,14 @@ namespace CloudState.CSharpSupport.EventSourced.Abstract
 {
     internal abstract class StatefulEntityService : IStatefulEntityService
     {
-        private AnySupport AnySupport { get; }
-        private int SnapshotEvery { get; }
         private IEntityHandlerFactory EntityHandlerFactory { get; }
 
         public IReadOnlyDictionary<string, IResolvedServiceMethod> Methods { get; }
         public ServiceDescriptor ServiceDescriptor { get; }
         public string PersistenceId { get; }
-
+        public AnySupport AnySupport { get; }
+        public int SnapshotEvery { get; }
+        
         public abstract string StatefulServiceTypeName { get; }
 
         public StatefulEntityService(IEntityHandlerFactory factory, ServiceDescriptor serviceDescriptor, AnySupport anySupport, string persistenceId, int snapshotEvery)
