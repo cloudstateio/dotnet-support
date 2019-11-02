@@ -4,6 +4,8 @@
 .vs
 .vscode
 
+*.swp
+
 **.DotSettings.user
 
 bin
