@@ -44,7 +44,7 @@ namespace CloudState.CSharpSupport
         private ILogger<CloudStateWorker> Logger { get; }
         private Server Server { get; }
 
-        internal CloudStateWorker(
+        public CloudStateWorker(
                 ILoggerFactory loggerFactory,
                 IConfiguration configuration,
                 IDictionary<string, IStatefulService> statefulServices
@@ -70,7 +70,7 @@ namespace CloudState.CSharpSupport
                 {
                     switch (serviceGroup.Key)
                     {
-                        case IEventSourcedStatefulService _:
+                        case EventSourcedStatefulService _:
                             Server.Services.Add(
                                 Cloudstate.Eventsourced.EventSourced.BindService(new EntityCollectionService(
                                     LoggerFactory,
