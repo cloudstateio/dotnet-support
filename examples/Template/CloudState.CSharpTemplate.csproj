@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="cloudstate.csharpsupport" Version="3.11.0-rc0.5" />
+    <PackageReference Include="cloudstate.csharpsupport" Version="3.11.0-rc0.6" />
     <PackageReference Include="Grpc.Core" Version="2.23.1" />
     <PackageReference Include="Grpc.Tools" Version="2.23.1" />
   </ItemGroup>
