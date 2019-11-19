@@ -4,7 +4,7 @@ using Optional;
 
 namespace CloudState.CSharpSupport.Interfaces.EventSourced
 {
-    public interface IEntityHandler
+    public interface IEventSourcedEntityHandler : IEntityHandler
     {
         Option<Any> HandleCommand(Any command, ICommandContext context);
         void HandleEvent(Any @event, IEventContext context);

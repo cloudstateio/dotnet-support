@@ -3,7 +3,7 @@ using Google.Protobuf.Reflection;
 
 namespace CloudState.CSharpSupport.Serialization.Primitives
 {
-    public sealed class BytesPrimitive : Primitive<ByteString>
+    internal sealed class BytesPrimitive : Primitive<ByteString>
     {
 
         public BytesPrimitive()

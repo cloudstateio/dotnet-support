@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using CloudState.CSharpSupport.Exceptions;
+using CloudState.CSharpSupport.Interfaces.Reflection;
 using CloudState.CSharpSupport.Reflection;
 using CloudState.CSharpSupport.Reflection.Interfaces;
 using CloudState.CSharpSupport.Serialization.Primitives;
@@ -78,8 +79,8 @@ namespace CloudState.CSharpSupport.Serialization
                     ).GetConstructor(
                         new[] {
                             method.GetType(),
-                            typeof(IResolvedType<>).MakeGenericType(method.InputType.ClrType),
-                            typeof(IResolvedType<>).MakeGenericType(method.OutputType.ClrType)
+                            typeof(IResolvedType),
+                            typeof(IResolvedType)
                         }
                     ).Invoke(
                         new[] {
@@ -103,7 +104,7 @@ namespace CloudState.CSharpSupport.Serialization
             }).ToDictionary(x => x.Name, x => x);
         }
 
-        private static Option<IResolvedType<TInput>> TryResolveCSharpPbType<TInput>(MessageDescriptor typeDescriptor)
+        private static Option<IResolvedType> TryResolveCSharpPbType<TInput>(MessageDescriptor typeDescriptor)
             where TInput : IMessage
         {
             var fileDescriptor = typeDescriptor.File;
@@ -143,13 +144,13 @@ namespace CloudState.CSharpSupport.Serialization
                     return new CSharpResolvedType<TInput>(
                         DefaultTypeUrlPrefix + "/" + typeDescriptor.FullName,
                         typeDescriptor.Parser
-                    ).Some<IResolvedType<TInput>>();
+                    ).Some<IResolvedType>();
                 }
-                return Optional.Option.None<IResolvedType<TInput>>();
+                return Optional.Option.None<IResolvedType>();
             }
             catch (Exception)
             {
-                return Optional.Option.None<IResolvedType<TInput>>();
+                return Optional.Option.None<IResolvedType>();
                 //       case cnfe: ClassNotFoundException =>
                 //         log.debug("Failed to load class", cnfe)
                 //         None
@@ -166,10 +167,10 @@ namespace CloudState.CSharpSupport.Serialization
 
         }
 
-        public IResolvedType<TInput> ResolveTypeDescriptor<TInput>(MessageDescriptor typeDescriptor)
+        public IResolvedType ResolveTypeDescriptor<TInput>(MessageDescriptor typeDescriptor)
             where TInput : IMessage
         {
-            return (IResolvedType<TInput>)ReflectionCache.GetOrAdd(
+            return (IResolvedType)ReflectionCache.GetOrAdd(
                 typeDescriptor.FullName,
                 name => TryResolveCSharpPbType<TInput>(typeDescriptor)
                     .Match(

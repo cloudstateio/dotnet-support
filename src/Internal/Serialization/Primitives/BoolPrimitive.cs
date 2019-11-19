@@ -6,7 +6,7 @@ namespace CloudState.CSharpSupport.Serialization.Primitives
     /// <summary>
     /// Cloudstate boolean primitive
     /// </summary>
-    public sealed class BoolPrimitive : Primitive<bool>
+    internal sealed class BoolPrimitive : Primitive<bool>
     {
 
         public BoolPrimitive()

@@ -26,7 +26,7 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.SnapshotHan
             Assert.True(obj.Invoked);
         }
 
-        private IEntityHandler CreateHandler<T>(Func<IEventSourcedEntityCreationContext, object> entityFactory = null) => SnapshotHandlerTestsHelper.CreateHandler<T>(entityFactory);
+        private IEventSourcedEntityHandler CreateHandler<T>(Func<IEventSourcedEntityCreationContext, object> entityFactory = null) => SnapshotHandlerTestsHelper.CreateHandler<T>(entityFactory);
 
     }
 }

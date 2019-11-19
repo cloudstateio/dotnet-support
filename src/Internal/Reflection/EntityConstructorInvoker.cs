@@ -1,31 +1,33 @@
 using System.Linq;
 using System.Reflection;
 using CloudState.CSharpSupport.Exceptions;
+using CloudState.CSharpSupport.Interfaces.Contexts;
 using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
 using static CloudState.CSharpSupport.Reflection.ReflectionHelper.ReflectionHelper;
 
 namespace CloudState.CSharpSupport.Reflection
 {
-    public class EntityConstructorInvoker
+    internal class EntityConstructorInvoker<TContext>
+        where TContext : IEntityCreationContext
     {
         private ConstructorInfo Constructor { get; }
-        private ParameterHandler[] Parameters { get; }
+        private ParameterHandler<TContext>[] Parameters { get; }
 
         public EntityConstructorInvoker(ConstructorInfo constructor)
         {
             Constructor = constructor;
-            Parameters = GetParameterHandlers<IEventSourcedEntityCreationContext>(constructor);
+            Parameters = GetParameterHandlers<TContext>(constructor);
             foreach (var parameter in Parameters)
                 switch (parameter)
                 {
-                    case MainArgumentParameterHandler mainArg:
+                    case MainArgumentParameterHandler<TContext> mainArg:
                         throw new InvalidEntityConstructorParameterException(mainArg.Type);
                 }
         }
 
-        public object Apply(IEventSourcedEntityCreationContext context)
+        public object Apply(TContext context)
         {
-            var ctx = new InvocationContext("", context);
+            var ctx = new InvocationContext<TContext>("", context);
             return Constructor.Invoke(Parameters.Select(x => x.Apply(ctx)).ToArray());
         }
     }

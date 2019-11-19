@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using CloudState.CSharpSupport.Contexts.Abstractions;
 using CloudState.CSharpSupport.Contexts.Interfaces;
 using CloudState.CSharpSupport.Exceptions;
-using CloudState.CSharpSupport.Interfaces.EventSourced;
 using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
+using CloudState.CSharpSupport.Interfaces.EventSourced;
 using CloudState.CSharpSupport.Interfaces.Services;
 using CloudState.CSharpSupport.Serialization;
 using Google.Protobuf;
@@ -19,7 +19,7 @@ namespace CloudState.CSharpSupport.EventSourced.Contexts
         public bool PerformSnapshot { get; private set; } = false;
 
         private AnySupport AnySupport { get; }
-        private IEntityHandler EntityHandler { get; }
+        private IEventSourcedEntityHandler EventSourcedEntityHandler { get; }
         private int SnapshotEvery { get; }
 
         // Composite contexts
@@ -42,7 +42,7 @@ namespace CloudState.CSharpSupport.EventSourced.Contexts
             string commandName,
             long commandId,
             AnySupport anySupport,
-            IEntityHandler entityHandler,
+            IEventSourcedEntityHandler eventSourcedEntityHandler,
             int snapshotEvery,
             AbstractContext abstractContext,
             AbstractClientActionContext abstractClientActionContext,
@@ -54,7 +54,7 @@ namespace CloudState.CSharpSupport.EventSourced.Contexts
             CommandName = commandName;
             CommandId = commandId;
             AnySupport = anySupport;
-            EntityHandler = entityHandler;
+            EventSourcedEntityHandler = eventSourcedEntityHandler;
             SnapshotEvery = snapshotEvery;
             AbstractContext = abstractContext;
             AbstractClientActionContext = abstractClientActionContext;
@@ -67,7 +67,7 @@ namespace CloudState.CSharpSupport.EventSourced.Contexts
             ActivatableContext.CheckActive();
             var anyEvent = Any.Pack(@event as IMessage); // TODO: might not be Imessage, may need to pack it.
             var nextSequenceNumber = Sequence + Events.Count + 1;
-            EntityHandler.HandleEvent(
+            EventSourcedEntityHandler.HandleEvent(
                 anyEvent,
                 new EventContext(EntityId, nextSequenceNumber, AbstractContext)
             );

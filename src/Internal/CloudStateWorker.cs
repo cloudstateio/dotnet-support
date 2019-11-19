@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Cloudstate;
 using CloudState.CSharpSupport.Contexts;
+using CloudState.CSharpSupport.Crdt.Interfaces;
+using CloudState.CSharpSupport.Crdt.Services;
 using CloudState.CSharpSupport.EventSourced.Interfaces;
 using CloudState.CSharpSupport.EventSourced.Services;
 using CloudState.CSharpSupport.Interfaces;
@@ -65,7 +67,6 @@ namespace CloudState.CSharpSupport
         {
             await Task.Factory.StartNew(() =>
             {
-                // Grouping by service type (EventSourced, CRDT, etc)
                 foreach (var serviceGroup in StatefulServices.GroupBy(x => x.Value))
                 {
                     switch (serviceGroup.Key)
@@ -78,6 +79,18 @@ namespace CloudState.CSharpSupport
                                     serviceGroup.ToDictionary(
                                         x => x.Key,
                                         x => x.Value as IEventSourcedStatefulService
+                                    ),
+                                    new Context(new ResolvedServiceCallFactory(StatefulServices))
+                                ))
+                            );
+                            break;
+                        case CrdtStatefulService _:
+                            Server.Services.Add(
+                                Cloudstate.Crdt.Crdt.BindService(new CrdtEntityCollectionService(
+                                    LoggerFactory,
+                                    serviceGroup.ToDictionary(
+                                        x => x.Key,
+                                        x => x.Value as ICrdtStatefulService
                                     ),
                                     new Context(new ResolvedServiceCallFactory(StatefulServices))
                                 ))

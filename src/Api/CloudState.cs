@@ -4,9 +4,12 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using CloudState.CSharpSupport.Attributes.Crdt;
 using CloudState.CSharpSupport.Attributes.EventSourced;
+using CloudState.CSharpSupport.Crdt;
 using CloudState.CSharpSupport.EventSourced;
 using CloudState.CSharpSupport.Interfaces;
+using CloudState.CSharpSupport.Interfaces.Crdt;
 using CloudState.CSharpSupport.Interfaces.EventSourced;
 using CloudState.CSharpSupport.Serialization;
 using Google.Protobuf.Reflection;
@@ -102,6 +105,46 @@ namespace CloudState.CSharpSupport
 
             return this;
 
+        }
+        
+        public CloudState RegisterCrdtEntity<T>(
+            ServiceDescriptor descriptor,
+            params FileDescriptor[] additionalDescriptors)
+        {
+            var entityClass = typeof(T);
+            var entity = entityClass.GetCustomAttribute<CrdtEntityAttribute>();
+            if (entity == null) {
+                throw new InvalidOperationException(
+                    entityClass + " does not declare an " + nameof(CrdtEntityAttribute) + " attribute");
+            }
+
+            var anySupport = NewAnySupport(additionalDescriptors);
+
+            StatefulServices.Add(
+                descriptor.FullName,
+                new CrdtStatefulService(
+                    new AttributeBasedCrdtHandlerFactory(entityClass, anySupport, descriptor),
+                    descriptor,
+                    anySupport));
+
+            return this;
+        }
+        
+        public CloudState RegisterCrdtEntity(
+            ICrdtEntityHandlerFactory factory,
+            ServiceDescriptor descriptor,
+            params FileDescriptor[] additionalDescriptors)
+        {
+            var anySupport = NewAnySupport(additionalDescriptors);
+
+            StatefulServices.Add(
+                descriptor.FullName,
+                new CrdtStatefulService(
+                    factory,
+                    descriptor,
+                    anySupport));
+
+            return this;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken = default)

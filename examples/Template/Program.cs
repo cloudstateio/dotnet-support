@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using csharp_support;
+﻿using System.Threading.Tasks;
 
-namespace Template
+namespace CloudState.CSharpTemplate
 {
     class Program
     {

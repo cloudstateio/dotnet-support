@@ -6,6 +6,7 @@ using System.Reflection;
 using CloudState.CSharpSupport.Attributes.EventSourced;
 using CloudState.CSharpSupport.EventSourced.Reflection;
 using CloudState.CSharpSupport.Exceptions;
+using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
 using CloudState.CSharpSupport.Reflection.Interfaces;
 using Optional;
 using static CloudState.CSharpSupport.Reflection.ReflectionHelper.ReflectionHelper;
@@ -20,13 +21,13 @@ namespace CloudState.CSharpSupport.Reflection
         private ConcurrentDictionary<Type, Option<SnapshotHandlerInvoker>> SnapshotHandlerCache { get; }
             = new ConcurrentDictionary<Type, Option<SnapshotHandlerInvoker>>();
 
-        internal IReadOnlyDictionary<string, CommandHandlerInvoker> CommandHandlers { get; }
+        internal IReadOnlyDictionary<string, CommandHandlerInvoker<ICommandContext>> CommandHandlers { get; }
         private Dictionary<Type, EventHandlerInvoker> EventHandlers { get; }
 
         private Dictionary<Type, SnapshotHandlerInvoker> SnapshotHandlers { get; }
 
 
-        private EventBehaviorReflection(IReadOnlyDictionary<string, CommandHandlerInvoker> commandHandlers,
+        private EventBehaviorReflection(IReadOnlyDictionary<string, CommandHandlerInvoker<ICommandContext>> commandHandlers,
             Dictionary<Type, EventHandlerInvoker> eventHandlers,
             Dictionary<Type, SnapshotHandlerInvoker> snapshotHandlers)
         {
@@ -68,7 +69,7 @@ namespace CloudState.CSharpSupport.Reflection
                         );
                     }
 
-                    return new CommandHandlerInvoker(
+                    return new CommandHandlerInvoker<ICommandContext>(
                         method,
                         serviceMethod
                     );

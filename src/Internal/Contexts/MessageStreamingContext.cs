@@ -6,13 +6,13 @@ namespace CloudState.CSharpSupport.Contexts
 {
 
     [ExcludeFromCodeCoverage]
-    internal class MessageStreamingContext
+    internal class MessageStreamingContext<TIn, TOut>
     {
-        internal IAsyncStreamReader<EventSourcedStreamIn> Request { get; }
-        internal IServerStreamWriter<EventSourcedStreamOut> Response { get; }
+        internal IAsyncStreamReader<TIn> Request { get; }
+        internal IServerStreamWriter<TOut> Response { get; }
         internal ServerCallContext ServerCallContext { get; }
 
-        internal MessageStreamingContext(IAsyncStreamReader<EventSourcedStreamIn> requestStream, IServerStreamWriter<EventSourcedStreamOut> responseStream, ServerCallContext context)
+        internal MessageStreamingContext(IAsyncStreamReader<TIn> requestStream, IServerStreamWriter<TOut> responseStream, ServerCallContext context)
         {
             Request = requestStream;
             Response = responseStream;

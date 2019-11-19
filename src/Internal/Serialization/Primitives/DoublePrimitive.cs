@@ -3,7 +3,7 @@ using Google.Protobuf.Reflection;
 
 namespace CloudState.CSharpSupport.Serialization.Primitives
 {
-    public sealed class DoublePrimitive : Primitive<double>
+    internal sealed class DoublePrimitive : Primitive<double>
     {
 
         public DoublePrimitive()

@@ -1,3 +1,4 @@
+using CloudState.CSharpSupport.Interfaces.Reflection;
 using CloudState.CSharpSupport.Interfaces.Services;
 using CloudState.CSharpSupport.Reflection.Interfaces;
 using Google.Protobuf.Reflection;
@@ -11,9 +12,9 @@ namespace CloudState.CSharpSupport.Reflection
 
         public MethodDescriptor Descriptor { get; }
 
-        public IResolvedType<TInput> InputType { get; }
+        public IResolvedType InputType { get; }
         IResolvedType IResolvedServiceMethod.InputType => InputType;
-        public IResolvedType<TOutput> OutputType { get; }
+        public IResolvedType OutputType { get; }
         IResolvedType IResolvedServiceMethod.OutputType => OutputType;
 
         public MethodDescriptor Method => Descriptor;
@@ -23,8 +24,8 @@ namespace CloudState.CSharpSupport.Reflection
 
         public ResolvedServiceMethod(
             MethodDescriptor descriptor,
-            IResolvedType<TInput> inputType,
-            IResolvedType<TOutput> outputType)
+            IResolvedType inputType,
+            IResolvedType outputType)
         {
             Descriptor = descriptor;
             InputType = inputType;

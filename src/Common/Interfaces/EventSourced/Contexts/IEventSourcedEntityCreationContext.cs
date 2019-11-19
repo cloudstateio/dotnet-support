@@ -1,6 +1,8 @@
+using CloudState.CSharpSupport.Interfaces.Contexts;
+
 namespace CloudState.CSharpSupport.Interfaces.EventSourced.Contexts
 {
-    public interface IEventSourcedEntityCreationContext : IEventSourcedContext, IBehaviorContext
+    public interface IEventSourcedEntityCreationContext : IEntityCreationContext, IEventSourcedContext, IBehaviorContext
     {
 
     }

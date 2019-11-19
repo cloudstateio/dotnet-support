@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using CloudState.CSharpSupport.Interfaces.Services;
 
-namespace CloudState.CSharpSupport.Interfaces.EventSourced.Contexts
+namespace CloudState.CSharpSupport.Interfaces.Contexts
 {
     public interface IEffectContext
     {

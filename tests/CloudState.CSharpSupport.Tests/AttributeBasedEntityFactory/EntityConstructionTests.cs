@@ -51,10 +51,10 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory
             {
                 Create<UnsupportedMultipleConstructorsParameterEntity>();
             });
-            Assert.Equal(typeof(UnsupportedMultipleConstructorsParameterEntity), ex.EntityType);
+            Assert.Equal(typeof(UnsupportedMultipleConstructorsParameterEntity), ex.EntityClass);
         }
 
-        private IEntityHandler Create<T>()
+        private IEventSourcedEntityHandler Create<T>()
         {
             return AttributeBasedEntityFactoryCommandHandlerTests.CreateHandler<T>();
         }

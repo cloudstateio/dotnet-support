@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cloudstate;
 using CloudState.CSharpSupport.Contexts.Interfaces;
-using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
+using CloudState.CSharpSupport.Interfaces.Contexts;
 using CloudState.CSharpSupport.Interfaces.Services;
 using Google.Protobuf.WellKnownTypes;
 

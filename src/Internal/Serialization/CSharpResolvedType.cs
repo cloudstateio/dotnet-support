@@ -7,7 +7,8 @@ namespace CloudState.CSharpSupport.Serialization
     internal class CSharpResolvedType<TInput> : ResolvedType<TInput>
         where TInput : IMessage
     {
-        private MessageParser Parser { get; }
+
+        protected MessageParser Parser { get; }
 
         public CSharpResolvedType(string typeUrl, MessageParser parser)
             : base(typeUrl)

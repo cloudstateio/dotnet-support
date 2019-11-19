@@ -9,11 +9,11 @@ using Optional;
 
 namespace CloudState.CSharpSupport.EventSourced.Reflection
 {
-    public class EventHandlerInvoker
+    internal class EventHandlerInvoker
     {
         private MethodInfo Method { get; }
         private EventHandlerAttribute Attribute { get; }
-        private ReflectionHelper.ParameterHandler[] Parameters { get; }
+        private ReflectionHelper.ParameterHandler<IEventBehaviorContext>[] Parameters { get; }
         internal Type AttributeEventClass { get; }
 
         public EventHandlerInvoker(MethodInfo method)
@@ -30,7 +30,7 @@ namespace CloudState.CSharpSupport.EventSourced.Reflection
         {
             try
             {
-                var ctx = new ReflectionHelper.InvocationContext(@event, context);
+                var ctx = new ReflectionHelper.InvocationContext<IEventBehaviorContext>(@event, context);
                 Method.Invoke(obj, Parameters.Select(x => x.Apply(ctx)).ToArray());
             }
             catch (Exception ex)

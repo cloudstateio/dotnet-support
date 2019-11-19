@@ -1,7 +1,7 @@
 using System;
 using Google.Protobuf;
 
-namespace CloudState.CSharpSupport.Reflection.Interfaces
+namespace CloudState.CSharpSupport.Interfaces.Reflection
 {
     public interface IResolvedType
     {
@@ -13,7 +13,6 @@ namespace CloudState.CSharpSupport.Reflection.Interfaces
 
     public interface IResolvedType<T> : IResolvedType
     {
-        new T ParseFrom(ByteString bytes);
         ByteString ToByteString(T value);
     }
 }

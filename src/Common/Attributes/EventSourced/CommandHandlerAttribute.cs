@@ -1,4 +1,5 @@
 ﻿using System;
+using CloudState.CSharpSupport.Interfaces.Crdt.Contexts;
 using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
 
 namespace CloudState.CSharpSupport.Attributes.EventSourced
@@ -8,7 +9,7 @@ namespace CloudState.CSharpSupport.Attributes.EventSourced
     ///
     /// For classes annotated with <see cref="EventSourcedEntityAttribute"/>,
     /// it is used to signify methods which act as command handlers.  The
-    /// command handling method may take an <see cref="ICommandContext"/> in
+    /// command handling method may take an <see cref="ICommandEntityContext"/> in
     /// addition to the main argument meant to be handled.  It may also
     /// receive a parameter annotated with <see cref="EntityIdAttribute"/>
     /// which must be of type <see cref="System.String"/>.

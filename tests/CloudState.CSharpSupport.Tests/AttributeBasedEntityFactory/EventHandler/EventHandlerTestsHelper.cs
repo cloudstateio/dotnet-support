@@ -17,7 +17,7 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.EventHandle
 {
     public static class EventHandlerTestsHelper
     {
-        internal static IEntityHandler CreateHandler<T>(Func<IEventSourcedEntityCreationContext, object> entityFactory = null)
+        internal static IEventSourcedEntityHandler CreateHandler<T>(Func<IEventSourcedEntityCreationContext, object> entityFactory = null)
         {
             var anySupport = new AnySupport(
                 new[] { Com.Example.Shoppingcart.Persistence.DomainReflection.Descriptor }

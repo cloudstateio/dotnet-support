@@ -15,8 +15,6 @@ using Cloudstate.Eventsourced;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using Optional;
-using Optional.Unsafe;
 using static Cloudstate.Eventsourced.EventSourcedStreamIn;
 
 namespace CloudState.CSharpSupport.EventSourced.Services
@@ -62,7 +60,7 @@ namespace CloudState.CSharpSupport.EventSourced.Services
                         throw new InvalidOperationException($"Failed to locate service with name {init.ServiceName}");
                     try
                     {
-                        var streamContext = new MessageStreamingContext(requestStream, responseStream, context);
+                        var streamContext = new MessageStreamingContext<EventSourcedStreamIn, EventSourcedStreamOut>(requestStream, responseStream, context);
                         await RunEntity(init, eventSourcedStatefulService, streamContext);
                     }
                     catch (Exception ex)
@@ -81,7 +79,7 @@ namespace CloudState.CSharpSupport.EventSourced.Services
         }
 
         private async Task RunEntity(EventSourcedInit init, IEventSourcedStatefulService statefulService,
-            MessageStreamingContext stream)
+            MessageStreamingContext<EventSourcedStreamIn, EventSourcedStreamOut> stream)
         {
             var entityId = init.EntityId;
             var entityHandler = statefulService.CreateEntityHandler(
@@ -131,13 +129,12 @@ namespace CloudState.CSharpSupport.EventSourced.Services
             await stream.Request.SelectAsync(startingSequenceNumber, ProcessStream);
         }
 
-        private async Task HandleCommand(IEventSourcedStatefulService statefulService, MessageStreamingContext stream,
-            EventSourcedStreamIn message, string entityId, long sequence, IEntityHandler entityHandler)
+        private async Task HandleCommand(IEventSourcedStatefulService statefulService, MessageStreamingContext<EventSourcedStreamIn, EventSourcedStreamOut> stream,
+            EventSourcedStreamIn message, string entityId, long sequence, IEventSourcedEntityHandler eventSourcedEntityHandler)
         {
             var command = message.Command;
             if (command.EntityId != entityId)
-                throw new InvalidOperationException(
-                    "Entity received a message was not intended for itself");
+                throw new InvalidOperationException("Entity received a message was not intended for itself");
             var activatableContext = new AbstractActivatableContext();
             var commandContext = new CommandContext(
                 entityId,
@@ -145,7 +142,7 @@ namespace CloudState.CSharpSupport.EventSourced.Services
                 command.Name,
                 command.Id,
                 statefulService.AnySupport,
-                entityHandler,
+                eventSourcedEntityHandler,
                 statefulService.SnapshotEvery,
                 new AbstractContext(RootContext),
                 new AbstractClientActionContext(command.Id, RootContext, activatableContext),
@@ -156,7 +153,7 @@ namespace CloudState.CSharpSupport.EventSourced.Services
             try
             {
                 // FIXME is this allowed to throw
-                reply = entityHandler.HandleCommand(command.Payload, commandContext);
+                reply = eventSourcedEntityHandler.HandleCommand(command.Payload, commandContext);
             }
             catch (Exception ex)
             {
@@ -184,7 +181,7 @@ namespace CloudState.CSharpSupport.EventSourced.Services
                 var snapshot = Optional.Option.None<Any>();
                 if (commandContext.PerformSnapshot)
                 {
-                    var s = entityHandler.Snapshot(
+                    var s = eventSourcedEntityHandler.Snapshot(
                         new SnapshotContext(
                             entityId,
                             endSequenceNumber,

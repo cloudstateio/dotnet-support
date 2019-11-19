@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <RootNamespace>CloudState.CSharpSupport</RootNamespace>
     <AssemblyName>CloudState.CSharpSupport.Common</AssemblyName>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

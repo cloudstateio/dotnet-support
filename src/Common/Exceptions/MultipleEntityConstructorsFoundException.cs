@@ -5,10 +5,12 @@ namespace CloudState.CSharpSupport.Exceptions
     public class MultipleEntityConstructorsFoundException : InvalidEntityConstructorException
     {
         public Type EntityType { get; }
-        public MultipleEntityConstructorsFoundException(Type entityType)
-            : base($"Only a single constructor is allowed on event sourced entities: {entityType}")
+        public Type EntityClass { get; }
+        public MultipleEntityConstructorsFoundException(Type entityClass, Type entityType)
+            : base($"Only a single constructor is allowed on {entityClass} entities: {entityType}")
         {
             EntityType = entityType;
+            EntityClass = entityClass;
         }
     }
 

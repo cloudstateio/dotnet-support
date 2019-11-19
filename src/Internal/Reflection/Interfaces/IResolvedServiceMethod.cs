@@ -1,4 +1,5 @@
-﻿using CloudState.CSharpSupport.Interfaces.Services;
+﻿using CloudState.CSharpSupport.Interfaces.Reflection;
+using CloudState.CSharpSupport.Interfaces.Services;
 using Google.Protobuf.Reflection;
 
 namespace CloudState.CSharpSupport.Reflection.Interfaces
@@ -7,15 +8,15 @@ namespace CloudState.CSharpSupport.Reflection.Interfaces
     {
         string Name { get; }
         MethodDescriptor Descriptor { get; }
-
+        bool OutputStreamed { get; }
         IResolvedType InputType { get; }
         IResolvedType OutputType { get; }
     }
 
     internal interface IResolvedServiceMethod<TInput, TOutput> : IResolvedServiceMethod
     {
-        new IResolvedType<TInput> InputType { get; }
-        new IResolvedType<TOutput> OutputType { get; }
+        new IResolvedType InputType { get; }
+        new IResolvedType OutputType { get; }
     }
 
 

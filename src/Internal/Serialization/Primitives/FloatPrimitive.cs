@@ -4,7 +4,7 @@ using Google.Protobuf.Reflection;
 namespace CloudState.CSharpSupport.Serialization.Primitives
 {
 
-    public sealed class FloatPrimitive : Primitive<float>
+    internal sealed class FloatPrimitive : Primitive<float>
     {
 
         public FloatPrimitive()

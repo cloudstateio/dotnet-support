@@ -26,25 +26,25 @@ namespace EventSourced.ShoppingCart
         }
 
         [Snapshot]
-        public Com.Example.Shoppingcart.Persistence.Cart Snapshot()
+        public Cart Snapshot()
         {
-            var cart = new Com.Example.Shoppingcart.Persistence.Cart();
+            var cart = new Cart();
             cart.Items.AddRange(Cart.Select(x => Convert(x.Value)));
             return cart;
         }
 
         [SnapshotHandler]
-        public void HandleSnapshot(Com.Example.Shoppingcart.Persistence.Cart cart)
+        public void HandleSnapshot(Cart cart)
         {
             Cart.Clear();
-            foreach (Com.Example.Shoppingcart.Persistence.LineItem item in cart.Items)
+            foreach (LineItem item in cart.Items)
             {
                 Cart.Add(item.ProductId, Convert(item));
             }
         }
 
         [EventHandler(typeof(ItemAdded))]
-        public void ItemAdded(Com.Example.Shoppingcart.Persistence.ItemAdded itemAdded)
+        public void ItemAdded(ItemAdded itemAdded)
         {
             Cart.TryGetValue(itemAdded.Item.ProductId, out var item);
             if (item == null)
@@ -63,7 +63,7 @@ namespace EventSourced.ShoppingCart
         }
 
         [EventHandler(typeof(ItemRemoved))]
-        public void itemRemoved(Com.Example.Shoppingcart.Persistence.ItemRemoved itemRemoved, IEventBehaviorContext c)
+        public void itemRemoved(ItemRemoved itemRemoved, IEventBehaviorContext c)
         {
             Cart.Remove(itemRemoved.ProductId);
         }
@@ -84,9 +84,9 @@ namespace EventSourced.ShoppingCart
                 ctx.Fail("Cannot add negative quantity of to item" + item.ProductId);
             }
             ctx.Emit(
-                new Com.Example.Shoppingcart.Persistence.ItemAdded()
+                new ItemAdded()
                 {
-                    Item = new Com.Example.Shoppingcart.Persistence.LineItem()
+                    Item = new LineItem()
                     {
                         ProductId = item.ProductId,
                         Quantity = item.Quantity
@@ -96,7 +96,7 @@ namespace EventSourced.ShoppingCart
             return new Empty();
         }
 
-        Com.Example.Shoppingcart.LineItem Convert(Com.Example.Shoppingcart.Persistence.LineItem item)
+        Com.Example.Shoppingcart.LineItem Convert(LineItem item)
         {
             var lineItem = new Com.Example.Shoppingcart.LineItem();
             lineItem.ProductId = item.ProductId;
@@ -105,8 +105,8 @@ namespace EventSourced.ShoppingCart
             return lineItem;
         }
 
-        Com.Example.Shoppingcart.Persistence.LineItem Convert(Com.Example.Shoppingcart.LineItem item) =>
-          new Com.Example.Shoppingcart.Persistence.LineItem()
+        LineItem Convert(Com.Example.Shoppingcart.LineItem item) =>
+          new LineItem()
           {
               ProductId = item.ProductId,
               Name = item.Name,

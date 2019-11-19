@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using CloudState.CSharpSupport.Attributes.EventSourced;
 using CloudState.CSharpSupport.Exceptions;
+using CloudState.CSharpSupport.Interfaces.Contexts;
 using CloudState.CSharpSupport.Interfaces.EventSourced.Contexts;
 using CloudState.CSharpSupport.Reflection.ReflectionHelper;
 using Optional;
@@ -16,7 +17,7 @@ namespace CloudState.CSharpSupport.EventSourced.Reflection
         internal MethodInfo Method { get; }
         internal Type SnapshotClass { get; }
         internal SnapshotHandlerAttribute Attribute { get; }
-        internal ReflectionHelper.ParameterHandler[] Parameters { get; }
+        internal ReflectionHelper.ParameterHandler<ISnapshotBehaviorContext>[] Parameters { get; }
 
         public SnapshotHandlerInvoker(MethodInfo method)
         {
@@ -26,7 +27,7 @@ namespace CloudState.CSharpSupport.EventSourced.Reflection
                 );
             Parameters = ReflectionHelper.GetParameterHandlers<ISnapshotBehaviorContext>(method);
             SnapshotClass = Parameters
-                    .Select(_ => (_ as ReflectionHelper.MainArgumentParameterHandler)?.Type)
+                    .Select(_ => (_ as ReflectionHelper.MainArgumentParameterHandler<ISnapshotBehaviorContext>)?.Type)
                     .Where(_ => _ != null)
                     .ToArray() switch
             {
@@ -42,7 +43,7 @@ namespace CloudState.CSharpSupport.EventSourced.Reflection
 
         public void Invoke(object obj, object snapshot, ISnapshotBehaviorContext context)
         {
-            var ctx = new ReflectionHelper.InvocationContext(snapshot, context);
+            var ctx = new ReflectionHelper.InvocationContext<ISnapshotBehaviorContext>(snapshot, context);
             Method.Invoke(obj, Parameters.Select(_ => _.Apply(ctx)).ToArray());
         }
     }

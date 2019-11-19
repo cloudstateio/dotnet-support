@@ -59,17 +59,18 @@ namespace CloudState.CSharpSupport.Reflection.ReflectionHelper
         } */
 
 
-        internal static ParameterHandler[] GetParameterHandlers<T>(MethodBase method)
+        internal static ParameterHandler<TContext>[] GetParameterHandlers<TContext>(MethodBase method)
+            where TContext : IContext
         {
             var methodParameters = method.GetParameters().ToArray();
-            var handlers = new ParameterHandler[methodParameters.Length];
+            var handlers = new ParameterHandler<TContext>[methodParameters.Length];
             for (var i = 0; i < methodParameters.Length; i++)
             {
                 var parameter = new MethodParameter(method, i);
-                var contextClass = typeof(T);
+                var contextClass = typeof(TContext);
                 if (IsWithinBounds(parameter.ParameterType, typeof(IContext), contextClass))
                 {
-                    handlers[i] = new ContextParameterHandler();
+                    handlers[i] = new ContextParameterHandler<TContext>();
                 }
                 else if (typeof(IContext).IsAssignableFrom(parameter.ParameterType))
                 {
@@ -80,7 +81,7 @@ namespace CloudState.CSharpSupport.Reflection.ReflectionHelper
                 }
                 else if (parameter.ParameterType == typeof(IServiceCallFactory))
                 {
-                    handlers[i] = new ServiceCallFactoryParameterHandler();
+                    handlers[i] = new ServiceCallFactoryParameterHandler<TContext>();
                 }
                 else if (parameter.Attributes.Any(x => typeof(EntityIdAttribute) == x.GetType()))
                 {
@@ -91,12 +92,13 @@ namespace CloudState.CSharpSupport.Reflection.ReflectionHelper
                             $"has type {parameter.ParameterType}, but must be String."
                         );
                     }
-                    handlers[i] = new EntityIdParameterHandler();
+
+                    handlers[i] = new EntityIdParameterHandler<TContext>();
                 }
                 else
                 {
                     // TODO: revisit extra arguments implementation
-                    handlers[i] = new MainArgumentParameterHandler(parameter.ParameterType);
+                    handlers[i] = new MainArgumentParameterHandler<TContext>(parameter.ParameterType);
                 }
             }
 

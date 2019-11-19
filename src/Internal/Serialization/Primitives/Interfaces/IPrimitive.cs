@@ -3,7 +3,7 @@ using Google.Protobuf.Reflection;
 
 namespace CloudState.CSharpSupport.Serialization.Primitives.Interfaces
 {
-    public interface IPrimitive
+    internal interface IPrimitive
     {
         Type ClassType { get; }
         string Name { get; }

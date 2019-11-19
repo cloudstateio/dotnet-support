@@ -11,7 +11,7 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory.SnapshotHan
 {
     public static class SnapshotHandlerTestsHelper
     {
-        internal static IEntityHandler CreateHandler<T>(Func<IEventSourcedEntityCreationContext, object> entityFactory = null)
+        internal static IEventSourcedEntityHandler CreateHandler<T>(Func<IEventSourcedEntityCreationContext, object> entityFactory = null)
         {
             var anySupport = new AnySupport(
                 new[] { Com.Example.Shoppingcart.Persistence.DomainReflection.Descriptor }

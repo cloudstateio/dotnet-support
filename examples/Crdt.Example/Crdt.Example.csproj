@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>Crdt.Example</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <!-- Waiting for grpc.tools to support 3.10.x -->
+    <!-- TODO: bootstrap the download of the right protoc -->
+    <PROTOBUF_PROTOC>/Users/$(USER)/Applications/protoc</PROTOBUF_PROTOC>
+    <AssemblyName>Crdt.Example</AssemblyName>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Protobuf Include="../../proto_files/frontend/**/*.proto;proto_files/example/crdts/**/*.proto" ProtoRoot="../../proto_files/frontend;proto_files" OutputDir="proto_dist" CompileOutputs="false" GrpcServices="None" />
+    <Protobuf Update="proto_files/example/crdts/crdt-example.proto" GrpcServices="Both" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../protobuf/csharp/src/Google.Protobuf/Google.Protobuf.csproj" />
+    <ProjectReference Include="../../src/Api/CloudState.CSharpSupport.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.Core" Version="2.23.1" />
+    <PackageReference Include="Grpc.Tools" Version="2.23.1" />
+  </ItemGroup>
+
+</Project>

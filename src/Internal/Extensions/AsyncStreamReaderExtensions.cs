@@ -5,7 +5,7 @@ using Grpc.Core;
 
 namespace CloudState.CSharpSupport.Extensions
 {
-    public static class AsyncStreamReaderExtensions
+    internal static class AsyncStreamReaderExtensions
     {
         /// <summary>
         /// Extension method on <see cref="IAsyncStreamReader<T>" /> that provides a 
@@ -19,9 +19,17 @@ namespace CloudState.CSharpSupport.Extensions
         public static async Task SelectAsync<T>(this IAsyncStreamReader<T> stream, long startingSequenceNumber, Func<long, T, Task> action)
         {
             var i = startingSequenceNumber;
-            while (await stream.MoveNext(default(CancellationToken)))
+            while (await stream.MoveNext(default))
             {
                 await action(i++, stream.Current);
+            }
+        }
+        
+        public static async Task SelectAsync<T>(this IAsyncStreamReader<T> stream, Func<T, Task> action)
+        {
+            while (await stream.MoveNext(default))
+            {
+                await action(stream.Current);
             }
         }
     }

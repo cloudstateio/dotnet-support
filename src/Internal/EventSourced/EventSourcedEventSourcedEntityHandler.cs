@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Emit;
-using CloudState.CSharpSupport.Contexts.Abstractions;
 using CloudState.CSharpSupport.EventSourced.Contexts;
 using CloudState.CSharpSupport.Exceptions;
 using CloudState.CSharpSupport.Interfaces.EventSourced;
@@ -16,7 +14,7 @@ using Option = Optional.Option;
 
 namespace CloudState.CSharpSupport.EventSourced
 {
-    internal class EventSourcedEntityHandler : IEntityHandler
+    internal class EventSourcedEntityHandler : IEventSourcedEntityHandler
     {
         private AnySupport AnySupport { get; }
         private Func<IEventSourcedEntityCreationContext, object> EntityCreationFactory { get; }

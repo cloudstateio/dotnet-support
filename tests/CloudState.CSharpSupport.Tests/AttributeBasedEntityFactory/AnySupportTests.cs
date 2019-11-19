@@ -18,19 +18,19 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory
             "com.example"
         );
 
-        AddLineItem AddLineItem { get; } = new Com.Example.Shoppingcart.AddLineItem()
+        AddLineItem AddLineItem { get; } = new AddLineItem()
         {
             Name = "item",
             ProductId = "id",
             Quantity = 10
         };
 
-        [Fact(Skip = "Not ready")]
+//        [Fact(Skip = "Not ready")]
         public void SupportSerializingAndDeserializingProtobufs()
         {
             var any = AnySupport.Encode(AddLineItem);
 
-            Assert.Equal("type.googleapis.com/" + Com.Example.Shoppingcart.AddLineItem.Descriptor.FullName,
+            Assert.Equal("type.googleapis.com/" + AddLineItem.Descriptor.FullName,
                 any.TypeUrl);
             Assert.Equal(AddLineItem, AnySupport.Decode(any));
         }
@@ -46,8 +46,8 @@ namespace CloudState.CSharpSupport.Tests.AttributeBasedEntityFactory
 
             var method = methods["AddItem"].Method;
 
-            Assert.Equal(Com.Example.Shoppingcart.AddLineItem.Descriptor.FullName, method.InputType.FullName);
-            Assert.Equal(typeof(Com.Example.Shoppingcart.AddLineItem), method.InputType.ClrType);
+            Assert.Equal(AddLineItem.Descriptor.FullName, method.InputType.FullName);
+            Assert.Equal(typeof(AddLineItem), method.InputType.ClrType);
             var bytes = AddLineItem.ToByteString();
             Assert.Equal(AddLineItem, method.InputType.Parser.ParseFrom(bytes));
 

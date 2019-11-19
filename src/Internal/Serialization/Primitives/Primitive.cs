@@ -5,7 +5,7 @@ using Type = System.Type;
 
 namespace CloudState.CSharpSupport.Serialization.Primitives
 {
-    public abstract class Primitive<T> : IPrimitive
+    internal abstract class Primitive<T> : IPrimitive
     {
         public Type ClassType => typeof(T);
         public string Name => FieldType.ToString().ToLower();
