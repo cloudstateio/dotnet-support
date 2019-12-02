@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="CloudState.CSharpSupport" Version="3.12.0-rc2" />
+    <PackageReference Include="Grpc.Tools" Version="2.25" />
   </ItemGroup>
 
 </Project>
