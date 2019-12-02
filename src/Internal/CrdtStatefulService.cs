@@ -18,7 +18,7 @@ namespace CloudState.CSharpSupport
     internal sealed class CrdtStatefulService : StatefulEntityService<ICrdtEntityCreationContext, ICrdtEntityHandler>, ICrdtStatefulService
     {
         private string[] Streamed { get; }
-        public override string StatefulServiceTypeName => Cloudstate.Crdt.Crdt.Descriptor.Name;
+        public override string StatefulServiceTypeName => Cloudstate.Crdt.Crdt.Descriptor.FullName;
         public ICrdtEntityHandlerFactory Factory { get; }
 
         public CrdtStatefulService(

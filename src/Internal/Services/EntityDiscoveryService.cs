@@ -63,7 +63,7 @@ namespace CloudState.CSharpSupport.Services
             Logger.LogDebug($"Supported sidecar entity types: {string.Join(", ", request.SupportedEntityTypes)}");
 
             var unsupportedServices = Services.Values.Where(service =>
-                !request.SupportedEntityTypes.Contains(service.StatefulServiceTypeName) // TODO: think this might be descriptor name, not sure...
+                !request.SupportedEntityTypes.Contains(service.StatefulServiceTypeName)
             );
 
             if (unsupportedServices.Any())

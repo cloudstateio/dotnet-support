@@ -11,7 +11,7 @@ namespace CloudState.CSharpSupport
 {
     internal sealed class EventSourcedStatefulService : StatefulEntityService<IEventSourcedContext, IEventSourcedEntityHandler>, IEventSourcedStatefulService
     {
-        public override string StatefulServiceTypeName => Cloudstate.Eventsourced.EventSourced.Descriptor.Name;
+        public override string StatefulServiceTypeName => Cloudstate.Eventsourced.EventSourced.Descriptor.FullName;
         
         public int SnapshotEvery { get; }
 
