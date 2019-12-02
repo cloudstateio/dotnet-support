@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="*.nuspec" CopyToOutputDirectory="true" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Common\CloudState.CSharpSupport.Common.csproj" />
     <ProjectReference Include="..\Internal\CloudState.CSharpSupport.Internal.csproj" />
   </ItemGroup>

@@ -3,9 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <RootNamespace>CloudState.CSharpSupport</RootNamespace>
-    <!-- Waiting for grpc.tools to support 3.10 -->
-    <!-- TODO: bootstrap the download of the right protoc -->
-    <PROTOBUF_PROTOC>/Users/$(USER)/Applications/protoc</PROTOBUF_PROTOC>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,12 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../protobuf/csharp/src/Google.Protobuf/Google.Protobuf.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Grpc.Core" Version="2.23.1" />
-    <PackageReference Include="Grpc.Tools" Version="2.23.1" />
+    <PackageReference Include="Grpc.Core" Version="2.25" />
+    <PackageReference Include="Grpc.Tools" Version="2.25" />
+    <PackageReference Include="Google.Protobuf" Version="3.11.0-rc2" />
   </ItemGroup>
 
   <ItemGroup>

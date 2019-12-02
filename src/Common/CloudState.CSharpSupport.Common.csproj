@@ -8,11 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Optional" Version="4.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="../../protobuf/csharp/src/Google.Protobuf/Google.Protobuf.csproj" />
     <ProjectReference Include="../Protos/CloudState.CSharpSupport.Protos.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Optional" Version="4.0.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.11.0-rc2" />
   </ItemGroup>
 
 </Project>

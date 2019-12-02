@@ -12,13 +12,14 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
     <!-- <PackageReference Include="coverlet.collector" Version="1.0.1" /> -->
     <PackageReference Include="Optional" Version="4.0.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.11.0-rc2" />
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="../../protobuf/csharp/src/Google.Protobuf/Google.Protobuf.csproj" />
     <ProjectReference Include="../../examples/EventSourced.ShoppingCart/EventSourced.ShoppingCart.csproj" />
     <ProjectReference Include="../../src/Api/CloudState.CSharpSupport.csproj" />
-    <ProjectReference Include="..\..\examples\Crdt.Example\Crdt.Example.csproj" />
+    <ProjectReference Include="../../examples/Crdt.Example/Crdt.Example.csproj" />
   </ItemGroup>
+
   
 </Project>

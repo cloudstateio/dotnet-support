@@ -20,9 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Grpc.Reflection" Version="2.23.1" />
+    <PackageReference Include="Grpc.Reflection" Version="2.25" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.0" />
-    <PackageReference Include="Grpc.Core" Version="2.23.1" />
+    <PackageReference Include="Grpc.Core" Version="2.25" />
     <PackageReference Include="Optional" Version="4.0.0" />
   </ItemGroup>
 

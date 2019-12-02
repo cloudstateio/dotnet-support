@@ -1,29 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <RootNamespace>EventSourced.ShoppingCart</RootNamespace>
     <IsPackable>false</IsPackable>
-    <!-- Waiting for grpc.tools to support 3.10.x -->
-    <!-- TODO: bootstrap the download of the right protoc -->
-    <PROTOBUF_PROTOC>/Users/$(USER)/Applications/protoc</PROTOBUF_PROTOC>
-
   </PropertyGroup>
-
   <ItemGroup>
-    <Protobuf Include="../../proto_files/frontend/**/*.proto;proto_files/example/shoppingcart/**/*.proto" ProtoRoot="../../proto_files/frontend;proto_files" OutputDir="proto_dist" CompileOutputs="false" GrpcServices="None" />
-    <Protobuf Update="proto_files/example/shoppingcart/shoppingcart.proto" GrpcServices="Both" />
+    <Protobuf Include="../../proto_files/frontend/**/*.proto;proto_files/example/shoppingcart/**/*.proto" ProtoRoot="../../proto_files/frontend;proto_files" OutputDir="proto_dist" CompileOutputs="false" GrpcServices="None"/>
+    <Protobuf Update="proto_files/example/shoppingcart/shoppingcart.proto" GrpcServices="Both"/>
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="../../protobuf/csharp/src/Google.Protobuf/Google.Protobuf.csproj" />
-    <ProjectReference Include="../../src/Api/CloudState.CSharpSupport.csproj" />
+    <ProjectReference Include="../../src/Api/CloudState.CSharpSupport.csproj"/>
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Grpc.Core" Version="2.23.1" />
-    <PackageReference Include="Grpc.Tools" Version="2.23.1" />
+    <PackageReference Include="Grpc.Core" Version="2.25"/>
+    <PackageReference Include="Grpc.Tools" Version="2.25"/>
+    <PackageReference Include="Google.Protobuf" Version="3.11.0-rc2" />
   </ItemGroup>
-
 </Project>
