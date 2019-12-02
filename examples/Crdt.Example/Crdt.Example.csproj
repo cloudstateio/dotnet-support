@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="../../proto_files/frontend/**/*.proto;proto_files/example/crdts/**/*.proto" ProtoRoot="../../proto_files/frontend;proto_files" OutputDir="proto_dist" CompileOutputs="false" GrpcServices="None" />
+    <Protobuf Include="../../proto_files/frontend/**/*.proto;proto_files/example/crdts/**/*.proto" ProtoRoot="../../proto_files/frontend;proto_files" GrpcServices="None" />
     <Protobuf Update="proto_files/example/crdts/crdt-example.proto" GrpcServices="Both" />
   </ItemGroup>
 

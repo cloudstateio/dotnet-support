@@ -6,7 +6,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <Protobuf Include="../../proto_files/frontend/**/*.proto;proto_files/example/shoppingcart/**/*.proto" ProtoRoot="../../proto_files/frontend;proto_files" OutputDir="proto_dist" CompileOutputs="false" GrpcServices="None"/>
+    <Protobuf Include="../../proto_files/frontend/**/*.proto;proto_files/example/shoppingcart/**/*.proto" ProtoRoot="../../proto_files/frontend;proto_files" GrpcServices="None" />
     <Protobuf Update="proto_files/example/shoppingcart/shoppingcart.proto" GrpcServices="Both"/>
   </ItemGroup>
   <ItemGroup>
