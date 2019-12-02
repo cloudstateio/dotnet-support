@@ -1,13 +1,45 @@
-find . -name *.nupkg | xargs rm
 dotnet clean
 dotnet build -c Release
-cp Cloudstate.CSharpSupport.nuspec src/api/bin/Release/netcoreapp2.2/
-pushd src/api/bin/Release/netcoreapp2.2/
-# TODO: Fix this versioning issue...
-VERSION=3.11.0-rc0.7
-nuget pack -Version $VERSION Cloudstate.CSharpSupport.nuspec
+
+VERSION=3.12.0-rc1
+
+pushd src/Protos
+dotnet pack -c Release -p:PackageVersion=$VERSION --no-build --output ../../nupkgs
+popd
+
+pushd src/Common
+dotnet pack -c Release -p:PackageVersion=$VERSION --no-build --output ../../nupkgs
+popd
+
+pushd src/Internal
+dotnet pack -c Release -p:PackageVersion=$VERSION --no-build --output ../../nupkgs
+popd
+
+pushd src/Api
+dotnet pack -c Release -p:PackageVersion=$VERSION --no-build --output ../../nupkgs
+popd
+
+pushd nupkgs
+
 dotnet nuget push \
     -s https://api.nuget.org/v3/index.json \
-    -k $API_KEY \
-    Cloudstate.CSharpSupport.$VERSION.nupkg
+    -k $APIKEY \
+    CloudState.CSharpSupport.Common.$VERSION.nupkg
+
+dotnet nuget push \
+    -s https://api.nuget.org/v3/index.json \
+    -k $APIKEY \
+    CloudState.CSharpSupport.Internal.$VERSION.nupkg
+
+dotnet nuget push \
+    -s https://api.nuget.org/v3/index.json \
+    -k $APIKEY \
+    CloudState.CSharpSupport.$VERSION.nupkg
+
+dotnet nuget push \
+    -s https://api.nuget.org/v3/index.json \
+    -k $APIKEY \
+    CloudState.CSharpSupport.Protos.$VERSION.nupkg
+
+    
 popd
