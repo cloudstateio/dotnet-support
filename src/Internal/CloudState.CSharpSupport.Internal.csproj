@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="Grpc.Reflection" Version="2.25" />
+    <PackageReference Include="Hocon.Configuration" Version="1.3.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.0" />
     <PackageReference Include="Grpc.Core" Version="2.25" />
     <PackageReference Include="Optional" Version="4.0.0" />

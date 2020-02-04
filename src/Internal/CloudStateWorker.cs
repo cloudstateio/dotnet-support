@@ -1,4 +1,5 @@
 using System;
+using Hocon;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -33,10 +34,13 @@ namespace CloudState.CSharpSupport
             public int Port { get; }
             public CloudStateConfiguration(IConfiguration configuration)
             {
-                // TODO: Read from HOCON and fallback to defaults
+                var hocon = ConfigurationFactory.Load();
+                var address = hocon.GetString("cloudstate.user-host");
+                var port = hocon.GetInt("cloudstate.user-port");
+                
                 Configuration = configuration;
-                Host = "localhost";
-                Port = 8080;
+                Host = (address != null ? address : "127.0.0.1");
+                Port = ( port > 0 ? port : 8080);
             }
         }
 

@@ -13,6 +13,7 @@ using CloudState.CSharpSupport.Interfaces.Crdt;
 using CloudState.CSharpSupport.Interfaces.EventSourced;
 using CloudState.CSharpSupport.Serialization;
 using Google.Protobuf.Reflection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ServiceDescriptor = Google.Protobuf.Reflection.ServiceDescriptor;
