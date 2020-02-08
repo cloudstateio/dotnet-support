@@ -1,0 +1,14 @@
+.DS_Store
+
+.idea
+.vs
+.vscode
+
+*.swp
+
+**.DotSettings.user
+
+bin
+obj
+
+*.nupkg

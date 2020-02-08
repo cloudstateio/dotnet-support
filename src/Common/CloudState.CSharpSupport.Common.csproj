@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>CloudState.CSharpSupport</RootNamespace>
+    <AssemblyName>CloudState.CSharpSupport.Common</AssemblyName>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Protos/CloudState.CSharpSupport.Protos.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Optional" Version="4.0.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.11.0-rc2" />
+  </ItemGroup>
+
+</Project>

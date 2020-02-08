@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>Crdt.Example</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <AssemblyName>Crdt.Example</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Protobuf Include="../../proto_files/frontend/**/*.proto;proto_files/example/crdts/**/*.proto" ProtoRoot="../../proto_files/frontend;proto_files" GrpcServices="None" />
+    <Protobuf Update="proto_files/example/crdts/crdt-example.proto" GrpcServices="Both" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/Api/CloudState.CSharpSupport.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.Core" Version="2.25" />
+    <PackageReference Include="Grpc.Tools" Version="2.25" />
+    <PackageReference Include="Google.Protobuf" Version="3.11.0-rc2" />
+  </ItemGroup>
+
+</Project>

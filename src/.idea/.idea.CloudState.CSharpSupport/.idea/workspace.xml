@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d31cdf6e-7c6e-4be3-b121-c48f26c0fe55" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../CloudState.CSharpSupport.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../examples/ShoppingCart/EventSourced.ShoppingCart.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../examples/ShoppingCart/EventSourced.ShoppingCart.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CloudState.CSharpSupport.sln" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CloudState.CSharpSupport.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/CloudState.CSharpSupport.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/CloudState.CSharpSupport.Common.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/CloudState.CSharpSupport.Common.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Internal/CloudStateWorker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Internal/CloudStateWorker.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Internal/Contexts/Abstractions/AbstractEffectContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Internal/Contexts/Abstractions/AbstractEffectContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Internal/Reflection/ReflectionHelper/ReflectionHelper.CommandHandlerInvoker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Internal/Reflection/ReflectionHelper/ReflectionHelper.CommandHandlerInvoker.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Internal/Serialization/AnySupport.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Internal/Serialization/AnySupport.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Internal/Services/EntityDiscoveryService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Internal/Services/EntityDiscoveryService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Protos/CloudState.CSharpSupport.Protos.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Protos/CloudState.CSharpSupport.Protos.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tests/CloudState.CSharpSupport.Tests/CloudState.CSharpSupport.Tests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../tests/CloudState.CSharpSupport.Tests/CloudState.CSharpSupport.Tests.csproj" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Internal/Interfaces/IStatefulService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internal/Reflection/EventBehaviorReflection.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internal/Reflection/ResolvedServiceMethod.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internal/Reflection/ResolvedServiceCall.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internal/Reflection/IBehaviorResolver.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Common/Interfaces/EventSourced/Contexts/IEffectContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internal/EventSourced/EventSourcedEntityHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internal/Serialization/CSharpResolvedType.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internal/Serialization/AnySupport.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Api/CloudState.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Protos/proto_dist/Crdt.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internal/CloudStateWorker.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internal/Contexts/Abstractions/AbstractActivatableContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Protos/proto_dist/CrdtGrpc.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internal/Contexts/Abstractions/AbstractEffectContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Protos/proto_dist/Entity.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internal/Reflection/ReflectionHelper/ReflectionHelper.ServiceCallFactoryParameterHandler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internal/Reflection/ReflectionHelper/ReflectionHelper.MethodParameter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../tests/CloudState.CSharpSupport.Tests/AttributeBasedEntityFactory/CommandHandler/AttributeBasedEntityFactoryCommandHandlerTests.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../examples/ShoppingCart/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../examples/ShoppingCart/ShoppingCartEntity.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../tests/CloudState.CSharpSupport.Tests/AttributeBasedEntityFactory/CommandHandler/ResolvedTypes/StringResolvedType.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../examples/ShoppingCart/proto_dist/Annotations.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internal/Contexts/MessageStreamingContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internal/EventSourced/Services/EntityCollectionService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internal/Contexts/Context.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Internal/CloudState.CSharpSupport.Internal.csproj" />
+        <option value="$PROJECT_DIR$/Internal/EventSourced/EventSourcedEntityHandler.cs" />
+        <option value="$PROJECT_DIR$/Internal/CloudStateWorker.cs" />
+        <option value="$PROJECT_DIR$/Internal/Reflection/ReflectionHelper/ReflectionHelper.MethodParameter.cs" />
+        <option value="$PROJECT_DIR$/Internal/Reflection/EventBehaviorReflection.cs" />
+        <option value="$PROJECT_DIR$/Internal/EventSourced/Services/EntityCollectionService.cs" />
+        <option value="$PROJECT_DIR$/../examples/ShoppingCart/EventSourced.ShoppingCart.csproj" />
+        <option value="$PROJECT_DIR$/../tests/CloudState.CSharpSupport.Tests/AttributeBasedEntityFactory/CommandHandler/ResolvedTypes/StringResolvedType.cs" />
+        <option value="$PROJECT_DIR$/Api/CloudState.cs" />
+        <option value="$PROJECT_DIR$/Internal/Serialization/AnySupport.cs" />
+        <option value="$PROJECT_DIR$/Internal/Contexts/MessageStreamingContext.cs" />
+        <option value="$PROJECT_DIR$/Internal/Contexts/Abstractions/AbstractActivatableContext.cs" />
+        <option value="$PROJECT_DIR$/Internal/Contexts/Abstractions/AbstractEffectContext.cs" />
+        <option value="$PROJECT_DIR$/Protos/CloudState.CSharpSupport.Protos.csproj" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1SugznFiqMGXEUkwszwZhluhHvB" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="Rider.DefaultBreakpoints.AreToggled" value="true" />
+    <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected=".NET Project.Examples\EventSourced.ShoppingCart">
+    <configuration name="Default" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="None" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Examples\EventSourced.ShoppingCart" type="DotNetProject" factoryName=".NET Project" temporary="true">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/../examples/ShoppingCart/bin/Debug/netcoreapp2.2/EventSourced.ShoppingCart.dll" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../examples/ShoppingCart" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/../examples/ShoppingCart/EventSourced.ShoppingCart.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value=".NETCoreApp,Version=v2.2" />
+      <method v="2">
+        <option name="Build" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue=".NET Project.Examples\EventSourced.ShoppingCart" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d31cdf6e-7c6e-4be3-b121-c48f26c0fe55" name="Default Changelist" comment="" />
+      <created>1572419159657</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1572419159657</updated>
+      <workItem from="1572419160887" duration="4762000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="null" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" suspend="NONE" type="DotNet Exception Breakpoints">
+          <properties exception="System.Threading.ThreadAbortException" displayValue="System.Threading.ThreadAbortException" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
