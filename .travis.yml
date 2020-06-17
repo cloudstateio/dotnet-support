@@ -1,5 +1,28 @@
 language: csharp
+
 mono: none
+
 dotnet: 3.1.102
-script:
- - dotnet restore
+
+jobs:
+  include:
+    # Build
+    - stage: build
+      script:
+        - dotnet restore
+    
+    # Deploy docs
+    - stage: deploy_docs
+      name: deploy docs to cloudstate.io
+      if: repo = cloudstateio/dotnet-support AND ((branch = master AND type = push) OR tag =~ ^v)
+      language: scala
+      script: cd docs && sbt deploy
+
+stages:
+  - build
+  - deploy_docs
+
+env:
+  global:
+    # Docs deploy token encrypted with: travis encrypt --pro -r cloudstateio/dart-support DEPLOY_DOCS_TOKEN={token}
+    secure: "v+u7GSntZkypS2JF9dohQFf43stc18wsWoWSPs265L2RHQHYrVUT5RjiDGmTZ4LSDT3QRJfXFqsuLIAJKo0mZDCGAzZg3Jb1wOznZk0UChWrRyuizQevqRMlhbTz+NBI+to+mAozrMX7n/MH+OGdYTOlmRdr382ar36fe733WbqIMHhPakFSzKD2itUMsiEzIr9E0KWMjdIzcvzXD0BdtnBVfWG8KuwLUl4UqWZp6nwMOWXXLJp6VK5mHbXC4zk32Yx4wsShLIkDtI46Nlp3USi7WPaqvjJWUdEnyTtBZXeG0lsZ8x7qPU9R/8YaePYlN1yuASuCN40vzbZk4aXXNfNvL1Cqs+U+ln4qsNkBs2L93yWN3DFLBfB+Sp/9QaGps1KW9AbZI9M7Na8sK3CsW0GAwMuvoDuDFHlh3QXoTQag0V+C3KcxRJwgd99QDejkFjQK7iyPRVBsb8rgHJOKYMlQRv+TzXiahRBwu+kqdu+ZZ4yY4FA7bzN3XM+Zb4PgvVpyYzNM0NfDuLGpXM6NoKiUXrdXPiE15iWxgNCpygKOwefYsexdCEfY2158NlpDoYaOtfRHDZSuPnuv0unM+jB2x1BHblD6xBESEto0m1+M1CFqBgIx9TV0+bgXIrsmuSch9VMkoPXFi2BeEBxViMBJrKxLEL77tYBVvKaTReU="
