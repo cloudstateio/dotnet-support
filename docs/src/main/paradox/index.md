@@ -8,6 +8,7 @@ Cloudstate offers an idiomatic, annotation based .Net C# support library for wri
 
 * [Getting started](gettingstarted.md)
 * [Event sourcing](eventsourced.md)
+* [Stateless Functions](stateless.md)
 * [Conflict-free Replicated Data Types](crdt.md)
 * [Examples](examples.md)
 * [Serialization](serialization.md)
