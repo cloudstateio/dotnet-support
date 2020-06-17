@@ -1,4 +1,4 @@
-# .Net
+# Cloudstate .Net
 
 Cloudstate offers an idiomatic, annotation based .Net C# support library for writing stateful services.
 
