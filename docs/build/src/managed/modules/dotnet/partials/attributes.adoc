@@ -1,0 +1,1 @@
+:cloudstate-dotnet-support-version: 3.12.0-rc2
