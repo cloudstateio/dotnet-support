@@ -1,0 +1,7 @@
+* xref:index.adoc[Implementing in .Net]
+** xref:gettingstarted.adoc[Getting started]
+** xref:eventsourced.adoc[Event sourcing]
+** xref:crdt.adoc[Conflict-free Replicated Data Types]
+** xref:actions.adoc[Actions]
+** xref:examples.adoc[Examples]
+** xref:serialization.adoc[Serialization]

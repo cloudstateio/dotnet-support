@@ -10,16 +10,19 @@ jobs:
     - stage: build
       script:
         - dotnet restore
-    
+
+    # Validate docs
+    - stage: validate_docs
+      script: make -C docs
+
     # Deploy docs
     - stage: deploy_docs
-      name: deploy docs to cloudstate.io
-      if: repo = cloudstateio/dotnet-support AND ((branch = master AND type = push) OR tag =~ ^v)
-      language: scala
-      script: cd docs && sbt deploy
+      if: repo = cloudstateio/dotnet-support AND tag =~ ^v
+      script: make -C docs deploy
 
 stages:
   - build
+  - validate_docs
   - deploy_docs
 
 env:
