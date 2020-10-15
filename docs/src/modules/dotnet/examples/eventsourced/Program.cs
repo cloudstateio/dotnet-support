@@ -1,4 +1,4 @@
-// #main
+// tag::main[]
 using System.Threading.Tasks;
 using Google.Protobuf;
 
@@ -8,7 +8,7 @@ namespace EventSourced.ShoppingCart
     {
         public static async Task Main()
         {
-            // #register
+            // tag::register[]
             var state = new CloudState.CSharpSupport.CloudState()
                     .RegisterEventSourcedEntity<ShoppingCartEntity>(
                         Com.Example.Shoppingcart.ShoppingCart.Descriptor,
@@ -16,8 +16,8 @@ namespace EventSourced.ShoppingCart
                     );
 
             await state.StartAsync();
-            // #register
+            // end::register[]
         }
     }
 }
-// #main
+// end::main[]

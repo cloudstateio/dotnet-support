@@ -1,13 +1,13 @@
 
-// #constructing
+// tag::constructing[]
 public ShoppingCartEntity([EntityId]String entityId)
 {
     EntityId = entityId;
     Cart = new Dictionary<string, Com.Example.Shoppingcart.LineItem>();
 }
-// #constructing
+// end::constructing[]
 
-// #entity-class
+// tag::entity-class[]
 namespace EventSourced.ShoppingCart
 {
     [EventSourcedEntity]
@@ -15,13 +15,13 @@ namespace EventSourced.ShoppingCart
     {
         // ...
     }
-// #entity-class
+// end::entity-class[]
 
-    // #entity-state
+    // tag::entity-state[]
     Dictionary<String, Com.Example.Shoppingcart.LineItem> Cart { get; }
-    // #entity-state
+    // end::entity-state[]
 
-    // #snapshot
+    // tag::snapshot[]
     [Snapshot]
     public Cart Snapshot()
     {
@@ -38,9 +38,9 @@ namespace EventSourced.ShoppingCart
         lineItem.Quantity = item.Quantity;
         return lineItem;
     }
-    // #snapshot
+    // end::snapshot[]
 
-    // #handle-snapshot
+    // tag::handle-snapshot[]
     [SnapshotHandler]
     public void HandleSnapshot(Cart cart)
     {
@@ -58,9 +58,9 @@ namespace EventSourced.ShoppingCart
         Name = item.Name,
         Quantity = item.Quantity
     };
-    // #handle-snapshot
+    // end::handle-snapshot[]
 
-    // #item-added
+    // tag::item-added[]
     [EventHandler(typeof(ItemAdded))]
     public void ItemAdded(ItemAdded itemAdded)
     {
@@ -79,17 +79,17 @@ namespace EventSourced.ShoppingCart
             Cart[item.ProductId] = item;
         }
     }
-    // #item-added
+    // end::item-added[]
 
-    // #item-removed
+    // tag::item-removed[]
     [EventHandler(typeof(ItemRemoved))]
     public void itemRemoved(ItemRemoved itemRemoved, IEventBehaviorContext c)
     {
         Cart.Remove(itemRemoved.ProductId);
     }
-    // #item-removed
+    // end::item-removed[]
 
-    // #get-cart
+    // tag::get-cart[]
     [CommandHandler]
     public Com.Example.Shoppingcart.Cart GetCart()
     {
@@ -97,9 +97,9 @@ namespace EventSourced.ShoppingCart
         cart.Items.AddRange(Cart.Values);
         return cart;
     }
-    // #get-cart
+    // end::get-cart[]
 
-    // #add-item
+    // tag::add-item[]
     [CommandHandler]
     public Empty AddItem(Com.Example.Shoppingcart.AddLineItem item, ICommandContext ctx)
     {
@@ -119,6 +119,6 @@ namespace EventSourced.ShoppingCart
         );
         return new Empty();
     }
-    // #add-item
+    // end::add-item[]
 
 }

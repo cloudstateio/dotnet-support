@@ -1,4 +1,4 @@
-// #entity-content
+// tag::entity-content[]
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -116,4 +116,4 @@ namespace EventSourced.ShoppingCart
 
     }
 }
-// #entity-content
+// end::entity-content[]

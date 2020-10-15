@@ -1,0 +1,10 @@
+= Implementing in .Net
+
+Cloudstate offers an idiomatic, annotation-based .Net C# support library for writing Cloudstate services.
+
+* xref:gettingstarted.adoc[Getting started]
+* xref:eventsourced.adoc[Event sourcing]
+* xref:crdt.adoc[Conflict-free Replicated Data Types]
+* xref:actions.adoc[Actions]
+* xref:examples.adoc[Examples]
+* xref:serialization.adoc[Serialization]

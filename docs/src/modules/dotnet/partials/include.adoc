@@ -1,0 +1,1 @@
+:cloudstate-dotnet-version: 2.2

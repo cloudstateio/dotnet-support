@@ -1,0 +1,3 @@
+= Actions
+
+* Explain how to use the Actions API
